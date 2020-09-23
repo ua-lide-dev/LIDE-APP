@@ -1,0 +1,90 @@
+version: '3'
+
+services:
+  
+  # Database
+  database-service:
+    image: mongo:latest
+    restart: always
+    container_name: ${LIDE_CONTAINER_DB}
+    container_name: ${LIDE_CONTAINER_DB}
+    volumes: 
+      - database:/data/db
+    environment:
+      MONGO_INIT_DATABASE: ${LIDE_DB_NAME}
+      MONGO_INIT_ROOT_USERNAME: ${LIDE_DB_USERNAME}
+      MONGO_INIT_ROOT_PASSWORD: ${LIDE_DB_PASSWORD}
+    ports:
+      - ${LIDE_DB_PORT}:27017
+    networks:
+      -  lidenetwork
+
+
+  # Back-end Server
+  lide-back-service:
+    build: ./lide-back
+    image: lide-back
+    depends_on: 
+      - database-service
+    links: 
+      - database-service
+    restart: always
+    container_name: ${LIDE_CONTAINER_BACK}
+    hostname: ${LIDE_CONTAINER_BACK}
+    volumes:
+      - /app/node_modules
+      - ./lide-back:/app
+    environment:
+      COMPOSE_HTTP_TIMEOUT: 200
+      DB_HOST: ${LIDE_CONTAINER_DB}
+      DB_NAME: ${LIDE_DB_NAME}
+      DB_PORT: ${LIDE_DB_PORT}
+    ports: 
+      - ${LIDE_BACK_PORT}:3000
+    working_dir: /app
+    entrypoint: node server.js
+    networks:
+        -  lidenetwork
+
+
+  # Web Server
+  lide-web-service:
+    build: ./lide-web
+    image: lide-web
+    restart: always
+    container_name: ${LIDE_CONTAINER_WEB}
+    hostname: ${LIDE_CONTAINER_WEB}
+    volumes:
+      - /app/node_modules
+      - ./lide-web:/app
+    environment:
+      COMPOSE_HTTP_TIMEOUT: 200
+      LIDE_BACK_PORT: ${LIDE_BACK_PORT}
+      BACK_HOST: ${LIDE_CONTAINER_BACK}
+    ports: 
+      - ${LIDE_WEB_PORT}:8080
+    working_dir: /app
+    entrypoint: npm run serve
+    networks:
+        -  lidenetwork
+
+  ## Executions container for dev
+  #execution-service:
+  #  image: curlimages/curl:latest
+  #  restart: always
+  #  container_name: lide-execution
+  #  #volumes: 
+  #    #- /var/run/docker.sock:/var/run/docker.sock
+  #  ports:
+  #    - 12:12
+  #  networks:
+  #    -  lidenetwork
+  #  entrypoint: sleep infinity
+
+volumes:
+  database:
+
+networks:
+  lidenetwork:
+
+

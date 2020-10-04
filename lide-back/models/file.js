@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const file = new Schema({
   _id : { type: Schema.ObjectId, auto: true },
-  filetname: String,
+  filename: String,
   extension : String,
   body : String,
   idProject : Schema.ObjectId

@@ -50,7 +50,7 @@
 
 		data() {
 			return {
-				projectList: [1, 1, 1, 1, 1],
+				projectList: [1, 1],
 				width: "15%", //default width
 				minWidth: 100, //minimum width of explorer bar IN PIXELS!
 				borderSize: 3,

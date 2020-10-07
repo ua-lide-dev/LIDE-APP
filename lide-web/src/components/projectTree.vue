@@ -10,17 +10,17 @@
 				transition
 			>
 				<template slot="label" slot-scope="{ item }"> <!-- evenement click sur le titre de l'item  -->
-					<div @contextmenu="menu($event, item)" @click="openFile(item)" >{{ item.name }} </div>
+					<div @contextmenu="filesMenu($event, item)" @click="openFile(item)" >{{ item.name }} </div>
 				</template>
 
 				<template v-slot:prepend="{ item, open }"> <!-- icon du fichier/dossier -->
-					<div @contextmenu="menu($event, item)" @click="openFile(item)"> <!-- evenement click sur l'icone de l'item  -->
+					<div @contextmenu="filesMenu($event, item)" @click="openFile(item)"> <!-- evenement click sur l'icone de l'item  -->
 
 						<v-icon v-if="!item.file"><!-- icon de dossier -->
 							{{ open ? "mdi-folder-open" : "mdi-folder" }}
 						</v-icon>
 						<v-icon v-else>
-							{{ files[item.file] }} <!-- icon de fichier -->
+							{{ icons[item.file] }} <!-- icon de fichier -->
 						</v-icon>
 
 					</div>
@@ -32,9 +32,9 @@
 
 		<VueSimpleContextMenu
 			style="padding-left: 0px"
-			:options="options"
-			ref="vueSimpleContextMenu"
-			@option-clicked="optionClicked"
+			:options="fileOptions"
+			ref="FileContextMenu"
+			@option-clicked="FileOptionClicked"
 			element-id="Menu">
 		</VueSimpleContextMenu>
 	</div>
@@ -54,20 +54,23 @@
 		},
 		methods: {
 			openFile : function(item){ //ouvrir le fichier cliqué
-				console.log(item, " left clicked");
+				console.log(item, " opened");
 			},
-			menu: function(e, item) { //ouvrir le ContextMenu 
+			filesMenu: function(e, item) { //ouvrir le ContextMenu 
 				//console.log(item, " right clicked");
 				e.preventDefault(); //desactiver le menu original du navigateur internet
-				this.$refs.vueSimpleContextMenu.showMenu(e, item)
-				//this.handleClick(e, item);
+				this.$refs.FileContextMenu.showMenu(e, item)
 			},
-			handleClick (event, item) {
-				this.$refs.vueSimpleContextMenu.showMenu(event, item)
+			FileOptionClicked : function(event) {//activer quand un item du ContextMenu est cliqué
+				//console.log("Event: ", event);
+				console.log(event.option.action, event.item.name);
+
 			},
-			optionClicked : function(event) {
-				console.log("Event: ", event);
-				window.alert(JSON.stringify(event))
+			renameFile : function(item){
+				console.log(item);
+			},
+			deleteFile : function(item){
+				console.log(item);
 			},
 			diableRightClick : function(e){//fonction pour desaciver le clique droit sur le reste de l'arbre
 				e.preventDefault();
@@ -75,7 +78,7 @@
 
 		},
 		data: () => ({
-			files: { //file icons
+			icons: { //file icons
 				html: "mdi-language-html5",
 				js: "mdi-nodejs",
 				json: "mdi-code-json",
@@ -85,10 +88,10 @@
 				txt: "mdi-file-document-outline",
 				xls: "mdi-file-excel",
 			},
-			options : [ //contextMenu options
-				{name: "Rename", slug: "rename"},
-				{name: "Delete", slug: "delete"},
-				{name: "Open", slug: open}
+			fileOptions : [ //contextMenu options
+				{name: "Open", action: "open"},
+				{name: "Rename", action: "rename"},
+				{name: "Delete", action: "delete"},
 			],
 			//tree: [],
 			items: [

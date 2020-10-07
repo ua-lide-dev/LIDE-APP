@@ -11,6 +11,7 @@
         @click.stop="optionClicked(option)"
         class="vue-simple-context-menu__item"
         :class="[option.class, (option.type === 'divider' ? 'vue-simple-context-menu__divider' : '')]"
+        style="user-select: none;"
       >
         {{option.name}}
       </li>
@@ -158,8 +159,8 @@ $black: #333;
   // `last-of-type`
   li {
     margin-left: -24px; //correction
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 35px;
+    padding-right: 35px;
 
     &:first-of-type {
       margin-top: 4px;

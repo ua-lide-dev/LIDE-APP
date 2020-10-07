@@ -1,15 +1,21 @@
 <template>
-  <v-app>
-    <v-main>sdfsdfsdfsdfsd</v-main>
-  </v-app>
+	<v-app>
+		<v-main>
+      <Explorer></Explorer>  
+    </v-main>
+	</v-app>
 </template>
 
 <script>
-export default {
-  name: "App",
+	import Explorer from "./components/explorer.vue";
 
-  components: {},
+	export default {
+		name: "App",
 
-  data: () => ({})
-};
+		components: {
+      Explorer,
+    },
+
+		data: () => ({}),
+	};
 </script>

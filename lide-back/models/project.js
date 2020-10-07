@@ -1,13 +1,12 @@
 const mongoose = require("mongoose");
-
+const file = require("./file")
 const Schema = mongoose.Schema;
 
 const project = new Schema({
-  _id : { type: Schema.ObjectId, auto: true },
   projectname: String,
-  idUser: Schema.ObjectId
+  files : [{file : file.schema}]
 })
 
-const model = mongoose.model ("project",project, "PROJECT");
+const Project = mongoose.model ("Project",project);
 
-module.exports = model;
+module.exports = Project;

@@ -3,13 +3,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const file = new Schema({
-  _id : { type: Schema.ObjectId, auto: true },
   filename: String,
   extension : String,
   body : String,
-  idProject : Schema.ObjectId
+  date : Date
 })
 
-const model = mongoose.model ("file",file, "FILE");
+const File = mongoose.model ("File",file);
 
-module.exports = model;
+module.exports = File;

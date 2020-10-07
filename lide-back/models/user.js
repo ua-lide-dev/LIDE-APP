@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
-
+const project = require("./project");
 const Schema = mongoose.Schema;
 
 const user = new Schema({
-  _id : { type: Schema.ObjectId, auto: true },
   username: String,
-  password : String
+  password : String,
+  projects : [ {project:project.schema}]
 })
 
-const model = mongoose.model ("user",user,"USER");
+const User = mongoose.model ("User",user);
 
-module.exports = model;
+module.exports = User;

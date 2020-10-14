@@ -1,8 +1,6 @@
 <template @load="this.checkConnexion">
-    
-    <v-toolbar color="#42A5F5">
-        
-        <v-app-bar-nav-icon class="ma-4"><v-img align="center" src="@/img/logoLide.png" height="60" contain> </v-img></v-app-bar-nav-icon> 
+    <v-app-bar app color="#42A5F5">
+             <v-app-bar-side-icon class="ma-4"><v-img align="center" src="@/img/logoLide.png" height="60" contain> </v-img></v-app-bar-side-icon> 
         
         <v-toolbar-title v-if="isConnected" >Bonjour {{nom}} {{prenom}} bienvenue sur LIDE</v-toolbar-title>
         
@@ -11,9 +9,7 @@
         <v-btn v-bind:color="this.isConnected? '#ff0000' : '#00ff66'" elevation="2" @click="connect()">
           {{this.isConnected? "Déconnecter" : "Connecter"}}
         </v-btn>
-    
-    </v-toolbar>
-
+    </v-app-bar>
 </template>
 
 <script>

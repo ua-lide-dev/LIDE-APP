@@ -31,12 +31,12 @@
 		<v-divider></v-divider>
 
 		<VueSimpleContextMenu
-			style="padding-left: 0px"
+			style="padding-left: 0px; user-select: none;"
 			:options="fileOptions"
 			ref="FileContextMenu"
 			@option-clicked="FileOptionClicked"
 			element-id="Menu">
-		</VueSimpleContextMenu>
+		</VueSimpleContextMenu><!--invisible to start, will appear when needed -->
 	</div>
 	
 </template>

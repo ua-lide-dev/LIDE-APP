@@ -1,14 +1,15 @@
 <template>
-  <v-app>
-    <v-main>sdfsdfsdfsdfsd</v-main>
-  </v-app>
+  <Ide/>
 </template>
 
 <script>
+import Ide from "./pages/Ide.vue"
 export default {
   name: "App",
 
-  components: {},
+  components: {
+    Ide
+    },
 
   data: () => ({})
 };

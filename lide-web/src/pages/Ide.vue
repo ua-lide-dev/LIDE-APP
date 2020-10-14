@@ -1,16 +1,17 @@
 <template>
  
       <v-app>
+        
+        <!-- gestionnaire de l'explorer -->
         <v-navigation-drawer>
             
         </v-navigation-drawer>
-       <Header/>
-      <!-- gestionnaire de l'explorer -->
         
+        <!-- <v-app-bar> dans Header -->
+        <Header/>
 
         <!-- body -->
-        <v-main>   
-          <!-- gestionnaire de l'explorer -->   
+        <v-main>    
           <v-container >
             <!-- premiere ligne editeur de text -->
             <!--pas sur qu'on ai besoin des v-col -->
@@ -18,6 +19,7 @@
                 <v-col>
                   <v-card>
                     <!-- component Editor -->
+                    <CodeMirror/>
                   </v-card>
                 </v-col>
               </v-row>
@@ -38,11 +40,14 @@
 
 <script>
 import Header from "../components/appBar/Header"
+import CodeMirror from "../components/editor/codeEditor"
+
 export default {
   name: "Ide",
 
   components: {
     Header,
+    CodeMirror
     },
 
   data: () => ({})

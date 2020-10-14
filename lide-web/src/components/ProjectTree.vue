@@ -42,7 +42,7 @@
 </template>
 
 <script>
-	import VueSimpleContextMenu from './vue-simple-context-menu'
+	import VueSimpleContextMenu from './Vue-simple-context-menu'
 
 	export default {
 		name: "ProjectTree",

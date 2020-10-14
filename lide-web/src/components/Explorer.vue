@@ -25,8 +25,8 @@
 </template>
 
 <script>
-	import ProjectTree from "./projectTree";
-	import ExplorerFooter from "./explorerFooter";
+	import ProjectTree from "./ProjectTree";
+	import ExplorerFooter from "./ExplorerFooter";
 
 	export default {
 		name: "Explorer",

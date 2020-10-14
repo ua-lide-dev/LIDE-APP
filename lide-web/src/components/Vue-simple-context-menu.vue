@@ -22,7 +22,7 @@
 <script>
 
 import Vue from 'vue'
-import vClickOutside from './v-click-outside'
+import vClickOutside from "./V-click-outside"
 Vue.use(vClickOutside)
 
 export default {

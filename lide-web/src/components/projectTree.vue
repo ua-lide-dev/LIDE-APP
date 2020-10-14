@@ -51,10 +51,11 @@
 		},
 		props: {
 				projectName: String,
+				path: String,
 		},
 		methods: {
 			openFile : function(item){ //ouvrir le fichier cliqué
-				console.log(item, " opened");
+				console.log(" open", item);
 			},
 			filesMenu: function(e, item) { //ouvrir le ContextMenu 
 				//console.log(item, " right clicked");
@@ -67,10 +68,10 @@
 
 			},
 			renameFile : function(item){
-				console.log(item);
+				console.log(" rename", item);
 			},
 			deleteFile : function(item){
-				console.log(item);
+				console.log(" delete", item);
 			},
 			diableRightClick : function(e){//fonction pour desaciver le clique droit sur le reste de l'arbre
 				e.preventDefault();

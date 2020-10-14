@@ -11,23 +11,18 @@
 				permanent
 				left
 				@load="loadList"
-				overflow-x="scroll"
 			>
-				<div style="height: 50%">
-					<div
-						v-for="(task, index) in projectList"
-						v-bind:key="index"
-					>
-						<ProjectTree projectName="New Project"></ProjectTree>
-					</div>
+				<div
+					v-for="(project, index) in projectList"
+					v-bind:key="index"
+				>
+					<ProjectTree :projectName=project.name :path=project.path></ProjectTree>
 				</div>
 
 				<template v-slot:append height>
-					<v-divider></v-divider>
-					<div style="height: 100px" align="center">
-						<v-btn @click="borderBar"> New Project </v-btn>
-					</div>
+						<ExplorerFooter></ExplorerFooter>
 				</template>
+
 			</v-navigation-drawer>
 		</template>
 	</div>
@@ -35,12 +30,14 @@
 
 <script>
 	import ProjectTree from "./projectTree";
+	import ExplorerFooter from "./explorerFooter"
 
 	export default {
 		name: "Explorer",
 
 		components: {
 			ProjectTree,
+			ExplorerFooter,
 		},
 		props: {
 			avatar: String,
@@ -50,7 +47,10 @@
 
 		data() {
 			return {
-				projectList: [1, 1],
+				projectList: [
+					{name: "TP1", path:"filePath"},
+					{name: "TD2.1", path:"filePath"}
+				],
 				width: "15%", //default width
 				minWidth: 100, //minimum width of explorer bar IN PIXELS!
 				borderSize: 3,
@@ -61,7 +61,8 @@
 			loadList: function () {
 				console.log("LOAD LIST");
 			},
-
+			
+			//Functions to make the explorer expandable
 			borderBar: function () {//make the explorer border bar easier to see
 				let i = this.$refs.drawer.$el.querySelector(
 					".v-navigation-drawer__border"

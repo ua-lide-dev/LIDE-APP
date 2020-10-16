@@ -1,15 +1,17 @@
 <template>
-  <v-app>
-    <v-main>sdfsdfsdfsdfsd</v-main>
-  </v-app>
+	<v-app>
+		<v-main>
+    </v-main>
+	</v-app>
 </template>
 
 <script>
-export default {
-  name: "App",
+	export default {
+		name: "App",
 
-  components: {},
+		components: {
+    },
 
-  data: () => ({})
-};
+		data: () => ({}),
+	};
 </script>

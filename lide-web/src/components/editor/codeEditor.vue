@@ -16,11 +16,10 @@
 
 <script>
 // require component
-import { codemirror } from 'node_modules/vue-codemirror/src/codemirror.vue'
- 
-// require styles
-import '/node_modules/codemirror/lib/codemirror.css'
-  
+import { codemirror } from "vue-codemirror";
+//require style
+import "codemirror/lib/codemirror.css";
+
 // component
 export default {
   components: {

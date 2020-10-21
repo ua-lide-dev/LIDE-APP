@@ -18,7 +18,7 @@
       return import('codemirror/theme/' + theme + '.css')
     },
     loadMode(mode) {
-      return import(`app/src/node_modules/${mode}/${mode}.js`)
+      return import('app/src/node_modules/' + mode + '/' + mode + '.js')
     }
   })
 

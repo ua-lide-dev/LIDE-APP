@@ -1,38 +1,30 @@
 <template>
-  <div class="simple-editor">
-    <div class="editor">
-      <vue-codemirror v-model="code" :options="editorOpts"></vue-codemirror>
-      <vueCodemiiror/>
-    </div>
-    <div class="preview">
-      <pre v-html="code"></pre>
-    </div>
-  </div>
+<div>
+  <codemirror/>
+  <v-btn elevation="1"> Compile
+        <v-icon dark right>
+          gavel
+        </v-icon>
+  </v-btn>
+  <v-btn elevation="1"> Options
+        <v-icon dark right>
+          mdi-wrench
+        </v-icon>
+  </v-btn>
+</div>
 </template>
 
 <script>
-  import { createComponent } from 'vue-codemirror-component'
+// require component
+import { codemirror } from 'node_modules/vue-codemirror/src/codemirror.vue'
+ 
+// require styles
+import '/node_modules/codemirror/lib/codemirror.css'
   
-  const vueCodemiiror = createComponent({
-    loadTheme(theme) {
-      return import('codemirror/theme/' + theme + '.css')
-    },
-    loadMode(mode) {
-      return import('app/src/node_modules/' + mode + '/' + mode + '.js')
-    }
-  })
-
-  export default {
-    components: {
-      vueCodemiiror
-    },
-    data () {
-      return {
-        code: '<h1>V-Codemirror</h1>',
-        editorOpts: {
-          mode: 'text/html'
-        },
-      }
-    }
+// component
+export default {
+  components: {
+    codemirror
   }
+}
 </script>

@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from 'vue-router';
 import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
-import axios from "axios";
+//import axios from "axios";
 
 Vue.use(VueRouter);
 
@@ -25,7 +25,7 @@ const router = new VueRouter({
 });
 
 Vue.config.productionTip = false;
-Vue.prototype.$http = axios;
+//Vue.prototype.$http = axios;
 new Vue({
   vuetify,
   router,

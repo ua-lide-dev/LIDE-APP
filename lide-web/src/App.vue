@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-main>sdfsdfsdfsdfsd</v-main>
+    <router-view></router-view>
   </v-app>
 </template>
 

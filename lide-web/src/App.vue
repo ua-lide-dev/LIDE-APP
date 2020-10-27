@@ -1,8 +1,7 @@
 <template>
-	<v-app>
-		<v-main>
-    </v-main>
-	</v-app>
+  <v-app>
+    <router-view></router-view>
+  </v-app>
 </template>
 
 <script>

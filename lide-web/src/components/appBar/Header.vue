@@ -1,6 +1,6 @@
 <template @load="this.checkConnexion">
     <v-app-bar app color="#42A5F5">
-             <v-app-bar-side-icon class="ma-4"><v-img align="center" src="@/img/logoLide.png" height="60" contain> </v-img></v-app-bar-side-icon> 
+        <v-app-bar-side-icon class="ma-4"><v-img align="center" src="@/img/logoLide.png" height="60" contain> </v-img></v-app-bar-side-icon> 
         
         <v-toolbar-title v-if="isConnected" >Bonjour {{nom}} {{prenom}} bienvenue sur LIDE</v-toolbar-title>
         
@@ -11,18 +11,18 @@
         </v-btn>
     </v-app-bar>
 </template>
-
 <script>
 export default {
   name : "Header",  
 
   data: () => ({
-    isConnected: false, 
+    isConnected: false,
+    nom :'Maignan',
+    prenom: 'Quentin'
     }),
 
   props: {
-    nom: String,
-    prenom: String
+
     },
 
   methods: {
@@ -35,8 +35,8 @@ export default {
       //fonction qui appelle CAS et realise la connection
       //et qui mets a jour les attribut de nom et prenom en consequece
 
-      this.nom = "Maignan";
-      this.prenom = "Quentin";
+      //this.nom = "Maignan";
+      //this.prenom = "Quentin";
 
       if(!this.isConnected){
       this.isConnected = true;

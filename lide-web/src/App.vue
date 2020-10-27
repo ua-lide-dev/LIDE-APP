@@ -1,5 +1,6 @@
+
 <template>
-  <Ide/>
+  <Ide/> 
 </template>
 
 <script>
@@ -9,7 +10,7 @@ export default {
 
   components: {
     Ide
-    },
+  },
 
   data: () => ({})
 };

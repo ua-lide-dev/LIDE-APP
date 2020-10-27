@@ -1,34 +1,34 @@
 <template>
  
       <v-app>
-        
+        <Header/>
         <!-- gestionnaire de l'explorer -->
-        <v-navigation-drawer>
+        <v-navigation-drawer app>
             
         </v-navigation-drawer>
         
         <!-- <v-app-bar> dans Header -->
-        <Header/>
+
 
         <!-- body -->
-        <v-main>    
-          <v-container >
+        <v-main> 
+           <v-container fluid class="pa-0 ma-0">
             <!-- premiere ligne editeur de text -->
             <!--pas sur qu'on ai besoin des v-col -->
-              <v-row>
-                <v-col>
-                  <v-card>
-                    <!-- component Editor -->
-                    <CodeMirror/>
-                  </v-card>
-                </v-col>
-              </v-row>
-
+            <v-row no-gutters>
+              <v-col md="12" rows="10">
+                <v-card style="height: 65vh">
+                  <!-- component Editor -->
+                  <CodeMirror/>
+                </v-card>
+              </v-col>
+            </v-row>
             <!-- deuxieme ligne terminal -->
-            <v-row>
-                <v-col>
-                  <v-card>
+            <v-row no-gutters>
+                <v-col rows="3">
+                  <v-card style="height: 28vh; background-color: black;">
                     <!-- component Terminal -->
+
                   </v-card>
                 </v-col>
               </v-row>
@@ -53,6 +53,3 @@ export default {
   data: () => ({})
 };
 </script>
-
-<style>
-</style>

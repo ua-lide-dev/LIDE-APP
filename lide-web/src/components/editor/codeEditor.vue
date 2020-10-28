@@ -11,17 +11,17 @@
     id="cmirror">
   </codemirror>
   <!-- les buttons pour compil et options -->
-  <v-btn icone fab small absolute text style="position: absolute;top: 15px; right: 20px;" @click="buildButton()">
+  <v-btn icone fab small absolute text class="btBuild" @click="buildButton()">
     <v-icon color="green">
       mdi-gavel
     </v-icon>
   </v-btn>
-  <v-btn icone fab small absolute text style="position: absolute;top: 58px; right: 20px;" @click="saveButton()">
+  <v-btn icone fab small absolute text class="btSave" @click="saveButton()">
     <v-icon color="blue">
       mdi-cloud-upload
     </v-icon>
   </v-btn>
-  <v-btn icone fab small absolute text style="position: absolute;top: 102px; right: 20px;" @click="optionButton()">
+  <v-btn icone fab small absolute text class="btOption" @click="optionButton()">
     <v-icon color="grey">
       mdi-wrench
     </v-icon>
@@ -113,5 +113,23 @@ code: '//exemple de code c++\n\n#include <iostream>\n\nint main(){\n std::cout <
 .CodeMirror {
   border: 1px solid #eee;
   height: 65vh;
+}
+
+.btBuild {
+  position: absolute;
+  top: 15px; 
+  right: 20px;
+}
+
+.btSave{
+  position: absolute;
+  top: 58px;
+  right: 20px;
+}
+
+.btOption {
+  position: absolute;
+  top: 102px;
+  right: 20px;
 }
 </style>

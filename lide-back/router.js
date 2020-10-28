@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 // Controllers
-const user = require("./controllers/user.controller");
-const project = require("./controllers/project.controller");
-const file = require("./controllers/file.controller");
+const user = require("./controller/user.controller");
+const project = require("./controller/project.controller");
+const file = require("./controller/file.controller");
 
 /* --- Routes --- */
 // Routes User

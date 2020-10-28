@@ -1,4 +1,4 @@
-const File = require("../models/file");
+const File = require("../model/file");
 
 /*
     Le controlleur File gère les appels à la bdd 

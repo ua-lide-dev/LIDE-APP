@@ -1,4 +1,4 @@
-const User = require("../models/user");
+const User = require("../model/user");
 
 /*
     Le controlleur User gère les appels à la bdd 

@@ -1,4 +1,4 @@
-const Project = require("../models/project");
+const Project = require("../model/project");
 
 /*
     Le controlleur Project gère les appels à la bdd 

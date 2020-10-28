@@ -2,11 +2,10 @@
   <v-navigation-drawer
     ref="drawer"
     id="explorer"
-    :width="width"
+    :width="290"
     absolute
     permanent
     left
-    dark
     @load="loadList"
   >
     <div v-for="(project, index) in projectList" v-bind:key="index">

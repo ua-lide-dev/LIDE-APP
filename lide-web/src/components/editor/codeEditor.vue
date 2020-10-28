@@ -11,17 +11,17 @@
     id="cmirror">
   </codemirror>
   <!-- les buttons pour compil et options -->
-  <v-btn elevation="1" icone rounded absolute style="position: absolute;top: 15px; right: 20px;" @click.native="buildButton()">
+  <v-btn elevation="1" icone fab small absolute style="position: absolute;top: 15px; right: 20px;" @click="buildButton()">
     <v-icon color="green">
       mdi-gavel
     </v-icon>
   </v-btn>
-  <v-btn elevation="1" icone rounded absolute style="position: absolute;top: 58px; right: 20px;" @click.native="saveButton()">
+  <v-btn elevation="1" icone fab small absolute style="position: absolute;top: 58px; right: 20px;" @click="saveButton()">
     <v-icon color="blue">
       mdi-cloud-upload
     </v-icon>
   </v-btn>
-  <v-btn elevation="1" icone rounded absolute style="position: absolute;top: 102px; right: 20px;" @click.native="optionButton()">
+  <v-btn elevation="1" icone fab small absolute style="position: absolute;top: 102px; right: 20px;" @click="optionButton()">
     <v-icon color="grey">
       mdi-wrench
     </v-icon>

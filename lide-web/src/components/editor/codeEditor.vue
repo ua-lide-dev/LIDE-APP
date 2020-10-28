@@ -7,15 +7,21 @@
     @blur="onCmBlur($event)" 
     @focus="onCmFocus($event)"
     @ready="onCmReady($event)" 
-    @input="onCmInput">
+    @input="onCmInput"
+    id="cmirror">
   </codemirror>
   <!-- les buttons pour compil et options -->
-  <v-btn elevation="1" icone rounded style="position: absolute;top: 5px; right: 10px;" @click.native="buildButton()">
+  <v-btn elevation="1" icone rounded absolute style="position: absolute;top: 15px; right: 20px;" @click.native="buildButton()">
     <v-icon color="green">
       mdi-gavel
     </v-icon>
   </v-btn>
-  <v-btn elevation="1" icone rounded style="position: absolute;top: 48px; right: 10px;" @click.native="optionButton()">
+  <v-btn elevation="1" icone rounded absolute style="position: absolute;top: 58px; right: 20px;" @click.native="saveButton()">
+    <v-icon color="blue">
+      mdi-cloud-upload
+    </v-icon>
+  </v-btn>
+  <v-btn elevation="1" icone rounded absolute style="position: absolute;top: 102px; right: 20px;" @click.native="optionButton()">
     <v-icon color="grey">
       mdi-wrench
     </v-icon>
@@ -60,7 +66,10 @@ code: '//exemple de code c++\n\n#include <iostream>\n\nint main(){\n std::cout <
       mode: 'text/x-c++src',
       //pour changer les themes il suffit de changer la var theme et import les bons fichiers
       theme: 'lucario',
-      viewportMargin: 50,
+      //pour affciher un nombre de ligne infini
+      viewportMargin: Infinity,
+      //changer la taille
+      setSize: 900
     },
   }),
 //methode
@@ -72,6 +81,10 @@ code: '//exemple de code c++\n\n#include <iostream>\n\nint main(){\n std::cout <
     optionButton: function(){
       //fonction associer au button options
       alert("overture des options");
+    },
+    saveButton: function(){
+      //fonction associer au button save
+      alert("sauvegarde ...");
     },
 
     //methode pour code Mirror (juste des verifs pour la console)
@@ -95,3 +108,10 @@ code: '//exemple de code c++\n\n#include <iostream>\n\nint main(){\n std::cout <
   },
 };
 </script>
+
+<style>
+.CodeMirror {
+  border: 1px solid #eee;
+  height: 65vh;
+}
+</style>

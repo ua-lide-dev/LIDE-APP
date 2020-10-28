@@ -1,20 +1,18 @@
 <template>
  
       <v-app>
+        <!-- <v-app-bar> dans Header -->
         <Header/>
+
         <!-- gestionnaire de l'explorer -->
         <v-navigation-drawer app>
             
         </v-navigation-drawer>
         
-        <!-- <v-app-bar> dans Header -->
-
-
         <!-- body -->
-        <v-main> 
+        <v-main style="background-color: black;"> 
            <v-container fluid class="pa-0 ma-0">
             <!-- premiere ligne editeur de text -->
-            <!--pas sur qu'on ai besoin des v-col -->
             <v-row no-gutters>
               <v-col md="12" rows="10">
                 <v-card style="height: 65vh">

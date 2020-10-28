@@ -2,7 +2,7 @@
     <v-app-bar app color="#42A5F5">
         <v-app-bar-side-icon class="ma-4"><v-img align="center" src="@/img/logoLide.png" height="60" contain> </v-img></v-app-bar-side-icon> 
         
-        <v-toolbar-title v-if="isConnected" >Bonjour {{nom}} {{prenom}} bienvenue sur LIDE</v-toolbar-title>
+        <v-toolbar-title v-if="isConnected" >Bonjour {{prenom}} {{nom}} bienvenue sur LIDE</v-toolbar-title>
         
         <v-spacer></v-spacer>
         

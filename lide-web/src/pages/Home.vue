@@ -1,4 +1,5 @@
-<template><v-app>
+<template>
+<v-app>
   <v-app-bar app color="blue">
     <Header/>
   </v-app-bar>
@@ -21,16 +22,14 @@
 <script>
  import Header from "../components/Header"
  import Body from "../components/Body"
-import Footer from "../components/Footer"
+ import Footer from "../components/Footer"
 export default {
   name: "App",
-
   components: {
     Header,
      Body,
      Footer
-    },
-
+  },
   data: () => ({})
 };
 </script>

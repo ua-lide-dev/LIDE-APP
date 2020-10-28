@@ -1,38 +1,21 @@
 <template>
-<v-app>
-  <v-app-bar app color="blue">
-    <Header/>
-  </v-app-bar>
-
-  <!-- Sizes your content based upon application components -->
-  <v-main class="py-9">
-
-    <!-- Provides the application the proper gutter -->
-    <v-container fluid >
-      <Body/>
-    </v-container>
-  </v-main>
-
-  <v-footer app color="blue">
-    <Footer/>
-  </v-footer>
-</v-app>
+  <div>
+    <Body />
+    <Footer />
+  </div>
 </template>
 
 <script>
- import Header from "../components/Header"
- import Body from "../components/Body"
- import Footer from "../components/Footer"
+import Body from "../components/home/Body";
+import Footer from "../components/home/Footer";
 export default {
-  name: "App",
+  name: "Home",
   components: {
-    Header,
-     Body,
-     Footer
+    Body,
+    Footer,
   },
-  data: () => ({})
+  data: () => ({}),
 };
 </script>
 
-<style>
-</style>
+<style></style>

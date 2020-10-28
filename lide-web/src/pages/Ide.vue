@@ -1,53 +1,42 @@
 <template>
- 
-      <v-app>
-        <!-- <v-app-bar> dans Header -->
-        <Header/>
-
-        <!-- gestionnaire de l'explorer -->
-        <v-navigation-drawer app>
-            
-        </v-navigation-drawer>
-        
-        <!-- body -->
-        <v-main style="background-color: black;"> 
-           <v-container fluid class="pa-0 ma-0">
-            <!-- premiere ligne editeur de text -->
-            <v-row no-gutters>
-              <v-col md="12" rows="10">
-                <v-card style="height: 65vh">
-                  <!-- component Editor -->
-                  <CodeMirror/>
-                </v-card>
-              </v-col>
-            </v-row>
-            <!-- deuxieme ligne terminal -->
-            <v-row no-gutters>
-                <v-col rows="3">
-                  <v-card style="height: 28vh; background-color: black;">
-                    <!-- component Terminal -->
-
-                  </v-card>
-                </v-col>
-              </v-row>
-          </v-container>
-        </v-main>
-      </v-app>
-        
+  <v-container class="pa-0" fluid>
+    <v-row>
+      <!-- Explorer -->
+      <v-col class="" cols="2">
+        <Explorer />
+      </v-col>
+      <!-- Editeur et Terminal-->
+      <v-col class="pa-0" cols="10">
+        <v-row>
+          <v-col class="pa-0" cols="12">
+            <Editor />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col class="pa-0" cols="12">
+            <Terminal />
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import Header from "../components/appBar/Header"
-import CodeMirror from "../components/editor/codeEditor"
+import Editor from "../components/ide/editor/Editor";
+import Explorer from "../components/ide/explorer/Explorer";
+import Terminal from "../components/ide/terminal/Terminal";
 
 export default {
   name: "Ide",
 
   components: {
-    Header,
-    CodeMirror
-    },
+    Editor,
+    Explorer,
+    Terminal,
+  },
 
-  data: () => ({})
+  data: () => ({}),
 };
 </script>
+<style scoped></style>

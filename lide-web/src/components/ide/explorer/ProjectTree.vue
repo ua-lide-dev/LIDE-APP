@@ -1,6 +1,6 @@
 <template>
   <div style="margin: 10px" @contextmenu="diableRightClick($event)">
-    <h3 style="user-select: none;" align="center">{{ projectName }}</h3>
+    <h3 style="user-select: none" align="center">{{ projectName }}</h3>
     <template>
       <v-treeview
         :items="items"
@@ -61,28 +61,28 @@ export default {
     path: String,
   },
   methods: {
-    openFile: function(item) {
+    openFile: function (item) {
       //ouvrir le fichier cliqué
       console.log(" open", item);
     },
-    filesMenu: function(e, item) {
+    filesMenu: function (e, item) {
       //ouvrir le ContextMenu
       //console.log(item, " right clicked");
       e.preventDefault(); //desactiver le menu original du navigateur internet
       this.$refs.FileContextMenu.showMenu(e, item);
     },
-    FileOptionClicked: function(event) {
+    FileOptionClicked: function (event) {
       //activer quand un item du ContextMenu est cliqué
       //console.log("Event: ", event);
       console.log(event.option.action, event.item.name);
     },
-    renameFile: function(item) {
+    renameFile: function (item) {
       console.log(" rename", item);
     },
-    deleteFile: function(item) {
+    deleteFile: function (item) {
       console.log(" delete", item);
     },
-    diableRightClick: function(e) {
+    diableRightClick: function (e) {
       //fonction pour desaciver le clique droit sur le reste de l'arbre
       e.preventDefault();
     },

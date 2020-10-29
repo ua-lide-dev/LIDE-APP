@@ -2,18 +2,10 @@
   <div style="margin: 10px" @contextmenu="diableRightClick($event)">
     <h3 style="user-select: none;" align="center">{{ projectName }}</h3>
     <template>
-      <v-treeview
-        :items="items"
-        activatable
-        item-key="name"
-        open-on-click
-        transition
-      >
+      <v-treeview :items="items" activatable item-key="name" open-on-click transition>
         <template slot="label" slot-scope="{ item }">
           <!-- evenement click sur le titre de l'item  -->
-          <div @contextmenu="filesMenu($event, item)" @click="openFile(item)">
-            {{ item.name }}
-          </div>
+          <div @contextmenu="filesMenu($event, item)" @click="openFile(item)">{{ item.name }}</div>
         </template>
 
         <template v-slot:prepend="{ item, open }">
@@ -21,8 +13,8 @@
           <div @contextmenu="filesMenu($event, item)" @click="openFile(item)">
             <!-- evenement click sur l'icone de l'item  -->
 
-            <v-icon v-if="!item.file"
-              ><!-- icon de dossier -->
+            <v-icon v-if="!item.file">
+              <!-- icon de dossier -->
               {{ open ? "mdi-folder-open" : "mdi-folder" }}
             </v-icon>
             <v-icon v-else>
@@ -43,8 +35,9 @@
       @option-clicked="FileOptionClicked"
       element-id="Menu"
     >
-    </VueSimpleContextMenu -->
-    ><!--invisible to start, will appear when needed -->
+    </VueSimpleContextMenu-->
+
+    <!--invisible to start, will appear when needed -->
   </div>
 </template>
 
@@ -58,7 +51,7 @@ export default {
   // },
   props: {
     projectName: String,
-    path: String,
+    path: String
   },
   methods: {
     openFile: function(item) {
@@ -85,7 +78,7 @@ export default {
     diableRightClick: function(e) {
       //fonction pour desaciver le clique droit sur le reste de l'arbre
       e.preventDefault();
-    },
+    }
   },
   data: () => ({
     icons: {
@@ -97,117 +90,50 @@ export default {
       pdf: "mdi-file-pdf",
       png: "mdi-file-image",
       txt: "mdi-file-document-outline",
-      xls: "mdi-file-excel",
+      xls: "mdi-file-excel"
     },
     fileOptions: [
       //contextMenu options
       { name: "Open", action: "open" },
       { name: "Rename", action: "rename" },
-      { name: "Delete", action: "delete" },
+      { name: "Delete", action: "delete" }
     ],
     //tree: [],
     items: [
       {
-        name: ".git",
-      },
-      {
-        name: "node_modules",
-      },
-      {
-        name: "public",
+        name: "cpp",
         children: [
           {
-            name: "static",
-            children: [
-              {
-                name: "logo.png",
-                file: "png",
-              },
-            ],
+            name: "exo1.cpp",
+            file: "txt"
           },
           {
-            name: "favicon.ico",
-            file: "png",
+            name: "exo2.cpp",
+            file: "txt"
           },
           {
-            name: "index.html",
-            file: "html",
-          },
-        ],
+            name: "exo3.cpp",
+            file: "txt"
+          }
+        ]
       },
       {
-        name: ".gitignore",
-        file: "txt",
+        name: "exo1.java",
+        file: "txt"
       },
       {
-        name: "babel.config.js",
-        file: "js",
+        name: "exo2.java",
+        file: "txt"
       },
       {
-        name: "package.json",
-        file: "json",
+        name: "exo3.java",
+        file: "txt"
       },
       {
-        name: "README.md",
-        file: "md",
-      },
-      {
-        name: "vue.config.js",
-        file: "js",
-      },
-      {
-        name: "yarn.lock",
-        file: "txt",
-      },
-      {
-        name: ".gitignore",
-        file: "txt",
-      },
-      {
-        name: "babel.config.js",
-        file: "js",
-      },
-      {
-        name: "package.json",
-        file: "json",
-      },
-      {
-        name: "README.md",
-        file: "md",
-      },
-      {
-        name: "vue.config.js",
-        file: "js",
-      },
-      {
-        name: "yarn.lock",
-        file: "txt",
-      },
-      {
-        name: ".gitignore",
-        file: "txt",
-      },
-      {
-        name: "babel.config.js",
-        file: "js",
-      },
-      {
-        name: "package.json",
-        file: "json",
-      },
-      {
-        name: "README.md",
-        file: "md",
-      },
-      {
-        name: "vue.config.js",
-        file: "js",
-      },
-      {
-        name: "yarn.lock",
-        file: "txt",
-      },
-    ],
-  }),
+        name: "exo1.php",
+        file: "txt"
+      }
+    ]
+  })
 };
 </script>

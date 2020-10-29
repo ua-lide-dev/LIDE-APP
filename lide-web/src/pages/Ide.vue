@@ -2,7 +2,7 @@
   <v-container class="pa-0" fluid>
     <v-row>
       <!-- Explorer -->
-      <v-col class="" cols="2">
+      <v-col class cols="2">
         <Explorer />
       </v-col>
       <!-- Editeur et Terminal-->
@@ -12,7 +12,7 @@
             <Editor />
           </v-col>
         </v-row>
-        <v-row>
+        <v-row style="background-color: black;">
           <v-col class="pa-0" cols="12">
             <Terminal />
           </v-col>
@@ -33,10 +33,10 @@ export default {
   components: {
     Editor,
     Explorer,
-    Terminal,
+    Terminal
   },
 
-  data: () => ({}),
+  data: () => ({})
 };
 </script>
 <style scoped></style>

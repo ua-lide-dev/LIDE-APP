@@ -10,24 +10,17 @@
       @ready="onCmReady($event)"
       @input="onCmInput"
       id="cmirror"
-    >
-    </codemirror>
+    ></codemirror>
     <!-- les buttons pour compil et options -->
 
-    <v-btn class="btn-compile" absolute fab dark small color="green">
-      <v-icon dark>
-        mdi-gavel
-      </v-icon>
+    <v-btn class="btn-compile" absolute fab dark medium color="green">
+      <v-icon dark>mdi-gavel</v-icon>
     </v-btn>
-    <v-btn class="btn-save" absolute fab dark small color="blue">
-      <v-icon dark>
-        mdi-cloud-upload
-      </v-icon>
+    <v-btn class="btn-save" absolute fab dark medium color="blue">
+      <v-icon dark>mdi-cloud-upload</v-icon>
     </v-btn>
-    <v-btn class="btn-setting" absolute fab dark small color="grey">
-      <v-icon dark>
-        mdi-wrench
-      </v-icon>
+    <v-btn class="btn-setting" absolute fab dark medium color="grey">
+      <v-icon dark>mdi-wrench</v-icon>
     </v-btn>
   </div>
 </template>
@@ -53,7 +46,7 @@ import "codemirror/theme/lucario.css";
 // component
 export default {
   components: {
-    codemirror,
+    codemirror
   },
   //options
   data: () => ({
@@ -70,8 +63,8 @@ export default {
       //pour affciher un nombre de ligne infini
       viewportMargin: Infinity,
       //changer la taille
-      setSize: 900,
-    },
+      setSize: 900
+    }
   }),
   //methode
   methods: {
@@ -100,13 +93,13 @@ export default {
     },
     onCmInput(newCode) {
       this.code = newCode;
-    },
+    }
   },
   computed: {
     cmA() {
       return this.$refs.cmA.codemirror;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -124,11 +117,11 @@ export default {
   right: 50px;
 }
 .btn-save {
-  top: 80px;
+  top: 100px;
   right: 50px;
 }
 .btn-setting {
-  top: 130px;
+  top: 170px;
   right: 50px;
 }
 </style>

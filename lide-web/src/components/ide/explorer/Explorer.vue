@@ -9,10 +9,7 @@
     @load="loadList"
   >
     <div v-for="(project, index) in projectList" v-bind:key="index">
-      <ProjectTree
-        :projectName="project.name"
-        :path="project.path"
-      ></ProjectTree>
+      <ProjectTree :projectName="project.name" :path="project.path"></ProjectTree>
     </div>
 
     <template v-slot:append height>
@@ -30,12 +27,12 @@ export default {
 
   components: {
     ProjectTree,
-    ExplorerFooter,
+    ExplorerFooter
   },
   props: {
     avatar: String,
     name: String,
-    projectsFolder: String,
+    projectsFolder: String
   },
 
   data() {
@@ -43,7 +40,9 @@ export default {
       projectList: [
         { name: "TP1", path: "filePath" },
         { name: "TD2.1", path: "filePath" },
-      ],
+        { name: "TP2", path: "filePath" },
+        { name: "TD3", path: "filePath" }
+      ]
     };
   },
 
@@ -51,8 +50,8 @@ export default {
     loadTree: function() {
       // Charge le contenu du tree view
       console.log("LOAD LIST");
-    },
+    }
   },
-  mounted() {},
+  mounted() {}
 };
 </script>

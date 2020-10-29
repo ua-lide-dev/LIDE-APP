@@ -20,12 +20,12 @@ export default {
     term.open(this.$refs.terminal);
     fitAddon.fit();
     term.write("L1 $ ");
-  },
+  }
 };
 </script>
 
 <style scoped>
 .terminal {
-  height: 25vh;
+  height: 23vh;
 }
 </style>

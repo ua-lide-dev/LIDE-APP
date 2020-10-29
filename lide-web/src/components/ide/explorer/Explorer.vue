@@ -1,13 +1,5 @@
 <template>
-  <v-navigation-drawer
-    ref="drawer"
-    id="explorer"
-    :width="290"
-    absolute
-    permanent
-    left
-    @load="loadList"
-  >
+  <v-navigation-drawer ref="drawer" id="explorer" absolute width="15.5%">
     <div v-for="(project, index) in projectList" v-bind:key="index">
       <ProjectTree :projectName="project.name" :path="project.path"></ProjectTree>
     </div>
@@ -47,7 +39,7 @@ export default {
   },
 
   methods: {
-    loadTree: function() {
+    loadTree: function () {
       // Charge le contenu du tree view
       console.log("LOAD LIST");
     }
@@ -55,3 +47,5 @@ export default {
   mounted() {}
 };
 </script>
+<style scoped>
+</style>

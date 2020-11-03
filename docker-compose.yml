@@ -7,7 +7,6 @@ services:
     image: mongo:latest
     restart: always
     container_name: ${LIDE_CONTAINER_DB}
-    container_name: ${LIDE_CONTAINER_DB}
     volumes: 
       - database:/data/db
     environment:

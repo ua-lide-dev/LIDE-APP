@@ -41,7 +41,6 @@ router.get( '/logout', cas.logout );
 const user = require("./controllers/user.controller");
 const project = require("./controllers/project.controller");
 const file = require("./controllers/file.controller");
-const save = require("./controllers/save.controller");
 
 /* --- Routes --- */
 // Routes User
@@ -65,13 +64,6 @@ router.post("/user/:idUser/project/:idProject", (req, res) => {file.create});
 router.put("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {file.update});
 router.delete("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {file.delete});
 router.delete("/user/:idUser/project/:idProject/file", (req, res) => {file.deleteAll});
-
-//Routes Save
-router.get("/save/:idSave", (req, res) => {save.get});
-router.get("/save", (req, res) => {save.getAll});
-router.post("/save/:idSave", (req,res) => {save.create});
-router.put("/save/:idSave", (req, res) => {save.update});
-router.delete("/save/:idSave", (req, res) => {save.delete});
-router.delete("/save", (req, res) => {save.deleteAll});
+router.put("save/file/:id",file.save);
 
 module.exports = router;

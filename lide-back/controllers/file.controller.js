@@ -73,6 +73,24 @@ exports.update = (req, res) => {
   });
 };
 
+// PUT -> Modifie un fichier
+exports.save = (req, res) => {
+  File.updateOne({ _id: req.params.idFile }, {
+      body:req.body.body,
+      date:req.body.date
+    })
+    .then(() => {
+      res.status(201).json({ // Si la requête réussi (Statut 201 -> CREATED)
+        message: "Le fichier a été mis à jour",
+      });
+  })
+  .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)
+      res.status(400).json({
+        error: err,
+      });
+  });
+};
+
 // DELETE -> Supprime un fichier
 exports.delete = (req, res) => {
   File.findOneAndDelete({

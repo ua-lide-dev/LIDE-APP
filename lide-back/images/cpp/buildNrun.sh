@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/sh
+#c'est pas bin/bash avec alpine ! c'est bin/sh
 
 ########################################################################
 #								       #
@@ -7,7 +8,7 @@
 ########################################################################
 
 
-
-g++ -std=c++11 -Wpedantic $1 -o a.out
-./a.out
-rm a.out
+#si la compile est sans erreurs alors on exec a.out et on le rm
+if g++ -std=c++11 -Wpedantic $1 -o a.out
+then ./a.out; rm a.out
+fi

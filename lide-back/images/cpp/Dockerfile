@@ -22,7 +22,7 @@ COPY buildNrun.sh /buildNrun.sh
 COPY fichier.cpp /fichier.cpp
 
 #on donne des droits pour exec le script
-RUN chmod 777 buildNrun.sh
+RUN chmod "+x" buildNrun.sh
 
 #CMD de base
 #execution du script (buildNrun.sh) avec en entrypoint le fichier ?

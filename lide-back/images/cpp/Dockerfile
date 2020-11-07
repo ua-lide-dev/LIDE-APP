@@ -26,6 +26,6 @@ RUN chmod "+x" buildNrun.sh
 
 #CMD de base
 #execution du script (buildNrun.sh) avec en entrypoint le fichier ?
-ENTRYPOINT ["./buildNrun.sh","fichier.cpp"]
-
+#ENTRYPOINT ["./buildNrun.sh","fichier.cpp"]
+#plus de cmd de base avec les volumes on va utiliser docker exec ./buildNrun.sh nomfichier.cpp
 

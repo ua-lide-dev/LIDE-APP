@@ -1,6 +1,6 @@
 Quand on lance le script des docker on pourrait rajouter les dockers des compilations
 docker run -i -d --name containercpp -v /root/data:/data cpp
-lance le terminal en mode interactif + -d pour ne pas qu'il se mette exit pas tout seul
+lance le terminal en mode interactif + -d pour ne pas qu'il se mette en mode exit tout seul
 
 ensuite on va mettre le fichier de l'etudiant 
 (fichier.cpp par exemple) dans le dossier data (lide-back/images/data)

@@ -50,7 +50,7 @@ router.put("/user/:idUser", (req, res) => {user.update});
 router.delete("/user/:idUser", (req, res) => {user.delete});
 
 //Routes Project
-router.get("/user/:idUser/project/:idProject", (req, res) => {project.get});
+router.get("/project/:idProject", (req, res) => {project.get});
 router.get("/user/:idUser/project", (req, res) => {project.getAll});
 router.post("/user/:idUser/project", (req, res) => {project.create});
 router.put("/user/:idUser/project/:idProject", (req, res) => {project.update});
@@ -61,9 +61,13 @@ router.delete("/user/:idUser/project", (req, res) => {project.deleteAll});
 router.get("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {file.get});
 router.get("/user/:idUser/project/:idProject/file", (req, res) => {file.getAll});
 router.post("/user/:idUser/project/:idProject", (req, res) => {file.create});
-router.put("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {file.update});
+//router.put("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {file.update});
 router.delete("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {file.delete});
 router.delete("/user/:idUser/project/:idProject/file", (req, res) => {file.deleteAll});
-router.put("save/file/:id",file.save);
+router.put("/save/file/:id",file.save)
+/* test
+router.get("/",(req,res)=> {
+  res.send("Hello world");
+})*/
 
 module.exports = router;

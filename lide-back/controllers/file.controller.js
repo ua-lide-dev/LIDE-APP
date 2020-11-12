@@ -73,7 +73,7 @@ exports.update = (req, res) => {
   });
 };
 
-// PUT -> Modifie un fichier
+// PUT -> Sauvegarde un fichier
 exports.save = (req, res) => {
   File.updateOne({ _id: req.params.idFile }, {
       body:req.body.body,

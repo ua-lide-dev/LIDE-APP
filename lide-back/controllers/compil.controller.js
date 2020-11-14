@@ -17,19 +17,21 @@ exec('docker run --rm -it --name cpp$USER -v /data-lide/$username/$projetpath/$f
   if(error){
     //echec de la ligne compilation
     console.error(`exec error: ${error}`);
-    res.status(400).json(${error});
+    res.status(400).json(error);
     return;
   }
 
   //envoi de la compilation
   if(stdout){
     console.log(`stdout: ${stdout}`);
+    res.status(200).json(stdout);
     return;
   }
   
   //envoi des erreurs de compilation
   if(stderr){
     console.error(`stderr: ${stderr}`);
+    res.status(200).json(error);
     return;
   }
 

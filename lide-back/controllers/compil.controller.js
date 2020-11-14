@@ -1,7 +1,16 @@
+const File = require("../models/file");
+const User = require("../models/user");
+const Project = require("../models/project");
+
 //demande de compil de la part de user
 
 // GET -> récupère un fichier
 exports.get = (req, res) => {
+
+  File.findOne({ // Fonction predefinie Mangoose
+    _id: req.params.idFile,
+  })
+
 //recup de user : $username
 //recup du path pour le fichier : $projetpath
 //recup du fichier user : $file_name
@@ -12,7 +21,7 @@ exports.get = (req, res) => {
 //pour les autres images on a juste a changer cpp par le nom du langage
 
 const { exec } = require('child_process');
-exec('docker run --rm -it --name cpp$USER -v /data-lide/$username/$projetpath/$file_name:/$file_name cpp $file_name', (error, stdout, stderr) => {
+exec('docker run --rm -it --name cpp$username -v /data-lide/$username/$projetpath/$file_name:/$file_name cpp $file_name', (error, stdout, stderr) => {
   
   if(error){
     //echec de la ligne compilation

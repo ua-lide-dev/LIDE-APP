@@ -27,7 +27,7 @@ exec('mkdir le nouveau dir avec les fichiers'), (error, stdout, stderr) => {}
 exec('echo "#include<iosteam> int maint () {std::cout << 12 << std::endl; return 0;" > path jusqu au fichier'), (error, stdout, stderr) => {}
 
 //exec de docker 
-exec('docker run --rm -it --name cpp' + req.Header.username + '$username -v /data-lide/' + req.Header.username + '/' + req.body.projectpath 
+exec('docker run --rm -it --name ' + req.Header.username + '$username -v /data-lide/' + req.Header.username + '/' + req.body.projectpath 
     + '/' + req.body.file_name + ':/' + req.body.file_name + ' ' + req.body.file_name, 
     (error, stdout, stderr) => {
   

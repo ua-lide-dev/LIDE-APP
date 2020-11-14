@@ -15,26 +15,24 @@ const { exec } = require('child_process');
 exec('docker run --rm -it --name cpp$USER -v /data-lide/$username/$projetpath/$file_name:/$file_name cpp $file_name', (error, stdout, stderr) => {
   
   if(error){
-    //on revoi msg d'erreur la
+    //echec de la ligne compilation
     console.error(`exec error: ${error}`);
     res.status(400).json(${error});
     return;
   }
 
-  //recuperation du resultat de childprocess et on l'envoi 
+  //envoi de la compilation
   if(stdout){
     console.log(`stdout: ${stdout}`);
     return;
   }
   
-  //recupertation des erreus on fait pas la diff avec la reussite 
+  //envoi des erreurs de compilation
   if(stderr){
     console.error(`stderr: ${stderr}`);
     return;
   }
 
 });
-
-//renvoie du res pour que Xtern affiche qqlchose
 };
 

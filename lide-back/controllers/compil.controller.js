@@ -1,6 +1,6 @@
 const File = require("../models/file");
-const User = require("../models/user");
 const Project = require("../models/project");
+const { exec } = require('child_process');
 
 //demande de compil de la part de user
 
@@ -19,9 +19,12 @@ exports.get = (req, res) => {
 //commande de run a passer a childprocess pour chaque user, pour l'image cpp
 //run --rm -it --name cpp$USER -v /root/data/$USER/$FILE:/$FILE cpp $FILE
 //pour les autres images on a juste a changer cpp par le nom du langage
+exec('mkdir le nouveau dir avec les fichiers'), (error, stdout, stderr) => {}
 
-const { exec } = require('child_process');
-exec('docker run --rm -it --name cpp$username -v /data-lide/$username/$projetpath/$file_name:/$file_name cpp $file_name', (error, stdout, stderr) => {
+
+exec('docker run --rm -it --name cpp' + req.Header.username + '$username -v /data-lide/' + req.Header.username + '/' + req.body.projectpath 
+    + '/' + req.body.file_name + ':/' + req.body.file_name + ' ' + req.body.file_name, 
+    (error, stdout, stderr) => {
   
   if(error){
     //echec de la ligne compilation

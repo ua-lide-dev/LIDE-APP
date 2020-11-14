@@ -1,0 +1,3 @@
+pour cette image 
+deplacer le fichier dans le meme dossier que le dockerfile le renomer fichier.py
+et lancer l'image avec le Dockerfile

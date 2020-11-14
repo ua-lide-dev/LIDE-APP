@@ -1,5 +1,5 @@
 BUILD : docker build --tag cpp .
 
 
-RUN : run --rm -it --name testcpp -v /root/data/fichier.cpp:/fichier.cpp cpp  fichier.cpp
+RUN : run --rm -it --name cppUSER -v /root/data/fichier.cpp:/fichier.cpp cpp  fichier.cpp
 on peut changer qqle truc dans le -v pour rajouter un user par exemple 

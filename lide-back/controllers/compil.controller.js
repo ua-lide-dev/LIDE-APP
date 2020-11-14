@@ -12,7 +12,7 @@
 //pour les autres images on a juste a changer cpp par le nom du langage
 
 const { exec } = require('child_process');
-exec('run --rm -it --name cpp$USER -v /data-lide/$username/$projetpath/$file_name. :/$file_name cpp $file_name', (error, stdout, stderr) => {
+exec('run --rm -it --name cpp$USER -v /data-lide/$username/$projetpath/$file_name:/$file_name cpp $file_name', (error, stdout, stderr) => {
   if (error) {
     //on revoi msg d'erreur la
     console.error(`exec error: ${error}`);

@@ -1,8 +1,5 @@
-#docker build --tag alpinecpp .
-#docker run -it --rm alpinecpp
-
 #image de depart
-FROM alpine:latest
+FROM gcc:latest
 
 #variables env
 ENV VERSION = 1 \
@@ -12,20 +9,11 @@ ENV VERSION = 1 \
 LABEL maintainer="Quentin Maignan for LIDE" \
         version="${VERSION}"
 
-#install gcc
-
-RUN apk add --update gcc
-RUN apk add build-base
-
 #copie du script 
 COPY buildNrun.sh /buildNrun.sh
-COPY fichier.cpp /fichier.cpp
 
 #on donne des droits pour exec le script
-RUN chmod "+x" buildNrun.sh
+RUN chmod +x buildNrun.sh
 
-#CMD de base
-#execution du script (buildNrun.sh) avec en entrypoint le fichier ?
-#ENTRYPOINT ["./buildNrun.sh","fichier.cpp"]
-#plus de cmd de base avec les volumes on va utiliser docker exec ./buildNrun.sh nomfichier.cpp
-
+#Entrypoint
+ENTRYPOINT ["./buildNrun.sh"]

@@ -23,10 +23,8 @@ exports.get = (req, res) => {
 //mkdir du nouveau dir
 exec('mkdir le nouveau dir avec les fichiers'), (error, stdout, stderr) => {}
 
-
 //creation du fichier
-exec('echo body > path jusqu au fichier'), (error, stdout, stderr) => {}
-
+exec('echo "#include<iosteam> int maint () {std::cout << 12 << std::endl; return 0;" > path jusqu au fichier'), (error, stdout, stderr) => {}
 
 //exec de docker 
 exec('docker run --rm -it --name cpp' + req.Header.username + '$username -v /data-lide/' + req.Header.username + '/' + req.body.projectpath 

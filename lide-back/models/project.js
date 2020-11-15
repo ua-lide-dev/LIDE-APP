@@ -4,9 +4,7 @@ const Schema = mongoose.Schema;
 
 const project = new Schema({
   projectname: String,
-  files : [{file : file.schema}]
+  files : [file]
 })
 
-const Project = mongoose.model ("Project",project);
-
-module.exports = Project;
+module.exports = project;

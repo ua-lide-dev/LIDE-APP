@@ -64,10 +64,11 @@ router.post("/user/:idUser/project/:idProject", (req, res) => {file.create});
 //router.put("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {file.update});
 router.delete("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {file.delete});
 router.delete("/user/:idUser/project/:idProject/file", (req, res) => {file.deleteAll});
-router.put("/save/file/:id",file.save)
-/* test
+router.put("/save",file.save);
+
+/* test */
 router.get("/",(req,res)=> {
   res.send("Hello world");
-})*/
+})
 
 module.exports = router;

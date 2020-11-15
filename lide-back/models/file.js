@@ -5,10 +5,9 @@ const Schema = mongoose.Schema;
 const file = new Schema({
   filename: String,
   extension : String,
-  body : String,
+  content : String,
   date : Date
 })
 
-const File = mongoose.model ("File",file);
 
-module.exports = File;
+module.exports = file;

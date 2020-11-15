@@ -1,4 +1,5 @@
 const File = require("../models/file");
+const User = require("../models/user");
 
 /*
     Le controlleur File gère les appels à la bdd 
@@ -75,7 +76,9 @@ exports.update = (req, res) => {
 
 // PUT -> Sauvegarde un fichier
 exports.save = (req, res) => {
-  File.updateOne({ _id: req.params.idFile }, {
+  User.updateOne({ username: req.headers.username}, {
+      projectname: req.body.projectname,
+      filename: req.body.filename,
       body:req.body.body,
       date:req.body.date
     })

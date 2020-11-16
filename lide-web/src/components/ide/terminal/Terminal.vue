@@ -4,7 +4,8 @@
 
 <script>
 import { Terminal } from "xterm";
-import { FitAddon } from "xterm-addon-fit";
+//import { FitAddon } from "xterm-addon-fit";
+import { AttachAddon } from "xterm-addon-attach";
 import "xterm/css/xterm.css";
 
 export default {
@@ -14,13 +15,16 @@ export default {
     return {};
   },
   mounted() {
-    var term = new Terminal();
-    const fitAddon = new FitAddon();
-    term.loadAddon(fitAddon);
+    const term = new Terminal();
+    const socket = new WebSocket(
+      "ws://92.139.146.137:3636"
+    );
+
+    const attachAddon = new AttachAddon(socket, { bidirectional: true });
+
+    term.loadAddon(attachAddon);
     term.open(this.$refs.terminal);
-    fitAddon.fit();
-    term.write("L1 $ ");
-  }
+  },
 };
 </script>
 

@@ -1,6 +1,7 @@
 const File = require("../models/file");
 const User = require("../models/user");
 
+
 /*
     Le controlleur File gère les appels à la bdd 
         pour tout ce qui concerne les fichiers (nom + extension + contenu + date)
@@ -64,7 +65,6 @@ exports.update = (req, res) => {
   File.updateOne({ _id: req.params.idFile }, { ...req.body})
     .then(() => {
       res.status(201).json({ // Si la requête réussi (Statut 201 -> CREATED)
-        message: "Le fichier a été mis à jour",
       });
   })
   .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)
@@ -76,15 +76,16 @@ exports.update = (req, res) => {
 
 // PUT -> Sauvegarde un fichier
 exports.save = (req, res) => {
-  User.updateOne({ username: req.headers.username}, {
-      projectname: req.body.projectname,
-      filename: req.body.filename,
-      body:req.body.body,
-      date:req.body.date
+  User.updateOne({ username:req.headers.username, projectname:req.body.projectname, filename:req.body.filename}, {
+        content: req.body.content,
+        date: req.body.date,
     })
     .then(() => {
       res.status(201).json({ // Si la requête réussi (Statut 201 -> CREATED)
-        message: "Le fichier a été mis à jour",
+        message: res.n + " fichiers correspondent, et " + res.nModified+" ont été modifiés. ",
+        body : req.body,
+        //projectname: req.body.projects+" ou JSON "+JSON.stringify(req.body.projects),
+        filename: req.body.filename+" ",
       });
   })
   .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)

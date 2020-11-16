@@ -10,8 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "mongoose": "^5.10.5",
-    "express-session": "^1.17.1",
-    "cas-authentication": "^0.0.8"
+    "mongoose": "^5.10.5"
   }
 }

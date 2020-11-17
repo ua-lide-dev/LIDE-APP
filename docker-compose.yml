@@ -33,6 +33,7 @@ services:
     volumes:
       - /app/node_modules
       - ./lide-back:/app
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       COMPOSE_HTTP_TIMEOUT: 200
       DB_HOST: ${LIDE_CONTAINER_DB}

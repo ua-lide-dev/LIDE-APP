@@ -1,6 +1,6 @@
 const File = require("../models/file");
 const Project = require("../models/project");
-const { exec } = require('child_process');
+const { exec, execSync } = require('child_process');
 
 //demande de compil de la part de user
 
@@ -21,15 +21,15 @@ exports.get = (req, res) => {
 //pour les autres images on a juste a changer cpp par le nom du langage
 
 //mkdir du nouveau dir
-exec('mkdir le nouveau dir avec les fichiers'), (error, stdout, stderr) => {}
+execSync('mkdir le nouveau dir avec les fichiers'), (error, stdout, stderr) => {}
 
 //creation du fichier
-exec('echo "#include<iosteam> int maint () {std::cout << 12 << std::endl; return 0;}" > path jusqu au fichier'), (error, stdout, stderr) => {}
+execSync('echo "#include<iosteam> int maint () {std::cout << 12 << std::endl; return 0;}" > path jusqu au fichier'), (error, stdout, stderr) => {}
 
 //exec de docker 
 
 //les docker name seront toujours nommé avec username 
-exec('docker run --rm -it --name ' + req.header.username + '$username -v /data-lide/' + req.header.username + '/' + req.body.projectpath 
+execSync('docker run --rm -it --name ' + req.header.username + '$username -v /data-lide/' + req.header.username + '/' + req.body.projectpath 
     + '/' + req.body.file_name + ':/' + req.body.file_name + ' ' + req.body.file_name, 
     (error, stdout, stderr) => {
   
@@ -56,4 +56,3 @@ exec('docker run --rm -it --name ' + req.header.username + '$username -v /data-l
 
 });
 };
-

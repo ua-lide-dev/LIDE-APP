@@ -21,10 +21,10 @@ exports.get = (req, res) => {
 //pour les autres images on a juste a changer cpp par le nom du langage
 
 //mkdir du nouveau dir
-execSync('mkdir le nouveau dir avec les fichiers'), (error, stdout, stderr) => {}
+execSync('mkdir /data-lide/jeSuisUnUser/projectPath/'), (error, stdout, stderr) => {}
 
 //creation du fichier
-execSync('echo "#include<iosteam> int maint () {std::cout << 12 << std::endl; return 0;}" > path jusqu au fichier'), (error, stdout, stderr) => {}
+execSync('echo "#include<iosteam> int maint () {std::cout << 12 << std::endl; return 0;}" > /data-lide/jeSuisUnUser/projectPath/file_name.cpp'), (error, stdout, stderr) => {}
 
 //exec de docker 
 

@@ -1,5 +1,5 @@
 const File = require("../models/file");
-
+const User = require ("../models/user")
 /*
     Le controlleur File gère les appels à la bdd 
         pour tout ce qui concerne les fichiers (nom + extension + contenu + date)
@@ -18,7 +18,6 @@ exports.get = (req, res) => {
     });
 };
 
-// GET -> récupère tous les fichiers
 exports.getAll = (req, res) => {
   File.find()
     .then((file) => { // Si la requête réussi (Statut 200 -> OK)
@@ -31,31 +30,33 @@ exports.getAll = (req, res) => {
 
 // POST -> crée un fichier
 exports.create = (req, res) => {
-    delete req.body._id;  // Sécurité, l'id sera généré par mangoDB
-  
+  console.log("file create ")
+
+    // on recupere le username et le projectname
+    const username = req.headers.username;
+    const projectname= req.headers.projectname;
     // On initialise un nouvel objet File
     const file = new File({
-        filename: req.params.filename,
-        extension: req.params.extension,
-        body: req.params.body,
-        date: req.body.date
+        filename: req.body.filename,
+        extension: req.body.extension,
+        body: req.body.body,
+        date: Date.now()
     });
-  
-    file
-      .save() // Fonction mangoose pour l'ajout en base
-      .then(function(proj){
-          return File.findOneAndUpdate({ _id: req.params.idFile }, { file:file._id }, { new:true })
-      })
-      .then(() => {
-        res.status(201).json({ // Si la requête réussi (Statut 201 -> CREATED)
-          message: "Le fichier a bien été ajouté",
-        });
-      })
-      .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)
-        res.status(400).json({
-          error: err,
-        });
-    });
+
+
+    User.findOne({ username: username})
+        .then((user)=> {
+          
+          console.log(user.projects)
+        })
+   
+
+    User.findOneAndUpdate(
+      {username:username,projectname:projectname},
+      { $push: {files:file}} ).exec();
+   console.log("username : ",username);
+   console.log("projetctname : ",projectname);
+   console.log(file)
 };
 
 // PUT -> Modifie un fichier

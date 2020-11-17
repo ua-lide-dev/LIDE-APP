@@ -1,5 +1,5 @@
 const Project = require("../models/project");
-
+const User = require ("../models/user")
 /*
     Le controlleur Project gère les appels à la bdd 
         pour tout ce qui concerne les projets (nom + fichiers)
@@ -41,35 +41,19 @@ exports.getAll = (req, res) => {
 
 // POST -> crée un projet
 exports.create = (req, res) => {
-  delete req.body._id; // Sécurité, l'id sera généré par mangoDB
-
+  // on recupere le username envoyé dans la requete 
+  const username = req.headers.username;
   // On initialise un nouvel objet Project
   const project = new Project({
-    nom: req.params.nom,
-    projets: req.params.projets,
+    projectname: req.body.projectname,
+    files: []
   });
+ 
+  console.log(project)
 
-  project
-    .save() // Fonction mangoose pour l'ajout en base
-    .then(function (proj) {
-      return Project.findOneAndUpdate(
-        { _id: req.params.idProject },
-        { project: proj._id },
-        { new: true }
-      );
-    })
-    .then(() => {
-      res.status(201).json({
-        // Si la requête réussi (Statut 201 -> CREATED)
-        message: "Le projet a bien été ajouté",
-      });
-    })
-    .catch((err) => {
-      // Si la requête échoue (Statut 400 BAD REQUEST)
-      res.status(400).json({
-        error: err,
-      });
-    });
+  User.findOneAndUpdate(
+    {username:username},
+    { $push: {'projects' : project}},{useFindAndModify: false}).exec();
 };
 
 // PUT -> Modifie un projet

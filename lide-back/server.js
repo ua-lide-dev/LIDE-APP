@@ -3,6 +3,8 @@ const express = require("express");
 const app = express();
 const router = require("./router");
 
+app.use(express.json())
+
 /* -- Connection à la base de donnée MongoDB --- */
 db.connect();
 

@@ -30,7 +30,7 @@ router.put("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {file.
 router.delete("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {file.delete});
 router.delete("/user/:idUser/project/:idProject/file", (req, res) => {file.deleteAll});
 
-//Routes Compil
-router.post("/execute", (req, res) => {compile.post});
+//Routes Compile
+router.post("/execute", compile.post);
 
 module.exports = router;

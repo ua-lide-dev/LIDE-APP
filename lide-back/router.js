@@ -52,7 +52,9 @@ router.delete("/user/:idUser", (req, res) => {user.delete});
 //Routes Project
 router.get("/user/:idUser/project/:idProject", (req, res) => {project.get});
 router.get("/user/:idUser/project", (req, res) => {project.getAll});
-router.post("/project", project.create);
+
+router.post("/createProject", project.create);
+router.put('/renameProject', project.rename);
 router.put("/user/:idUser/project/:idProject", (req, res) => {project.update});
 router.delete("/user/:idUser/project/:idProject", (req, res) => {project.delete});
 router.delete("/user/:idUser/project", (req, res) => {project.deleteAll});
@@ -61,7 +63,7 @@ router.delete("/user/:idUser/project", (req, res) => {project.deleteAll});
 router.get("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {file.get});
 router.get("/user/:idUser/project/:idProject/file", (req, res) => {file.getAll});
 
-router.post("/file", file.create);
+router.post("/createFile", file.create);
 router.put("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {file.update});
 router.delete("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {file.delete});
 router.delete("/user/:idUser/project/:idProject/file", (req, res) => {file.deleteAll});

@@ -75,6 +75,32 @@ exports.create = (req, res) => {
   })
 };
 
+
+// PUT -> renommer un projet
+exports.rename = (req, res) => {
+  // on recupere le username envoyé dans la requete 
+  const username = req.headers.username;
+  const projectname = req.body.projectname;
+  const newprojectname = req.body.newprojectname;
+
+  
+   User.findOne({username:username , 'projects.projectname':projectname})
+  .then(user=>{
+    
+    if(user != null){ 
+    User.findOneAndUpdate(
+      {username:username , 'projects.projectname':projectname},
+      { $set: {'projects.$.projectname' : newprojectname}},{useFindAndModify: false}).exec();
+      console.log("project updated")
+    }
+    
+    else {
+      console.log("project does not exist")
+    }
+    
+
+  })
+};
 // PUT -> Modifie un projet
 exports.update = (req, res) => {
   Project.updateOne({ _id: req.params.idProject }, { ...req.body })

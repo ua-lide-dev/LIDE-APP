@@ -4,4 +4,4 @@ Ce serveur de WebSocket permet de faire le lien entre le terminal front-end xter
 
 Il permet de rediriger le stdin et le stdout du conteneur vers le navigateur de l'utilisateur, afin qu'il puisse intéragir avec son programme, et recevoir les sorties.
 
-Chaque connexion ws au serveur, permet d'ouvrir un autre ws vers le conteneur (qui n'authorise que les connexions depuis ce serveur-ci ), et les branche entre-eux. Ceci afin de sécuriser l'accès à notre API Docker.
+Chaque connexion ws au serveur, permet d'ouvrir un autre ws vers le conteneur (qui n'autorise que les connexions depuis ce serveur-ci ), et les connecte entre-eux. Ceci afin de sécuriser l'accès à notre API Docker.

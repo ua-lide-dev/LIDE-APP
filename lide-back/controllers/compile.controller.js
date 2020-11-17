@@ -1,6 +1,4 @@
-const File = require("../models/file");
-const Project = require("../models/project");
-const { exec, execSync } = require('child_process');
+//const { exec, execSync } = require('child_process');
 
 //demande de compil de la part de user
 
@@ -15,7 +13,7 @@ exports.post = (req, res) => {
 //commande de run a passer a childprocess pour chaque user, pour l'image cpp
 //run --rm -it --name cpp$USER -v /root/data/$USER/$FILE:/$FILE cpp $FILE
 //pour les autres images on a juste a changer cpp par le nom du langage
-
+/*
 //mkdir du nouveau dir
 execSync('mkdir /data-lide/'+ req.header.username +'/' + req.body.projectpath + '/'), (error, stdout, stderr) => {}
 
@@ -50,5 +48,9 @@ execSync('docker run --rm -it --name cpp' + req.header.username + ' -v /data-lid
     return;
   }
 
-});
+});*/
+
+
+res.status(200).json("username: " + req.header.username + '| project: ' + req.body.projectpath + "| filename: " + req.body.filename);
+
 };

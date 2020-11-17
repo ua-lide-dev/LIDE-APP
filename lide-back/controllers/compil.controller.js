@@ -7,13 +7,9 @@ const { exec, execSync } = require('child_process');
 // GET -> récupère un fichier
 exports.get = (req, res) => {
 
-  File.findOne({ // Fonction predefinie Mangoose
-    _id: req.params.idFile,
-  })
-
 //recup de user : $username
 //recup du path pour le fichier : $projetpath
-//recup du fichier user : $file_name
+//recup du fichier user : $filename
 
 //lancement de la bonne image docker en fonction de l'extension 
 //commande de run a passer a childprocess pour chaque user, pour l'image cpp
@@ -21,16 +17,16 @@ exports.get = (req, res) => {
 //pour les autres images on a juste a changer cpp par le nom du langage
 
 //mkdir du nouveau dir
-execSync('mkdir /data-lide/jeSuisUnUser/projectPath/'), (error, stdout, stderr) => {}
+execSync('mkdir /data-lide/'+ req.header.username +'/' + req.body.projectpath + '/'), (error, stdout, stderr) => {}
 
 //creation du fichier
-execSync('echo "#include<iosteam> int maint () {std::cout << 12 << std::endl; return 0;}" > /data-lide/jeSuisUnUser/projectPath/file_name.cpp'), (error, stdout, stderr) => {}
+execSync('echo "#include<iosteam> int maint () {std::cout << 12 << std::endl; return 0;}" > /data-lide/'+ req.header.username +'/' + req.body.projectpath + '/' + req.body.filename), (error, stdout, stderr) => {}
 
 //exec de docker 
 
 //les docker name seront toujours nommé avec username 
-execSync('docker run --rm -it --name ' + req.header.username + '$username -v /data-lide/' + req.header.username + '/' + req.body.projectpath 
-    + '/' + req.body.file_name + ':/' + req.body.file_name + ' ' + req.body.file_name, 
+execSync('docker run --rm -it --name cpp' + req.header.username + ' -v /data-lide/' + req.header.username + '/' + req.body.projectpath 
+    + '/' + req.body.filename + ':/' + req.body.filename + ' cpp ' + req.body.filename, 
     (error, stdout, stderr) => {
   
   if(error){
@@ -50,7 +46,7 @@ execSync('docker run --rm -it --name ' + req.header.username + '$username -v /da
   //envoi des erreurs de compilation
   if(stderr){
     console.error(`stderr: ${stderr}`);
-    res.status(200).json(error);
+    res.status(200).json(stderr);
     return;
   }
 

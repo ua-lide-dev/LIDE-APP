@@ -66,6 +66,6 @@ router.delete("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {fi
 router.delete("/user/:idUser/project/:idProject/file", (req, res) => {file.deleteAll});
 
 //Routes Compil
-router.post("/user/:idUser/project/:idProject/file/:idFile/execute", (req, res) => {compile.post});
+router.post("/execute", (req, res) => {compile.post});
 
 module.exports = router;

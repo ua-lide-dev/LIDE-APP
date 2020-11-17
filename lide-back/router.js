@@ -55,8 +55,9 @@ router.get("/user/:idUser/project", (req, res) => {project.getAll});
 
 router.post("/createProject", project.create);
 router.put('/renameProject', project.rename);
+router.delete("/deleteProject",project.delete);
+
 router.put("/user/:idUser/project/:idProject", (req, res) => {project.update});
-router.delete("/user/:idUser/project/:idProject", (req, res) => {project.delete});
 router.delete("/user/:idUser/project", (req, res) => {project.deleteAll});
 
 //Routes File

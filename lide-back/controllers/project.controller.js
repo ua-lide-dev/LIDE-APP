@@ -63,12 +63,22 @@ exports.create = (req, res) => {
      
     User.findOneAndUpdate(
       {username:username},
-      { $push: {projects : project}},{useFindAndModify: false}).exec();
-      console.log("project created")
+      { $push: {projects : project}},{useFindAndModify: false}).exec()
+      .then(
+        res.status(201).json(project)
+      ).catch((err) => {
+        // Si la requête échoue (Statut 400 BAD REQUEST)
+        res.status(400).json({
+          error: err,
+        });
+      });
+      
     }
     
     else {
-      console.log("project already exists")
+      res.status(400).json({
+        error: "Project already exists !",
+      });
     }
     
 
@@ -90,17 +100,64 @@ exports.rename = (req, res) => {
     if(user != null){ 
     User.findOneAndUpdate(
       {username:username , 'projects.projectname':projectname},
-      { $set: {'projects.$.projectname' : newprojectname}},{useFindAndModify: false}).exec();
-      console.log("project updated")
+      { $set: {'projects.$.projectname' : newprojectname}},{useFindAndModify: false}).exec()
+      .then(
+        res.status(204).send("project renamed")
+      ).catch((err) => {
+        // Si la requête échoue (Statut 400 BAD REQUEST)
+        res.status(400).json({
+          error: err,
+        });
+      });
+    
     }
     
     else {
-      console.log("project does not exist")
+      res.status(400).send("project does not exist")
     }
     
 
   })
 };
+
+
+//DELETE -> Supprimer un projet
+exports.delete = (req, res) => {
+   // on recupere le username envoyé dans la requete 
+   const username = req.headers.username;
+   const projectname = req.body.projectname;
+  console.log(projectname)
+  console.log(username)
+   User.findOne({username:username , 'projects.projectname':projectname})
+   .then(user=>{
+     
+     if(user != null){ 
+     User.findOneAndUpdate(
+       {username:username , 'projects.projectname':projectname},
+       { $pull: {projects : {projectname: projectname}}},{useFindAndModify: false}).exec()
+       .then(
+        res.status(200).send("project deleted")
+      ).catch((err) => {
+        // Si la requête échoue (Statut 400 BAD REQUEST)
+        res.status(400).json({
+          error: err,
+        });
+      });
+     }
+     
+     else {
+      res.status(400).send("project does not exist")
+    }
+    
+ 
+   })
+  
+};
+
+
+
+
+
 // PUT -> Modifie un projet
 exports.update = (req, res) => {
   Project.updateOne({ _id: req.params.idProject }, { ...req.body })
@@ -118,24 +175,7 @@ exports.update = (req, res) => {
     });
 };
 
-// DELETE -> Supprime un projet
-exports.delete = (req, res) => {
-  Project.findOneAndDelete({
-    _id: req.params.idProject,
-  })
-    .then(() => {
-      // Si la requête réussi (Statut 200 -> OK)
-      res.status(200).json({
-        message: "Le projet a été supprimé !",
-      });
-    })
-    .catch((err) => {
-      // Si la requête échoue (Statut 400 BAD REQUEST)
-      res.status(400).json({
-        error: err,
-      });
-    });
-};
+
 
 // DELETE -> Supprime tous lse projets
 exports.deleteAll = (req, res) => {

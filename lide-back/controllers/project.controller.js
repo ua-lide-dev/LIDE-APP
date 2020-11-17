@@ -39,21 +39,40 @@ exports.getAll = (req, res) => {
     });
 };
 
+
 // POST -> crée un projet
 exports.create = (req, res) => {
   // on recupere le username envoyé dans la requete 
   const username = req.headers.username;
+  const projectname = req.body.projectname;
   // On initialise un nouvel objet Project
   const project = new Project({
-    projectname: req.body.projectname,
+    projectname: projectname,
     files: []
   });
+
  
   console.log(project)
+  User.findOne({username:username})
+  .then(user=>{
+    var projectExist = false;
+    for(let i = 0; i < user.projects.length; i++){ 
+     if( user.projects[i].projectname  == projectname) projectExist = true;
+    }
+    if(projectExist == false){
+     
+    User.findOneAndUpdate(
+      {username:username},
+      { $push: {projects : project}},{useFindAndModify: false}).exec();
+      console.log("project created")
+    }
+    
+    else {
+      console.log("project already exists")
+    }
+    
 
-  User.findOneAndUpdate(
-    {username:username},
-    { $push: {'projects' : project}},{useFindAndModify: false}).exec();
+  })
 };
 
 // PUT -> Modifie un projet

@@ -41,6 +41,7 @@ router.get( '/logout', cas.logout );
 const user = require("./controllers/user.controller");
 const project = require("./controllers/project.controller");
 const file = require("./controllers/file.controller");
+const compile = require("./controllers/compile.controller");
 
 /* --- Routes --- */
 // Routes User

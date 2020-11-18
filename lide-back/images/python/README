@@ -1,3 +1,2 @@
-pour cette image 
-deplacer le fichier dans le meme dossier que le dockerfile le renomer fichier.py
-et lancer l'image avec le Dockerfile
+build : docker build --tag python .
+run : docker run --rm -it --name pythonUSER -v /root/data/fichier.python:/fichier.python python fichier.python

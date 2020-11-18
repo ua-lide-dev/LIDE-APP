@@ -1,13 +1,13 @@
 #!/bin/sh
 
+read socket
+
 ########################################################################
 #								       #
 #         SCRIPT BASH QUI COMPILE ET EXECUTE UN FIHICER java           #
 #								       #
 ########################################################################
-
-
-if javac "$1.java"
-then java $1
+varsansjava="$(echo $1 | cut -d'.' -f 1)"
+if javac $1
+then java $varsansjava
 fi
-

@@ -1,5 +1,5 @@
-pour utiliser cette image, lancer l'image cree par le dockerfile, avec en parametre le nom du fichier
-java sans l'extention !!! 
+build : docker build --tag java .
+run : docker run --rm -it --name javaUSER -v /root/data/fichier.java:/fichier.java java fichier.java
 
-probleme on va avoir des soucis pour recupere le bon nom du fichier car en java le fichier doit
-etre nomme de la meme facon que la classe ...
+
+attention en java les noms des fichiers doivent correspondre au nom de la classe dans laquelle ils sont ecrit ! donc au moment de la creation du fichier dans notre serveur on doit bien reprendre le nom de l'etudiant !

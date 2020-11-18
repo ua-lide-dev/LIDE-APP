@@ -1,6 +1,8 @@
 #!/bin/sh
 #c'est pas bin/bash avec alpine ! c'est bin/sh
 
+read socket
+
 ########################################################################
 #								      								   #
 #         SCRIPT BASH QUI COMPILE ET EXECUTE UN FIHICER CPP            #

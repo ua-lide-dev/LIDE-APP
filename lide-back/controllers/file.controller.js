@@ -76,16 +76,30 @@ exports.update = (req, res) => {
 
 // PUT -> Sauvegarde un fichier
 exports.save = (req, res) => {
-  User.updateOne({ username:req.headers.username, projectname:req.body.projectname, filename:req.body.filename}, {
-        content: req.body.content,
+  User.updateOne({ username:req.headers.username,}, {
+    
+    $set: { 
+      "$[projects].$[files].content": req.body.content, 
+      "$[projects].$[files].date": req.body.date
+    }
+  },{ arrayFilters:[
+      {"projects.projectname": req.body.projectname}, 
+      {"files.filename": req.body.filename}
+    ]
+  }) 
+
+    /*content: req.body.content,
         date: req.body.date,
-    })
+    },{ arrayFilters:[
+      {projectname: req.body.projectname}, 
+      {filename: req.body.filename}
+    ]
+  })*/
     .then(() => {
       res.status(201).json({ // Si la requête réussi (Statut 201 -> CREATED)
         message: res.n + " fichiers correspondent, et " + res.nModified+" ont été modifiés. ",
+        headers: req.headers,
         body : req.body,
-        //projectname: req.body.projects+" ou JSON "+JSON.stringify(req.body.projects),
-        filename: req.body.filename+" ",
       });
   })
   .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)

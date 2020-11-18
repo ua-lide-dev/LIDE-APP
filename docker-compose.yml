@@ -34,6 +34,8 @@ services:
       - /app/node_modules
       - ./lide-back:/app
       - /var/run/docker.sock:/var/run/docker.sock
+      - /data-lide:/data-lide
+
     environment:
       COMPOSE_HTTP_TIMEOUT: 200
       DB_HOST: ${LIDE_CONTAINER_DB}
@@ -68,18 +70,16 @@ services:
     networks:
         -  lidenetwork
 
-  ## Executions container for dev
-  #execution-service:
-  #  image: curlimages/curl:latest
-  #  restart: always
-  #  container_name: lide-execution
-  #  #volumes: 
-  #    #- /var/run/docker.sock:/var/run/docker.sock
-  #  ports:
-  #    - 12:12
-  #  networks:
-  #    -  lidenetwork
-  #  entrypoint: sleep infinity
+  # WebSocket Server
+  lide-wss-service:
+    build: ./lide-wss
+    image: lide-wss
+    restart: always
+    container_name: ${LIDE_CONTAINER_WSS}
+    hostname: ${LIDE_CONTAINER_WSS}
+    working_dir: /app
+    entrypoint: node server_socket.js
+    network_mode: host
 
 volumes:
   database:

@@ -1,0 +1,5 @@
+build : docker build --tag java .
+run : docker run --rm -it --name javaUSER -v /root/data/fichier.java:/fichier.java java fichier.java
+
+
+attention en java les noms des fichiers doivent correspondre au nom de la classe dans laquelle ils sont ecrit ! donc au moment de la creation du fichier dans notre serveur on doit bien reprendre le nom de l'etudiant !

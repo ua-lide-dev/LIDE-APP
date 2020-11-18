@@ -1,5 +1,7 @@
 #!/bin/sh
 
+read socket
+
 ########################################################################
 #								       #
 #         SCRIPT BASH QUI COMPILE ET EXECUTE UN FIHICER java           #

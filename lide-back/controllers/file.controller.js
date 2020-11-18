@@ -79,7 +79,7 @@ exports.save = (req, res) => {
   User.updateOne({ username:req.headers.username,}, {
     
     $set: { 
-      "$[projects].$[files].content": req.body.content, 
+      "$[projects].$[files].body": req.body.body, 
       "$[projects].$[files].date": req.body.date
     }
   },{ arrayFilters:[
@@ -88,7 +88,7 @@ exports.save = (req, res) => {
     ]
   }) 
 
-    /*content: req.body.content,
+    /*content: req.body.body,
         date: req.body.date,
     },{ arrayFilters:[
       {projectname: req.body.projectname}, 
@@ -106,7 +106,7 @@ exports.save = (req, res) => {
       res.status(400).json({
         error: err,
       });
-  });
+  })
 };
 
 // DELETE -> Supprime un fichier

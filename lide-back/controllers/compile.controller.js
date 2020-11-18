@@ -23,7 +23,6 @@ execSync('echo "#include<iostream>\n int main () {std::cout << 12 << std::endl; 
 
 //exec de docker 
 
-//pour changer de langage on peut juste modifier le ext en req.body.ext 
 //docker run -i --name cppqmaignan --rm -v /data-lide/qmaignan/TP1/fichier.cpp:/fichier.cpp cpp fichier.cpp : exemple de docker run
 try {
   execSync("docker container rm " + user);
@@ -32,7 +31,7 @@ try {
 }
 
 
-execSync("docker run -i --name "+user+" -v /data-lide/"+user+"/"+path+"/"+file+"."+ext+" "+ ext+" "+file+"."+ext);
+execSync("docker run -it --name "+user+" -v /data-lide/"+user+"/"+path+"/"+file+"."+ext+" "+ext+" "+file+"."+ext);
 
 var idDocker = execSync("docker inspect --format='{{.Id}}' "+ user).toString();
 res.status(200).json(idDocker);

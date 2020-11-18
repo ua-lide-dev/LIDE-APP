@@ -1,4 +1,6 @@
 const File = require("../models/file");
+const User = require("../models/user");
+
 
 /*
     Le controlleur File gère les appels à la bdd 
@@ -63,7 +65,6 @@ exports.update = (req, res) => {
   File.updateOne({ _id: req.params.idFile }, { ...req.body})
     .then(() => {
       res.status(201).json({ // Si la requête réussi (Statut 201 -> CREATED)
-        message: "Le fichier a été mis à jour",
       });
   })
   .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)
@@ -71,6 +72,30 @@ exports.update = (req, res) => {
         error: err,
       });
   });
+};
+
+// PUT -> Sauvegarde un fichier
+exports.save = (req, res) => {
+  User.updateOne({ username:req.headers.username,}, {
+
+    $set: { 
+      "projects.$[project].files.$[file].body": req.body.body, 
+    }
+  },{ arrayFilters:[
+      {"project.projectname": req.body.projectname}, 
+      {"file.filename": req.body.filename}
+    ]
+  }) 
+    .then(() => {
+      res.status(201).json({// Si la requête réussi (Statut 201 -> CREATED
+        message: "le fichier a bien été sauvegardé"
+      });
+  })
+  .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)
+      res.status(400).json({
+        error: err,
+      });
+  })
 };
 
 // DELETE -> Supprime un fichier

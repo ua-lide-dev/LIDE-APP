@@ -11,7 +11,7 @@
     </v-row>
     <v-row>
       <v-col cols="6">
-        <v-btn color="blue" @click="login">Se connecter</v-btn>
+        <v-btn to="/app" color="blue" @click="login">Se connecter</v-btn>
       </v-col>
     </v-row>
   </v-container>

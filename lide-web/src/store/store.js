@@ -9,7 +9,7 @@ const store = new VueX.Store({
     plugins: [persistedstate()],
   
     state: {
-        username: String,
+        username: "test username",
         project: Array,
         currentFile: Object,
         tabs: Array,

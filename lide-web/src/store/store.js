@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueX from "vuex";
 import persistedstate from "vuex-persistedstate";
+import axios from "axios";
 
 Vue.use(VueX)
 
@@ -31,7 +32,13 @@ const store = new VueX.Store({
     },
     
     actions: {
-  
+      loadProjects({
+        commit
+      }) {
+        axios.get("/user/123/project").then((res) => {
+          commit('projects', res.data)
+        })
+      }
     },
     
     getters: {

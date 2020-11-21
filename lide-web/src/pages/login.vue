@@ -33,11 +33,10 @@ export default {
 
       this.$store.commit("username", this.username);
 
-      //attention !!! get username a ete changer et renvoi rien 
-      UserService.getProjects(this.$store.getters.username);
-      //attention !!! "nom de projet" devra etre changé avec le bon res.projetc !!
-      this.$store.commit("projects", "nom de projet random");
-      this.$router.push('/app');
+      UserService.getProjects(this.$store.getters.username).then((res) => {
+        this.$store.commit("projects", res.data);
+        this.$router.push('/app');
+      });
       
     }
   }

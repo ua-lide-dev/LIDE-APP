@@ -1,5 +1,5 @@
 import Vue from "vue";
-import vuex from "./store/store";
+import store from "./store/store";
 import App from "./App.vue";
 import router from "./configs/router";
 import vuetify from "./configs/vuetify";
@@ -11,9 +11,7 @@ Vue.prototype.$http = axios;
 new Vue({
   vuetify,
   router,
-  vuex,
+  store,
   render: (h) => h(App),
-
-
 
 }).$mount("#app");

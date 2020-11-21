@@ -9,23 +9,23 @@ const store = new VueX.Store({
     plugins: [persistedstate()],
   
     state: {
-        username: "test username",
-        project: Array,
+        username: String,
+        projects: Array,
         currentFile: Object,
         tabs: Array,
     },
     
     mutations: {
-      setUsername(state, payload){
+      username(state, payload){
         state.username = payload;
       },
-      setProject(state, payload){
+      projects(state, payload){
         state.project = payload;
       },
-      setCurrentFile(state, payload){
+      currentFile(state, payload){
         state.currentFile = payload;
       },
-      setTabs(state, payload){
+      tabs(state, payload){
         state.tabs = payload;
       }
     },
@@ -35,16 +35,16 @@ const store = new VueX.Store({
     },
     
     getters: {
-      getUsername(state){
+      username(state){
         return state.username;
       },
-      getProject(state){
+      projects(state){
         return state.project;
       },
-      getCurrentFile(state){
+      currentFile(state){
         return state.currentFile;
       },
-      getTabs(state){
+      tabs(state){
         return state.tabs;
       }
     }

@@ -8,10 +8,9 @@ import http from "./http-config";
 /// Projects
 
 function getProjects(username) {
-  //http.setHeader("username", username)
+  http.setHeaders("username", username)
 
-  //return http.get("/getProjects");
-  return "project  de " + username ;
+  return http.get("/getProjects");
 }
 
 function createProject(username, data) {

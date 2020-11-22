@@ -29,6 +29,8 @@ import Editor from "../components/ide/editor/Editor";
 import Explorer from "../components/ide/explorer/Explorer";
 import Terminal from "../components/ide/terminal/Terminal";
 
+//method on created
+
 export default {
   name: "Ide",
 

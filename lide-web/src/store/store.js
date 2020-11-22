@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueX from "vuex";
 import persistedstate from "vuex-persistedstate";
-import axios from "axios";
+import service from "../services/task-service";
 
 Vue.use(VueX)
 
@@ -17,28 +17,27 @@ const store = new VueX.Store({
     },
     
     mutations: {
-      username(state, payload){
+      SET_USERNANE(state, payload){
         state.username = payload;
       },
-      projects(state, payload){
+      SET_PROJECTS(state, payload){
         state.project = payload;
       },
-      currentFile(state, payload){
+      SET_CURRENTFILE(state, payload){
         state.currentFile = payload;
       },
-      tabs(state, payload){
+      SET_TABS(state, payload){
         state.tabs = payload;
       }
     },
     
     actions: {
-      loadProjects({
-        commit
-      }) {
-        axios.get("/user/123/project").then((res) => {
-          commit('projects', res.data)
+      loadProjects({commit}, username) {
+        service.getProjects(username).then((res) => {
+        commit('SET_PROJECTS', res.data)
         })
       }
+      //tous les services ont une actions les faires
     },
     
     getters: {

@@ -31,8 +31,7 @@ export default {
 
   data: () => ({
     isConnected: false,
-    nom: "Maignan",
-    prenom: "Quentin"
+    username: ""
   }),
   methods: {
     checkConnexion: function() {
@@ -57,7 +56,7 @@ export default {
     disconnect: function() {
       //fonction qui déconecte l'etudiant du site
       this.isConnected = false;
-    }
+    },
   },
 };
 </script>

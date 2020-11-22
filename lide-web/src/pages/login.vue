@@ -25,19 +25,15 @@ export default {
 
   data() {
     return {
-      username: "",
+      username: "user1",
     };
   },
   methods: {
     login: function () {
 
-      this.$store.commit("username", this.username);
+      this.$store.commit('username',username);
+      this.$router.push('/app');
 
-      UserService.getProjects(this.$store.getters.username).then((res) => {
-        this.$store.commit("projects", res.data);
-        this.$router.push('/app');
-      });
-      
     }
   }
 };

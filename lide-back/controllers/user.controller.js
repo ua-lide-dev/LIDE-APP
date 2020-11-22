@@ -7,6 +7,19 @@ const User = require("../models/user");
 */
 
 // GET -> récupère un utilisateur
+exports.getAllProjects = (req, res) => {
+  User.findOne({ // Fonction predefinie Mangoose
+    _id: req.params.idUser,
+  })
+    .then((user) => { // Si la requête réussi (Statut 200 -> OK)
+      res.status(200).json(project);
+  })
+    .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)
+      res.status(400).json(err);
+  });
+};
+
+// GET -> récupère un utilisateur
 exports.get = (req, res) => {
     User.findOne({ // Fonction predefinie Mangoose
       _id: req.params.idUser,

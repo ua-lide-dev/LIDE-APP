@@ -7,6 +7,12 @@ const project = require("./controllers/project.controller");
 const file = require("./controllers/file.controller");
 const compile = require("./controllers/compile.controller");
 
+// Route project
+router.get("/projects",user.getAllProjects);
+
+// Route user
+router.post("/user", user.createUser);
+
 // Route save
 router.put("/save",file.save);
 

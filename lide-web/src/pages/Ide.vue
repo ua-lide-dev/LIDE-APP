@@ -42,7 +42,7 @@ export default {
 
   created: function(){
     console.log("created");
-    this.$store.dispatch('loadProjects',this.$store.getters.username);
+    this.$store.dispatch('getProjects',this.$store.getters.username);
   },
   beforeCreate: function(){
     console.log('before created')

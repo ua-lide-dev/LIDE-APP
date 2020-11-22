@@ -30,11 +30,11 @@ exports.getAll = (req, res) => {
 
 // POST -> crée un fichier
 exports.create = (req, res) => {
-  console.log("file create ")
+ console.log("")
 
     // on recupere le username et le projectname
     const username = req.headers.username;
-    const projectname= req.headers.projectname;
+    const projectname= req.body.projectname;
     // On initialise un nouvel objet File
     const file = new File({
         filename: req.body.filename,
@@ -44,19 +44,46 @@ exports.create = (req, res) => {
     });
 
 
-    User.findOne({ username: username})
-        .then((user)=> {
-          
-          console.log(user.projects)
-        })
-   
+  User.findOne({username:username})
+  .then(user=>{
+    var fileExist = false;
+    for(let i = 0; i < user.projects.length; i++){ 
+     if( user.projects[i].projectname  == projectname){
+        for(let j = 0; j < user.projects[i].files.length; j++){ 
+          if( user.projects[i].files[j].filename  == req.body.filename) fileExist = true;
+        } 
+     }
+    }
 
+    if(fileExist == false){
+      console.log("file not exist")
+     
     User.findOneAndUpdate(
-      {username:username,projectname:projectname},
-      { $push: {files:file}} ).exec();
-   console.log("username : ",username);
-   console.log("projetctname : ",projectname);
-   console.log(file)
+      {username:username,'projects.projectname':projectname},
+      { $push: {'projects.$.files': file}},{useFindAndModify: false}).exec()
+      .then(
+        res.status(201).json(file)
+      ).catch((err) => {
+        // Si la requête échoue (Statut 400 BAD REQUEST)
+        res.status(400).json({
+          error: err,
+        });
+      });
+      
+    }
+    
+    else {
+      console.log("file exist")
+      
+      res.status(400).json({
+        error: "File already exists !",
+      });
+  
+    
+
+  }
+  })
+  
 };
 
 // PUT -> Modifie un fichier

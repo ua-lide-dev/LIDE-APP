@@ -65,8 +65,10 @@ router.get("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {file.
 router.get("/user/:idUser/project/:idProject/file", (req, res) => {file.getAll});
 
 router.post("/createFile", file.create);
-router.put("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {file.update});
-router.delete("/user/:idUser/project/:idProject/file/:idFile", (req, res) => {file.delete});
+//router.put("/renameFile", file.rename);
+//router.delete("/deleteFile", file.delete);
+
+
 router.delete("/user/:idUser/project/:idProject/file", (req, res) => {file.deleteAll});
 
 module.exports = router;

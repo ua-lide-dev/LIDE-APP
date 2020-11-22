@@ -29,8 +29,6 @@ import Editor from "../components/ide/editor/Editor";
 import Explorer from "../components/ide/explorer/Explorer";
 import Terminal from "../components/ide/terminal/Terminal";
 
-//method on created
-
 export default {
   name: "Ide",
 
@@ -40,7 +38,18 @@ export default {
     Terminal
   },
 
-  data: () => ({})
+  data: () => ({}),
+
+  created: function(){
+    console.log("created");
+    this.$store.dispatch('loadProjects',this.$store.getters.username);
+  },
+  beforeCreate: function(){
+    console.log('before created')
+  },
+  updated: function(){
+    console.log('update')
+  }
 };
 </script>
 <style scoped>

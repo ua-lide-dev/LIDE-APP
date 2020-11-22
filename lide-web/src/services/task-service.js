@@ -4,13 +4,10 @@ import http from "./http-config";
     http est configuré dans le fichier http-config
 */
 
-
 /// Projects
 
 function getProjects(username) {
-  http.setHeaders("username", username)
-
-  return http.get("/getProjects");
+    return http.get("/getProjects",{'headers': {'username' : username}});
 }
 
 function createProject(username, data) {

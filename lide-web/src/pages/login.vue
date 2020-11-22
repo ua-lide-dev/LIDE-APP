@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import UserService from "../services/task-service.js";
 
 export default {
   name: "Login",
@@ -31,7 +30,7 @@ export default {
   methods: {
     login: function () {
 
-      this.$store.commit('username',username);
+      this.$store.commit('SET_USERNANE',this.username);
       this.$router.push('/app');
 
     }

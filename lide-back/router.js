@@ -15,6 +15,9 @@ router.put("/user/:idUser", (req, res) => { user.update });
 router.delete("/user/:idUser", (req, res) => { user.delete });
 
 //Routes Project
+//---route de test qui revoi un project bidon//
+router.get("/getProjects", (req, res) => { project.getTest });
+//-------//
 router.get("/user/:idUser/project/:idProject", (req, res) => { project.get });
 router.get("/user/:idUser/project", (req, res) => { project.getAll });
 router.post("/user/:idUser/project", (req, res) => { project.create });

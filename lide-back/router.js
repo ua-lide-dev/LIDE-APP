@@ -66,7 +66,7 @@ router.get("/user/:idUser/project/:idProject/file", (req, res) => {file.getAll})
 
 router.post("/createFile", file.create);
 router.put("/renameFile", file.rename);
-//router.delete("/deleteFile", file.delete);
+router.delete("/deleteFile", file.delete);
 
 
 router.delete("/user/:idUser/project/:idProject/file", (req, res) => {file.deleteAll});

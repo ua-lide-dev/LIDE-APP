@@ -96,6 +96,34 @@ exports.rename = (req, res) => {
       });
     
     };
+
+//DELETE -> Supprimer un fichier
+exports.delete = (req, res) => {
+  // on recupere le username envoyé dans la requete 
+  const username = req.headers.username;
+  const projectname = req.body.projectname;
+  const filename = req.body.filename;
+
+  User.findOneAndUpdate(
+    {username:username , 'projects.projectname':projectname,'projects.files.filename':filename},
+    { $pull: {'projects.$.files' : {filename: filename}}}).exec()
+    .then(user=>{
+        if(user!=null){
+          res.status(204).send("file removed")
+        }else{
+          //Si la requête échoue (Statut 400 BAD REQUEST)
+          res.status(400).send("file does not exist")
+        }
+      
+    });
+   
+
+  
+ 
+};
+
+
+
 // PUT -> Modifie un fichier
 exports.update = (req, res) => {
   File.updateOne({ _id: req.params.idFile }, { ...req.body})
@@ -111,22 +139,7 @@ exports.update = (req, res) => {
   });
 };
 
-// DELETE -> Supprime un fichier
-exports.delete = (req, res) => {
-  File.findOneAndDelete({
-    _id: req.params.idFile,
-  })
-    .then(() => { // Si la requête réussi (Statut 200 -> OK)
-      res.status(200).json({
-        message: "Le fichier a été supprimé !",
-      });
-    })
-    .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)
-      res.status(400).json({
-        error: err,
-      });
-  });
-};
+
 
 // DELETE -> Supprime tous les fichiers
 exports.deleteAll = (req, res) => {

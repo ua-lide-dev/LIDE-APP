@@ -72,40 +72,30 @@ exports.create = (req, res) => {
   
 })};
 
-// PUT -> renommer un projet
+// PUT -> renommer un fichier
 exports.rename = (req, res) => {
   // on recupere le username envoyé dans la requete 
   const username = req.headers.username;
   const projectname = req.body.projectname;
+  const filename = req.body.filename;
   const newfilename = req.body.newfilename;
 
   
-   User.findOne({username:username , 'projects.projectname':projectname})
-  .then(user=>{
-    
-    if(user != null){ 
     User.findOneAndUpdate(
-      {username:username , 'projects.projectname':projectname},
-      { $set: {'projects.$.projectname' : newprojectname}},{useFindAndModify: false}).exec()
-      .then(
-        res.status(204).send("project renamed")
-      ).catch((err) => {
-        // Si la requête échoue (Statut 400 BAD REQUEST)
-        res.status(400).json({
-          error: err,
-        });
+      {username:username , 'projects.projectname':projectname,'projects.files.filename':filename},
+      { $set: {'projects.$[projectFilter].files.$[fileFilter].filename' : newfilename}},
+      { arrayFilters: [{ 'projectFilter.projectname': projectname },{'fileFilter.filename':filename}] }).exec()
+      .then(user=>{
+          if(user!=null){
+            res.status(204).send("file renamed")
+          }else{
+            //Si la requête échoue (Statut 400 BAD REQUEST)
+            res.status(400).send("file does not exist")
+          }
+        
       });
     
-    }
-    
-    else {
-      res.status(400).send("project does not exist")
-    }
-    
-
-  })
-};
-
+    };
 // PUT -> Modifie un fichier
 exports.update = (req, res) => {
   File.updateOne({ _id: req.params.idFile }, { ...req.body})

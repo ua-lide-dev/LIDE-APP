@@ -44,20 +44,15 @@ exports.create = (req, res) => {
     });
 
 
-  User.findOne({username:username})
+  User.findOne({username:username,'projects.projectname':projectname, 'projects.files.filename':req.body.filename})
   .then(user=>{
-    var fileExist = false;
-    for(let i = 0; i < user.projects.length; i++){ 
-     if( user.projects[i].projectname  == projectname){
-        for(let j = 0; j < user.projects[i].files.length; j++){ 
-          if( user.projects[i].files[j].filename  == req.body.filename) fileExist = true;
-        } 
-     }
-    }
-
-    if(fileExist == false){
-      console.log("file not exist")
-     
+   if(user){
+    res.status(400).json({
+      error: "File already exists !",
+    });
+    
+   }
+   else{
     User.findOneAndUpdate(
       {username:username,'projects.projectname':projectname},
       { $push: {'projects.$.files': file}},{useFindAndModify: false}).exec()
@@ -70,20 +65,45 @@ exports.create = (req, res) => {
         });
       });
       
+   
+   }
+
+
+  
+})};
+
+// PUT -> renommer un projet
+exports.rename = (req, res) => {
+  // on recupere le username envoyé dans la requete 
+  const username = req.headers.username;
+  const projectname = req.body.projectname;
+  const newfilename = req.body.newfilename;
+
+  
+   User.findOne({username:username , 'projects.projectname':projectname})
+  .then(user=>{
+    
+    if(user != null){ 
+    User.findOneAndUpdate(
+      {username:username , 'projects.projectname':projectname},
+      { $set: {'projects.$.projectname' : newprojectname}},{useFindAndModify: false}).exec()
+      .then(
+        res.status(204).send("project renamed")
+      ).catch((err) => {
+        // Si la requête échoue (Statut 400 BAD REQUEST)
+        res.status(400).json({
+          error: err,
+        });
+      });
+    
     }
     
     else {
-      console.log("file exist")
-      
-      res.status(400).json({
-        error: "File already exists !",
-      });
-  
+      res.status(400).send("project does not exist")
+    }
     
 
-  }
   })
-  
 };
 
 // PUT -> Modifie un fichier

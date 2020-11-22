@@ -51,34 +51,27 @@ exports.create = (req, res) => {
     files: []
   });
 
- 
-  console.log(project)
-  User.findOne({username:username})
+  User.findOne({username:username,'projects.projectname':projectname})
   .then(user=>{
-    var projectExist = false;
-    for(let i = 0; i < user.projects.length; i++){ 
-     if( user.projects[i].projectname  == projectname) projectExist = true;
-    }
-    if(projectExist == false){
-     
-    User.findOneAndUpdate(
-      {username:username},
-      { $push: {projects : project}},{useFindAndModify: false}).exec()
-      .then(
-        res.status(201).json(project)
-      ).catch((err) => {
-        // Si la requête échoue (Statut 400 BAD REQUEST)
-        res.status(400).json({
-          error: err,
-        });
-      });
-      
-    }
-    
-    else {
+    if(user){
       res.status(400).json({
         error: "Project already exists !",
       });
+      
+    }
+    else {
+      User.findOneAndUpdate(
+        {username:username},
+        { $push: {projects : project}},{useFindAndModify: false}).exec()
+        .then(
+          res.status(201).json(project)
+        ).catch((err) => {
+          // Si la requête échoue (Statut 400 BAD REQUEST)
+          res.status(400).json({
+            error: err,
+          });
+        });
+    
     }
     
 
@@ -126,8 +119,7 @@ exports.delete = (req, res) => {
    // on recupere le username envoyé dans la requete 
    const username = req.headers.username;
    const projectname = req.body.projectname;
-  console.log(projectname)
-  console.log(username)
+
    User.findOne({username:username , 'projects.projectname':projectname})
    .then(user=>{
      

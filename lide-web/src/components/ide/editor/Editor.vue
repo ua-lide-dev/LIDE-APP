@@ -19,9 +19,10 @@
     <v-btn class="btn-save" absolute fab dark medium color="blue">
       <v-icon dark>mdi-cloud-upload</v-icon>
     </v-btn>
-    <v-btn class="btn-setting" absolute fab dark medium color="grey">
+    <v-btn class="btn-setting" absolute fab dark medium color="grey" @click="showMenuOptions = true">
       <v-icon dark>mdi-wrench</v-icon>
     </v-btn>
+    <OptionsMenu v-model="showMenuOptions"></OptionsMenu>
   </div>
 </template>
 
@@ -43,13 +44,19 @@ import "codemirror/theme/base16-light.css";
 //theme lucario
 import "codemirror/theme/lucario.css";
 
+
+import OptionsMenu from "./OptionsMenu.vue"
+
 // component
 export default {
   components: {
-    codemirror
+    codemirror,
+    OptionsMenu
   },
   //options
   data: () => ({
+    showMenuOptions: false,
+    
     code:
       '//exemple de code c++\n\n#include <iostream>\n\nint main(){\n std::cout << "Hello World!" << std::endl;\nreturn 0;\n}',
     cmOption: {
@@ -63,7 +70,8 @@ export default {
       //pour affciher un nombre de ligne infini
       viewportMargin: Infinity,
       //changer la taille
-      setSize: 900
+      setSize: 900,
+      
     }
   }),
   //methode

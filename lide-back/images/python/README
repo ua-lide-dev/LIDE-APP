@@ -1,0 +1,2 @@
+build : docker build --tag python .
+run : docker run --rm -it --name pythonUSER -v /root/data/fichier.python:/fichier.python python fichier.python

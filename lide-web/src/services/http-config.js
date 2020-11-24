@@ -5,5 +5,8 @@ export default axios.create({
   header: {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+    "Access-Control-Allow-Headers":
+    "Origin,Cache-Control,Accept,X-Access-Token ,X-Requested-With, Content-Type, Access-Control-Request-Method",
+    "Access-Control-Allow-Credentials":"true"
   },
 });

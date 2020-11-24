@@ -11,6 +11,9 @@ db.connect();
 /* --- Ensemble des routes --- */
 app.use("/", router);
 
+/*----authorisation du cors pour nos requetes---*/
+app.use(cors());
+
 /* --- Lancement du serveur back --- */
 app.listen(3000, () => {
   console.log(

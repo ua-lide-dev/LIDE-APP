@@ -14,7 +14,7 @@ export default {
   data() {
     return {
       terminal : new Terminal(),
-      socket : new WebSocket( "ws://92.139.146.137:3636") // TODO DEV; Ip:port de la VM
+      socket : new WebSocket( "ws://localhost:3636") // TODO DEV; Ip:port de la VM
     };
   },
 

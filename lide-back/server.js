@@ -1,19 +1,19 @@
-const db = require("./db");
 const express = require("express");
 const app = express();
 const router = require("./router");
 const cors = require("cors");
-
-app.use(express.json());
+const db = require("./db");
 
 /* -- Connection à la base de donnée MongoDB --- */
 db.connect();
 
-/* --- Ensemble des routes --- */
-app.use("/", router);
-
 /*----authorisation du cors pour nos requetes---*/
 app.use(cors());
+
+app.use(express.json());
+
+/* --- Ensemble des routes --- */
+app.use("/", router);
 
 /* --- Lancement du serveur back --- */
 app.listen(3000, () => {

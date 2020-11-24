@@ -36,4 +36,7 @@ router.delete("/user/:idUser/project/:idProject/file", (req, res) => {file.delet
 //Routes Compile
 router.post("/execute", compile.post);
 
+// test
+router.get("/test",project.getTest);
+
 module.exports = router;

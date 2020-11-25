@@ -9,8 +9,6 @@ const compile = require("./controllers/compile.controller");
 
 
 /* --- Routes --- */
-
-// Routes User
 router.post("/user", user.createUser);
 router.get("/projects",user.getAllProjects);
 

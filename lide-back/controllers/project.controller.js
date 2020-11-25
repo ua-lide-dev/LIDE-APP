@@ -26,6 +26,11 @@ exports.get = (req, res) => {
     });
 };
 
+//juste pour les tests
+exports.getTest = (req, res) => {
+  res.status(200).json("projects:{1:20,2:30}");
+}
+
 // GET -> récupère tous les projets
 exports.getAll = (req, res) => {
   Project.find()

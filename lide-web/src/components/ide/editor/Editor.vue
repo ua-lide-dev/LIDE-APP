@@ -58,7 +58,7 @@ export default {
     showMenuOptions: false,
     
     code:
-      '//exemple de code c++\n\n#include <iostream>\n\nint main(){\n std::cout << "Hello World!" << std::endl;\nreturn 0;\n}',
+      '//exemple de code c++\n\n#include <iostream>\n\nint main(){\n std::cout << "Hello World!" << std::endl;\n return 0;\n}',
     cmOption: {
       tabSize: 4,
       styleActiveLine: true,

@@ -38,7 +38,18 @@ export default {
     Terminal
   },
 
-  data: () => ({})
+  data: () => ({}),
+
+  created: function(){
+    console.log("created");
+    this.$store.dispatch('getProjects',this.$store.getters.username);
+  },
+  beforeCreate: function(){
+    console.log('before created');
+  },
+  updated: function(){
+    console.log('update');
+  }
 };
 </script>
 <style scoped>

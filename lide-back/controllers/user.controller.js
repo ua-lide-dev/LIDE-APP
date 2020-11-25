@@ -18,8 +18,21 @@ exports.getAllProjects = (req, res) => {
   });
 };
 
+// GET -> récupère tous les projets d'un utilisateur
+exports.getFile = (req, res) => {
+
+  User.findOne({$and: [{'user':{"$elemMatch":{'name': req.headers.username}}},{'user.projects.files':{"$elemMatch":{'filename':req.body.filename}}}]})
+  .then((file) => { // Si la requête réussi (Statut 200 -> OK)
+    //for(let num_projet)
+    res.status(200).json(file);
+  })
+  .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)
+    res.status(400).json(err);
+  });
+};
+
 // GET -> récupère un utilisateur
-exports.get = (req, res) => {
+exports.get= (req, res) => {
     User.findOne({ // Fonction predefinie Mangoose
       _id: req.params.idUser,
     })

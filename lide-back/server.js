@@ -2,7 +2,6 @@ const db = require("./db");
 const express = require("express");
 const app = express();
 const router = require("./router");
-const bodyparser=require("body-parser");
 
 app.use(express.json());
 

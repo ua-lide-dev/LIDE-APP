@@ -33,18 +33,19 @@ exports.get = (req, res) => {
 
 // POST -> crée un utilisateur
 exports.createUser = (req, res) => {
-    delete req.body._id;  // Sécurité, l'id sera généré par mangoDB
+    //delete req.body._id;  // Sécurité, l'id sera généré par mangoDB
   
     // On initialise un nouvel objet User
     const user = new User({
-      ...req.body,    // Syntaxe => cast des infos req.body.* 
+      username: req.headers.username,
+      projects: []
     });
   
     user
       .save() // Fonction mangoose pour l'ajout en base
       .then(() => {
         res.status(201).json({ // Si la requête réussi (Statut 201 -> CREATED)
-          message: "L'utilisateur a bien été ajouté !",
+          message: "L'utilisateur "+user+"a bien été ajouté !",
         });
       })
       .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)

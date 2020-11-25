@@ -33,18 +33,28 @@ const store = new VueX.Store({
     
     actions: {
 //toutes les actions on le mm noms que dans task services pour plus de lisibilité
+//-------------------------------------USERS-------------------------------------//
+
+      //creation de l'user en bdd
+      createUser(context){
+        console.log("user du createUser du store " + context.getters.username);
+        service.createUser(context.getters.username);
+      },
 
 //-------------------------------------PROJECTS-------------------------------------//
       //set les projects courants grace a un user et met a jour les projects courant
       getProjects({commit}, username) {
+        console.log("user du getProjects du store " + username);
         service.getProjects(username).then((res) => {
         commit('SET_PROJECTS', res.data)
         })
       },
 
-      //cree un projet pour un user garce a un json de project
-      createProject(username, data) {
-        service.createProject(username,data);
+      //avec un projectname recupé depuis de compo modalnewproject.vue et l'username du store
+      createProject({commit},obj) {
+        console.log(commit);
+        console.log("user du createProjects du store : " + obj.projectname +" ,"+ obj.username);
+        service.createProject(obj.projectname, obj.username);
       },
 
       //rename le project a l adr projectpath en data

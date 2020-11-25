@@ -34,7 +34,8 @@ exports.get = (req, res) => {
 // POST -> crée un utilisateur
 exports.createUser = (req, res) => {
     //delete req.body._id;  // Sécurité, l'id sera généré par mangoDB
-  
+    console.log("creation d'un user ...")
+    console.log(req.headers.username);
     // On initialise un nouvel objet User
     const user = new User({
       username: req.headers.username,

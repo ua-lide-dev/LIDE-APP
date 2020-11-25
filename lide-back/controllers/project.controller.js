@@ -48,9 +48,11 @@ exports.getAll = (req, res) => {
 // POST -> crée un projet
 exports.create = (req, res) => {
   // on recupere le username envoyé dans la requete 
-  const username = req.headers.username;
+  const username = "test";
   const projectname = req.body.projectname;
   // On initialise un nouvel objet Project
+  console.log(username);
+  console.log(projectname);
   const project = new Project({
     projectname: projectname,
     files: []
@@ -76,10 +78,7 @@ exports.create = (req, res) => {
             error: err,
           });
         });
-    
     }
-    
-
   })
 };
 

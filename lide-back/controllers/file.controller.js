@@ -112,3 +112,21 @@ exports.save = (req, res) => {
       });
   })
 };
+
+
+//(BOUCHON EN ATTENDANT LE CONTROLLER DE BAPTISTE) TODO a remplacer
+// POST -> getfile 
+exports.getFileContent = (req, res) => {
+
+  //Données en entrée dans la requête
+
+  console.log("username : " + req.headers.username);
+  console.log("filename : " + req.body.filename);
+  console.log("extension : " + req.body.extension);
+  console.log("projectpath : " + req.body.projectpath);
+
+  res.status(201).json({
+    content:  "#include<iostream>\n int main () {std::cout << \"Hello World !\"  << std::endl; return 0;}"
+  });
+};
+

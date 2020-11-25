@@ -3,6 +3,7 @@ const app = express();
 const router = require("./router");
 const cors = require("cors");
 const db = require("./db");
+const bodyparser = require('body-parser');
 
 /* -- Connection à la base de donnée MongoDB --- */
 db.connect();

@@ -116,7 +116,7 @@ exports.save = (req, res) => {
 
 //(BOUCHON EN ATTENDANT LE CONTROLLER DE BAPTISTE) TODO a remplacer
 // POST -> getfile 
-exports.getFileContent = (req, res) => {
+exports.fileContent = (req, res) => {
 
   //Données en entrée dans la requête
 

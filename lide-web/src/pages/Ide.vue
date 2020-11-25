@@ -42,6 +42,7 @@ export default {
 
   created: function(){
     console.log("created");
+    console.log("dispatche de getProjects " + this.$store.getters.username);
     this.$store.dispatch('getProjects',this.$store.getters.username);
   },
   beforeCreate: function(){

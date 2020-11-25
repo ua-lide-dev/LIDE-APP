@@ -45,10 +45,10 @@ export default {
     this.$store.dispatch('getProjects',this.$store.getters.username);
   },
   beforeCreate: function(){
-    console.log('before created')
+    console.log('before created');
   },
   updated: function(){
-    console.log('update')
+    console.log('update');
   }
 };
 </script>

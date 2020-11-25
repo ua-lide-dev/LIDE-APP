@@ -5,9 +5,8 @@ import http from "./http-config";
 */
 
 /// Projects
-
 function getProjects(username) {
-    return http.get("/getProjects",{'headers': {'username' : username}});
+    return http.get("/getProjects",{headers: {username : username}});
 }
 
 function createProject(username, data) {

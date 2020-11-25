@@ -42,18 +42,14 @@ const store = new VueX.Store({
         })
       },
 
-      //cree un projet pour un user garce a un json de project et met a jour les projects courant
-      createProject({commit}, username, data) {
-        service.createProject(username,data).then((res) => {
-          commit('SET_PROJECTS', res.data)
-          })
+      //cree un projet pour un user garce a un json de project
+      createProject(username, data) {
+        service.createProject(username,data);
       },
 
-      //rename le project a l adr projectpath en data et met a jour les projects courant
-      renameProject({commit}, username, projectpath,data) {
-        service.renameProject(username,projectpath,data).then((res) => {
-          commit('SET_PROJECTS', res.data)
-          })
+      //rename le project a l adr projectpath en data
+      renameProject(username, projectpath ,data) {
+        service.renameProject(username,projectpath,data);
       },
 
       //delet le project et met a jour les projects courant

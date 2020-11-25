@@ -16,7 +16,7 @@ router.delete("/user/:idUser", (req, res) => { user.delete });
 
 //Routes Project
 //---route de test qui revoi un project bidon//
-router.get("/getProjects", (req, res) => { project.getTest });
+router.get("/getProjects",project.getTest);
 //-------//
 router.get("/user/:idUser/project/:idProject", (req, res) => { project.get });
 router.get("/user/:idUser/project", (req, res) => { project.getAll });

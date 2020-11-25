@@ -6,16 +6,15 @@ const User = require("../models/user");
 
 */
 
-// GET -> récupère un utilisateur
+// GET -> récupère tous les projets d'un utilisateur
 exports.getAllProjects = (req, res) => {
-  User.findOne({ // Fonction predefinie Mangoose
-    _id: req.params.idUser,
+
+  User.findOne({ username:req.headers.username}, 'projects ')
+  .then((user) => { // Si la requête réussi (Statut 200 -> OK)
+    res.status(200).json(user.projects);
   })
-    .then((user) => { // Si la requête réussi (Statut 200 -> OK)
-      res.status(200).json(project);
-  })
-    .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)
-      res.status(400).json(err);
+  .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)
+    res.status(400).json(err);
   });
 };
 
@@ -33,7 +32,7 @@ exports.get = (req, res) => {
 };
 
 // POST -> crée un utilisateur
-exports.create = (req, res) => {
+exports.createUser = (req, res) => {
     delete req.body._id;  // Sécurité, l'id sera généré par mangoDB
   
     // On initialise un nouvel objet User

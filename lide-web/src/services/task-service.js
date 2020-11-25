@@ -4,15 +4,31 @@ import http from "./http-config";
     http est configuré dans le fichier http-config
 */
 
-/// Projects
-function getProjects(username) {
-    return http.get("/projects",{headers: {username : username}});
+/// Users
+function createUser(username){
+  console.log("username dans les routes fronts create user : " + username);
+  const request = new XMLHttpRequest();
+  request.open("POST", "http://localhost:3000/user");
+  request.setRequestHeader("username", username);
+  return request.send();
 }
 
-function createProject(username, data) {
-  http.setHeader("username", username)
+/// Projects
+function getProjects(username) {
+  console.log("username dans les routes fronts getProjects : " + username);
+  const request = new XMLHttpRequest();
+  request.open("GET", "http://localhost:3000/projects");
+  request.setRequestHeader("username", username);
+  return request.send();
+}
 
-  return http.post("/createProject", data);
+//data est un obj avec un champ projectname  et username
+function createProject(projectname, username) {
+  console.log("username et project name dans les routes fronts createProject : " + username +" ,"+ projectname);
+  const request = new XMLHttpRequest();
+  request.open("POST", "http://localhost:3000/createProject");
+  request.setRequestHeader("username", username);
+  return request.send({projectname : projectname});
 }
 
 function renameProject(username, projectpath, data) {
@@ -68,5 +84,6 @@ export default {
   createFile,
   updateFile,
   deleteFile,
-  saveFile
+  saveFile,
+  createUser
 };

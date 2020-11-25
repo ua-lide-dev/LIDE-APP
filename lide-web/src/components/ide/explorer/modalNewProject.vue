@@ -76,6 +76,9 @@
                 }
                 else{
                     console.log(title);
+                    //apl au store pou l'action
+                    var tmp = Object.create({"projectname" : title, "username" : this.$store.getters.username});
+                    this.$store.dispatch('createProject',tmp);
                     this.closeMenu();
                 }
                 

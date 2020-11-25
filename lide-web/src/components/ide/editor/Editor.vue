@@ -1,16 +1,46 @@
 <template>
   <div class="pos-relative">
-    <!-- componenet code mirror -->
-    <codemirror
-      ref="cmA"
-      :value="code"
-      :options="cmOption"
-      @blur="onCmBlur($event)"
-      @focus="onCmFocus($event)"
-      @ready="onCmReady($event)"
-      @input="onCmInput"
-      id="cmirror"
-    ></codemirror>
+    <div>
+
+      <v-tabs 
+      id="tabs"
+      >
+        <v-tab
+          v-for="(file, index) in openFiles"  v-bind:key="index"
+          >
+          {{file.name}}
+          <v-btn 
+            outlined
+            x-small
+            @click="quitTab(index)"
+            style="margin-left:10px;">
+            x
+          </v-btn>
+        </v-tab>
+    
+
+    
+
+        <!-- component code mirror -->
+          <v-tab-item 
+            v-for="(file, index) in openFiles"  v-bind:key="index">
+            <div>
+            <codemirror
+              ref="cmA"
+              :value="file.code"
+              :options="cmOption"
+              @blur="onCmBlur($event)"
+              @focus="onCmFocus($event)"
+              @ready="onCmReady($event)"
+              @input="onCmInput"
+              id="cmirror"
+            ></codemirror>
+            </div>
+          </v-tab-item>
+      </v-tabs>
+    </div>
+      
+
     <!-- les buttons pour compil et options -->
 
     <v-btn class="btn-compile" absolute fab dark medium color="green">
@@ -49,12 +79,26 @@ import OptionsMenu from "./OptionsMenu.vue"
 
 // component
 export default {
+
+  props:{
+
+  },
   components: {
     codemirror,
     OptionsMenu
   },
   //options
   data: () => ({
+    //activeTab: 0,//index in Files of active tab
+    openFiles: [],
+    Files: [ //a remplacer
+      {name: 'exo1.java', chemin: "TP1/exo1.java", project: "TP1", code: "class HelloWorld {\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println('Hello, World!');\n\t} \n}"},
+      {name: 'exo2.java', chemin: "TP1/exo2.java", project: "TP1", code: "class HelloWorld {\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println('Hello, World again!');\n\t} \n}"}, 
+      {name: 'exo3.java', chemin: "TP1/exo3.java", project: "TP1", code: "//code java 3"}, 
+      {name: 'exo1.php', chemin: "TP1/exo1.php", project: "TP1", code: "<html>\n\t<head>\n\t\t<title>PHP Test</title>\n\t</head>\n\t<body>\n\t\t<?php echo '<p>Hello World</p>'; ?> \n\t</body>\n</html>"}
+    ],
+
+
     showMenuOptions: false,
     
     code:
@@ -76,6 +120,16 @@ export default {
   }),
   //methode
   methods: {
+    quitTab: function(index){
+      this.openFiles.splice(index, 1);
+    },
+    openAllFiles: function(){
+      this.openFiles = this.Files;
+    },
+    openFile: function(index){
+      this.openFiles.push(this.Files[index]);
+    },
+
     buildButton: function() {
       //fonction associer au button de build, pour build
       alert("votre code est en buildance");
@@ -106,7 +160,10 @@ export default {
   computed: {
     cmA() {
       return this.$refs.cmA.codemirror;
-    }
+    },
+  },
+  mounted() {
+    this.openAllFiles();
   }
 };
 </script>
@@ -121,15 +178,18 @@ export default {
   position: relative;
 }
 .btn-compile {
-  top: 30px;
+  top: 60px;
   right: 50px;
 }
 .btn-save {
-  top: 100px;
+  top: 130px;
   right: 50px;
 }
 .btn-setting {
-  top: 170px;
+  top: 200px;
   right: 50px;
+}
+.v-tab {
+text-transform: none !important;
 }
 </style>

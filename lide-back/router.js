@@ -13,7 +13,7 @@ const compile = require("./controllers/compile.controller");
 //Routes User
 router.post("/user", user.createUser);
 router.get("/projects",user.getAllProjects);
-//router.get("/getFile",user.getFile);
+router.get("/getFile",user.getFile);
 
 // Routes Project
 router.post("/createProject", project.create);

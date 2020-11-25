@@ -17,20 +17,27 @@ exports.getAllProjects = (req, res) => {
     res.status(400).json(err);
   });
 };
-/*
+
 // GET -> récupère tous les projets d'un utilisateur
 exports.getFile = (req, res) => {
-
-  User.findOne({$and: [{'user':{"$elemMatch":{'name': req.headers.username}}},{'user.projects.files':{"$elemMatch":{'filename':req.body.filename}}}]})
-  .then((file) => { // Si la requête réussi (Statut 200 -> OK)
-    //for(let num_projet)
-    res.status(200).json(file);
+  User.findOne({ username:req.headers.username})
+  .then((user) => { // Si la requête réussi (Statut 200 -> OK)
+    for(projet in user.projects){
+      for(fic in user.projects[projet].files){
+        if(user.projects[projet].files[fic].filename==req.body.filename && user.projects[projet].files[fic].extension==req.body.extension){
+          res.status(200).json(user.projects[projet].files[fic]);
+        }
+      }
+    }
+    res.status(200).json(user);
   })
   .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)
+    console.log(err);
     res.status(400).json(err);
   });
 };
-*/
+
+
 // GET -> récupère un utilisateur
 exports.get= (req, res) => {
     User.findOne({ // Fonction predefinie Mangoose

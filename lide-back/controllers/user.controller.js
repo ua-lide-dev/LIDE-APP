@@ -17,7 +17,7 @@ exports.getAllProjects = (req, res) => {
     res.status(400).json(err);
   });
 };
-
+/*
 // GET -> récupère tous les projets d'un utilisateur
 exports.getFile = (req, res) => {
 
@@ -30,7 +30,7 @@ exports.getFile = (req, res) => {
     res.status(400).json(err);
   });
 };
-
+*/
 // GET -> récupère un utilisateur
 exports.get= (req, res) => {
     User.findOne({ // Fonction predefinie Mangoose

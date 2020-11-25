@@ -12,6 +12,15 @@
         "
         >Nouveau Projet</v-btn
       >
+      <v-btn
+      style="
+          background-color: #3caee9;
+          width: 50%;
+          margin-top: 30px;
+          font-size: 0.73vw;"
+          @click="createfile">
+          test
+      </v-btn>
     </div>
 
     <NewProjectModal v-model="showModal"></NewProjectModal>
@@ -35,6 +44,9 @@ export default {
     createNewProject: function () {
       this.showModal = true;
     },
+    createfile: function () {
+      
+    }
   },
 };
 </script>

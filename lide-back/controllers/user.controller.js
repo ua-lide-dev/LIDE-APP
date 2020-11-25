@@ -6,6 +6,18 @@ const User = require("../models/user");
 
 */
 
+// GET -> récupère tous les projets d'un utilisateur
+exports.getAllProjects = (req, res) => {
+
+  User.findOne({ username:req.headers.username}, 'projects ')
+  .then((user) => { // Si la requête réussi (Statut 200 -> OK)
+    res.status(200).json(user.projects);
+  })
+  .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)
+    res.status(400).json(err);
+  });
+};
+
 // GET -> récupère un utilisateur
 exports.get = (req, res) => {
     User.findOne({ // Fonction predefinie Mangoose
@@ -20,19 +32,20 @@ exports.get = (req, res) => {
 };
 
 // POST -> crée un utilisateur
-exports.create = (req, res) => {
-    delete req.body._id;  // Sécurité, l'id sera généré par mangoDB
+exports.createUser = (req, res) => {
+    //delete req.body._id;  // Sécurité, l'id sera généré par mangoDB
   
     // On initialise un nouvel objet User
     const user = new User({
-      ...req.body,    // Syntaxe => cast des infos req.body.* 
+      username: req.headers.username,
+      projects: []
     });
   
     user
       .save() // Fonction mangoose pour l'ajout en base
       .then(() => {
         res.status(201).json({ // Si la requête réussi (Statut 201 -> CREATED)
-          message: "L'utilisateur a bien été ajouté !",
+          message: "L'utilisateur "+user+"a bien été ajouté !",
         });
       })
       .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)

@@ -13,3 +13,5 @@ else
     chmod "+x" ./lide-back/images/build_images.sh
     ./lide-back/images/build_images.sh
 fi
+
+docker-compose logs lide-back-service >> ./lide-back/back_logs.log

@@ -101,21 +101,9 @@ export default {
     //tree: [],
     items: [
       {
+        ///extraire file de projects avec des getters sur projects
         name: "cpp",
-        children: [
-          {
-            name: "exo1.cpp",
-            file: "txt"
-          },
-          {
-            name: "exo2.cpp",
-            file: "txt"
-          },
-          {
-            name: "exo3.cpp",
-            file: "txt"
-          }
-        ]
+        file: "txt"
       },
       {
         name: "exo1.java",

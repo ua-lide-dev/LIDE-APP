@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer ref="drawer" id="explorer" absolute width="15.5%">
-    <div v-for="(project, index) in projectList" v-bind:key="index">
-      <ProjectTree :projectName="project.name" :path="project.path"></ProjectTree>
+    <div v-for="(project, index) in this.$store.getters.projects" v-bind:key="index">
+      <ProjectTree :projectName="project.projectName"></ProjectTree>
     </div>
 
     <template v-slot:append height>

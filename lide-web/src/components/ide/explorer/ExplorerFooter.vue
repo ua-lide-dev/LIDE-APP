@@ -10,18 +10,19 @@
           margin-top: 30px;
           font-size: 0.73vw;
         "
-        >Nouveau Projet</v-btn
-      >
-      <v-btn
-      style="
+        >Nouveau Projet</v-btn>
+
+        <v-btn
+        @click="test"
+        style="
           background-color: #3caee9;
           width: 50%;
           margin-top: 30px;
-          font-size: 0.73vw;"
-          @click="createfile">
-          test
-      </v-btn>
-    </div>
+          font-size: 0.73vw;">
+          addFile
+        </v-btn>
+
+      </div>
 
     <NewProjectModal v-model="showModal"></NewProjectModal>
   </div>
@@ -44,8 +45,16 @@ export default {
     createNewProject: function () {
       this.showModal = true;
     },
-    createfile: function () {
-      
+
+    test: function(){
+      const obj = {
+      content : "balbalbal",
+      filename : "test321321",
+      projectname : "TP1"
+    }
+    console.log(obj);
+    this.$store.dispatch('createFile', obj, this.$store);
+    this.$store.dispatch('getProjects',this.$store);
     }
   },
 };

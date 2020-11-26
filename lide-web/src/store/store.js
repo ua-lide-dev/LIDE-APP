@@ -32,7 +32,7 @@ const store = new VueX.Store({
     },
     
     actions: {
-//toutes les actions on le mm noms que dans task services pour plus de lisibilité
+
 //-------------------------------------USERS-------------------------------------//
 
       //creation de l'user en bdd
@@ -42,20 +42,23 @@ const store = new VueX.Store({
       },
 
 //-------------------------------------PROJECTS-------------------------------------//
-      //set les projects courants grace a un user et met a jour les projects courant
-      getProjects({commit}, username) {
-        console.log("user du getProjects du store " + username);
-        commit('SET_PROJECTS',  service.getProjects(username));
+
+      //set les projects courants de USER
+      getProjects({commit, state}) {
+        console.log("user du getProjects du store " + state.username);
+        service.getProjects(state.username).then((res) => {
+          commit('SET_PROJECTS', res.data);
+          });
       },
 
       //avec un projectname recupé depuis de compo modalnewproject.vue et l'username du store
-      createProject({commit},obj) {
-        console.log(commit);
-        console.log("user du createProjects du store : " + obj.projectname +" ,"+ obj.username);
-        service.createProject(obj.projectname, obj.username);
+      createProject({state},title) {
+         service.createProject(title,state.username);
       },
 
-      //rename le project a l adr projectpath en data
+  /*    
+      A FAIRE 
+  //rename le project a l adr projectpath en data
       renameProject(username, projectpath ,data) {
         service.renameProject(username,projectpath,data);
       },
@@ -65,16 +68,32 @@ const store = new VueX.Store({
         service.deleteProject(username,projectpath).then((res) => {
           commit('SET_PROJECTS', res.data)
           })
-      },
+      }, */
 
 //-------------------------------------FILES-------------------------------------//
       
-      //creation d'un fichier et le met en fichier courant
-      createFile({commit}, username, projectpath, data) {
-        service.createFile(username,projectpath, data).then((res) => {
-          commit('SET_CURRENTFILE', res.data)
-          })
+
+  //creation d'un fichier et le met en fichier courant
+      createFile({state}, obj) {
+        console.log("projectname : " + obj.projectname);
+        console.log("content : " + obj.content);
+        console.log("filename : " + obj.filename);
+        console.log("userame : " + state.username);
+        service.createFile(state.username,obj.projectname, obj.content, obj.filename);
       },
+
+      getFile({state, commit}, obj) {
+        console.log("on update le file avec =>");
+        console.log(obj);
+        service.get("/getFile",state.username, obj.projectname, obj.filename ).then( (res) => {
+          commit('SET_CURRENTFILE', res.data);
+          }
+        );
+      }
+
+      /*  
+      A FAIRE
+
 
       //on ajoute du contenu au file et le remet en current file
       updateFile({commit}, username, projectpath, filename, data) {
@@ -96,23 +115,27 @@ const store = new VueX.Store({
         service.saveFile(username,projectpath, filename, data).then((res) => {
           commit('SET_CURRENTFILE', res.data)
           })
-      },
+      },*/
     },
-    
+
+
     getters: {
       username(state){
         return state.username;
       },
       projects(state){
-        return state.project;
+        return state.projects;
       },
       currentFile(state){
         return state.currentFile;
       },
       tabs(state){
         return state.tabs;
+      },
+      projectname(state){
+        return state.projects.projectname;
       }
-    }
+    },
   
   });
 

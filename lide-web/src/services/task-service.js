@@ -15,21 +15,18 @@ function createUser(username){
 
 /// Projects
 function getProjects(username) {
-  console.log("username dans les routes fronts getProjects : " + username);
-  const request = new XMLHttpRequest();
-  request.open("GET", "http://localhost:3000/projects");
-  request.setRequestHeader("username", username);
-  return request.send();
+  console.log("username dans les routes fronts projects : " + username);
+  return http.get("/projects", {headers:{username:username}})
 }
 
 //data est un obj avec un champ projectname  et username
 function createProject(projectname, username) {
-  console.log("username et project name dans les routes fronts createProject : " + username +" ,"+ projectname);
-  const request = new XMLHttpRequest();
-  request.open("POST", "http://localhost:3000/createProject");
-  request.setRequestHeader("username", username);
-  return request.send({projectname : projectname});
+  const data = {
+    projectname : projectname,
+  }
+  return http.post("/createProject", data, {headers:{username:username}});
 }
+
 
 function renameProject(username, projectpath, data) {
   http.setHeader("username", username)
@@ -47,11 +44,21 @@ function deleteProject(username, projectpath) {
 
 /// Files
 
-function createFile(username, projectpath, data) {
-  http.setHeader("username", username)
-  http.write("{\"projectpath\":"+ projectpath +"}");
+function createFile(username, projectname, content, filename) {
+  const data = {
+    projectname : projectname,
+    content: content,
+    filename: filename
+  }
+  return http.post("/createFile", data, {headers:{username:username}})
+}
 
-  return http.post("/createFile", data);
+function getFile(username, projectname, filename) {
+  const data = {
+    projectname : projectname,
+    filename: filename
+  }
+  return http.post("/createFile", data, {headers:{username:username}})
 }
 
 function updateFile(username, projectpath, filename, data) {
@@ -76,6 +83,7 @@ function saveFile(username, projectpath, filename, data) {
 }
 
 
+
 export default {
   getProjects,
   createProject,
@@ -85,5 +93,6 @@ export default {
   updateFile,
   deleteFile,
   saveFile,
-  createUser
+  getFile,
+  createUser, 
 };

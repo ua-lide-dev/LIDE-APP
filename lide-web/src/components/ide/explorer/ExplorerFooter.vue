@@ -49,12 +49,14 @@ export default {
     test: function(){
       const obj = {
       content : "balbalbal",
-      filename : "test321321",
+      filename : "312354",
       projectname : "TP1"
     }
     console.log(obj);
     this.$store.dispatch('createFile', obj, this.$store);
+    this.$store.dispatch('getFile', this.$store);
     this.$store.dispatch('getProjects',this.$store);
+
     }
   },
 };

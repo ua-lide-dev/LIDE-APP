@@ -45,9 +45,7 @@ const store = new VueX.Store({
       //set les projects courants grace a un user et met a jour les projects courant
       getProjects({commit}, username) {
         console.log("user du getProjects du store " + username);
-        service.getProjects(username).then((res) => {
-        commit('SET_PROJECTS', res.data)
-        })
+        commit('SET_PROJECTS',  service.getProjects(username));
       },
 
       //avec un projectname recupé depuis de compo modalnewproject.vue et l'username du store

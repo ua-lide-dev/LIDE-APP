@@ -48,7 +48,7 @@ exports.getAll = (req, res) => {
 // POST -> crée un projet
 exports.create = (req, res) => {
   // on recupere le username envoyé dans la requete 
-  const username = "test";
+  const username = req.headers.username;
   const projectname = req.body.projectname;
   // On initialise un nouvel objet Project
   console.log(username);

@@ -53,10 +53,10 @@ exports.create = (req, res) => {
   // On initialise un nouvel objet Project
   console.log(username);
   console.log(projectname);
-  const project = new Project({
+  const project = {
     projectname: projectname,
     files: []
-  });
+  };
 
   User.findOne({username:username,'projects.projectname':projectname})
   .then(user=>{

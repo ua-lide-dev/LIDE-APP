@@ -13,12 +13,12 @@ exports.create = (req, res) => {
     const username = req.headers.username;
     const projectname= req.body.projectname;
     // On initialise un nouvel objet File
-    const file = new File({
+    const file = {
         filename: req.body.filename,
         extension: req.body.extension,
-        body: req.body.body,
+        body: req.body.content,
         date: Date.now()
-    });
+    };
 
   User.findOne({username:username,'projects.projectname':projectname, 'projects.files.filename':req.body.filename})
   .then(user=>{

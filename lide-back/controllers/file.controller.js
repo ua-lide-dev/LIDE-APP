@@ -116,7 +116,7 @@ exports.save = (req, res) => {
 
 //(BOUCHON EN ATTENDANT LE CONTROLLER DE BAPTISTE) TODO a remplacer
 // POST -> getfile 
-exports.fileContent = (req, res) => {
+exports.getFile = (req, res) => {
 
   //Données en entrée dans la requête
 
@@ -126,7 +126,10 @@ exports.fileContent = (req, res) => {
   console.log("projectpath : " + req.body.projectpath);
 
   res.status(201).json({
-    content:  "#include<iostream>\n int main () {std::cout << \"Hello World !\"  << std::endl; return 0;}"
+    filename : req.body.filename,
+    extension : req.body.extension,
+    content:  "#include<iostream>\n int main () {std::cout << \"Hello World !\"  << std::endl; return 0;}",
+    date : "19/09/1989"
   });
 };
 

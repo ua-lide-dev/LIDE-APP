@@ -12,16 +12,6 @@
         "
         >Nouveau Projet</v-btn>
 
-        <v-btn
-        @click="test"
-        style="
-          background-color: #3caee9;
-          width: 50%;
-          margin-top: 30px;
-          font-size: 0.73vw;">
-          addFile
-        </v-btn>
-
       </div>
 
     <NewProjectModal v-model="showModal"></NewProjectModal>
@@ -50,7 +40,7 @@ export default {
       const obj = {
       content : "some code",
       filename : "test4",
-      projectname : "TP3",
+      projectname : "TP1",
       extension : "php"
     };
     console.log(obj);

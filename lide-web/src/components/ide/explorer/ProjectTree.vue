@@ -1,11 +1,21 @@
 <template>
   <div style="margin: 10px" @contextmenu="diableRightClick($event)">
-    <h3 style="user-select: none" align="center">{{ projectName }}</h3>
+    <div style="inline" align="center">
+      <h3 style="user-select: none; ">{{ projectName }}</h3>
+      <v-btn
+        style="
+          background-color: #3caee9;
+          width: 8%;"
+          @click="createNewFile">
+          <v-icon >mdi-plus-box</v-icon>
+      </v-btn>
+    </div>
+    
     <template>
       <v-treeview :items="files" activatable item-key="name" open-on-click transition>
         <template slot="label" slot-scope="{ item }">
           <!-- evenement click sur le titre de l'item  -->
-          <div @contextmenu="filesMenu($event, item)" @click="openFile(item)">{{ item.filename }}</div>
+          <div @contextmenu="filesMenu($event, item)" @click="openFile(item)">{{ item.filename }}.{{item.extension}}</div>
         </template>
 
         <template v-slot:prepend="{ item, open }">
@@ -38,17 +48,20 @@
     </VueSimpleContextMenu-->
 
     <!--invisible to start, will appear when needed -->
+    <NewFileModal v-model="showModal" :projectName="projectName"></NewFileModal>
   </div>
 </template>
 
 <script>
 // import VueSimpleContextMenu from "./Vue-simple-context-menu";
+import NewFileModal from "./modalNewFile.vue"
 
 export default {
   name: "ProjectTree",
-  // components: {
-  //   VueSimpleContextMenu,
-  // },
+   components: {
+     NewFileModal
+    //VueSimpleContextMenu,
+  },
   props: {
     projectName: String,
     files: Array
@@ -78,6 +91,9 @@ export default {
     diableRightClick: function (e) {
       //fonction pour desaciver le clique droit sur le reste de l'arbre
       e.preventDefault();
+    },
+    createNewFile: function(){
+      this.showModal = true;
     }
   },
   data: () => ({
@@ -102,6 +118,8 @@ export default {
       { name: "Rename", action: "rename" },
       { name: "Delete", action: "delete" }
     ],
+
+    showModal: false,
   })
 };
 </script>

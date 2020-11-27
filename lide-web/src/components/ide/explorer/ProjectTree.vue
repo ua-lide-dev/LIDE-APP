@@ -2,7 +2,7 @@
   <div style="margin: 10px" @contextmenu="diableRightClick($event)">
     <h3 style="user-select: none" align="center">{{ projectName }}</h3>
     <template>
-      <v-treeview :items="items" activatable item-key="name" open-on-click transition>
+      <v-treeview :items="files" activatable item-key="name" open-on-click transition>
         <template slot="label" slot-scope="{ item }">
           <!-- evenement click sur le titre de l'item  -->
           <div @contextmenu="filesMenu($event, item)" @click="openFile(item)">{{ item.name }}</div>
@@ -51,7 +51,7 @@ export default {
   // },
   props: {
     projectName: String,
-    path: String
+    files: Array
   },
   methods: {
     openFile: function (item) {
@@ -98,30 +98,6 @@ export default {
       { name: "Rename", action: "rename" },
       { name: "Delete", action: "delete" }
     ],
-    //tree: [],
-    items: [
-      {
-        ///extraire file de projects avec des getters sur projects
-        name: "cpp",
-        file: "txt"
-      },
-      {
-        name: "exo1.java",
-        file: "txt"
-      },
-      {
-        name: "exo2.java",
-        file: "txt"
-      },
-      {
-        name: "exo3.java",
-        file: "txt"
-      },
-      {
-        name: "exo1.php",
-        file: "txt"
-      }
-    ]
   })
 };
 </script>

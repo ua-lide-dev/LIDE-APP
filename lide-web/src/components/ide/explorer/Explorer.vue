@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer ref="drawer" id="explorer" absolute width="15.5%">
     <div v-for="(project, index) in this.$store.getters.projects" v-bind:key="index">
-      <ProjectTree :projectName="project.projectName"></ProjectTree>
+      <ProjectTree :projectName="project.projectname" :files="project.files"></ProjectTree>
     </div>
 
     <template v-slot:append height>
@@ -29,12 +29,7 @@ export default {
 
   data() {
     return {
-      projectList: [
-        { name: "TP1", path: "filePath" },
-        { name: "TD2.1", path: "filePath" },
-        { name: "TP2", path: "filePath" },
-        { name: "TD3", path: "filePath" }
-      ]
+      projectList: []
     };
   },
 

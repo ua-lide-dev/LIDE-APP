@@ -7,9 +7,14 @@ const project = require("./controllers/project.controller");
 const file = require("./controllers/file.controller");
 const compile = require("./controllers/compile.controller");
 
+
 /* --- Routes --- */
 
-//Routes Project
+//Routes User
+router.post("/user", user.createUser);
+router.get("/projects",user.getAllProjects);
+
+// Routes Project
 router.post("/createProject", project.create);
 router.put('/renameProject', project.rename);
 router.delete("/deleteProject",project.delete);
@@ -18,6 +23,8 @@ router.delete("/deleteProject",project.delete);
 router.post("/createFile", file.create);
 router.put("/renameFile", file.rename);
 router.delete("/deleteFile", file.delete);
+router.post("/getFile", file.getFile);
+
 
 // Route save
 router.put("/save",file.save);

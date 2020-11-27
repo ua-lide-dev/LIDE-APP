@@ -98,7 +98,10 @@ export default {
     /*[{name: 'HelloWorld.cpp', chemin: "", project: "", code: '//exemple de code c++\n\n#include <iostream>\n\nint main(){\n std::cout << "Hello World!" << std::endl;\nreturn 0;\n}'}],*/
 
     showMenuOptions: false,
-    
+
+    code:
+      '//exemple de code c++\n\n#include <iostream>\n\nint main(){\n std::cout << "Hello World!" << std::endl;\n return 0;\n}',
+
     cmOption: {
       tabSize: 4,
       styleActiveLine: true,
@@ -157,6 +160,10 @@ export default {
     buildButton: function() {
       //fonction associer au button de build, pour build
       alert("votre code est en buildance");
+
+      // Appeler une sauvegarde
+      // Appeler le controller de compilation qui renvoit un containerid
+      // this.$root.$refs.Terminal.openSocket(res.data.containerid);
     },
     optionButton: function() {
       //fonction associer au button options

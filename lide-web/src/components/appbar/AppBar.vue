@@ -4,7 +4,7 @@
     <v-toolbar-title
       class="mx-10"
       v-if="!isConnected"
-    >Bonjour {{ prenom }} {{ nom }} bienvenue sur LIDE</v-toolbar-title>
+    >Bonjour {{ this.$store.getters.username }} bienvenue sur LIDE</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn
       to="/app"
@@ -26,12 +26,12 @@
 </template>
 <script>
 export default {
+
   name: "AppBar",
 
   data: () => ({
     isConnected: false,
-    nom: "Maignan",
-    prenom: "Quentin"
+    username: ""
   }),
   methods: {
     checkConnexion: function() {
@@ -56,8 +56,8 @@ export default {
     disconnect: function() {
       //fonction qui déconecte l'etudiant du site
       this.isConnected = false;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

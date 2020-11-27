@@ -1,6 +1,8 @@
 const WebSocket = require('ws');
 
-const ws = new WebSocket.Server({ port: 3636 });
+const _port = process.env.LIDE_WSS_PORT;
+
+const ws = new WebSocket.Server({ port: _port });
 
 ws.on('connection', function connection(ws) {
   console.log("> connected");
@@ -12,8 +14,9 @@ ws.on('connection', function connection(ws) {
   ws.on('message', function incoming(input) {
     if (firstMessage) {
       containerId = input;
+      console.log("containerid " + containerId);
       
-      dockerSocket = new WebSocket('ws://localhost:2375/containers/' + containerId + '/attach/ws?stream=1&stdout=1&stdin=1');
+      dockerSocket = new WebSocket('ws://localhost:2375/containers/' + containerId + '/attach/ws?stream=1&stdout=1&stdin=1&logs1');
 
       dockerSocket.on('open', function open() {
         console.log("> successfully connected to docker api");
@@ -22,6 +25,7 @@ ws.on('connection', function connection(ws) {
     
       dockerSocket.on('message', function incoming(output) {
         ws.send(output);
+        console.log("from docker : " + output);
       });
      
       dockerSocket.on('close', function close() {
@@ -33,6 +37,7 @@ ws.on('connection', function connection(ws) {
     }
     else {
       dockerSocket.send(input);
+      console.log("from web : " + input);
     }
 
   });
@@ -42,4 +47,4 @@ ws.on('close', function close() {
   console.log('> client disconnected');
 });
 
-console.log(" WS listening on port 3636 ");
+console.log(" WS listening on port " + _port);

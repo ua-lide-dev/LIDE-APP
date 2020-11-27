@@ -36,7 +36,7 @@
           <v-btn
             color="green darken-1"
             text
-            @click="creatNewProject"
+            @click="createNewProject"
           >
             Accepter
           </v-btn>
@@ -69,7 +69,7 @@
                 this.show =  false;
                 this.title_input = "";
             },
-            creatNewProject : function(){
+            createNewProject : function(){
                 var title = document.getElementById("project_title_input").value;
                 if(title == ""){
                     alert("Le nom de projet ne peut pas être vide.")

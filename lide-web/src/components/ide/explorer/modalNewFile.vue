@@ -45,7 +45,7 @@
           <v-btn
             color="green darken-1"
             text
-            @click="creatNewFile"
+            @click="createNewFile"
           >
             Accepter
           </v-btn>
@@ -100,13 +100,13 @@
                   code = '#include<iostream>\n\nint main(){\n std::cout<<"Hello World !"<<std::cin;\n return 0;\n}';
                 }
                 if(this.ext == "java"){
-                  code = 'public class LE_NOM_DE_LA_CLASS {\n public static void main(String[] arg){\n  System.out.println("Hello world !");\n }\n}';
+                  code = 'public class ' + name + ' {\n public static void main(String[] arg){\n  System.out.println("Hello world !");\n }\n}';
                 }
                 if(this.ext == "php"){
                   code = '<?php echo "Hello World !"; ?>';
                 }
                 if(this.ext == "py"){
-                  code = 'print("Hello Wordl !")';
+                  code = 'print("Hello World !")';
                 }
 
                 const obj = {

@@ -80,7 +80,7 @@
                 this.show =  false;
                 this.title_input = "";
             },
-            creatNewFile : function(){
+            createNewFile : function(){
                 var name = document.getElementById("file_name_input").value;
                 if(name == ""){
                     alert("Le nom du fichier ne peut pas être vide.")
@@ -94,6 +94,34 @@
                     */
                     this.closeMenu();
                 }
+
+                var code = "";
+                if(this.ext == "cpp"){
+                  code = '#include<iostream>\n\nint main(){\n std::cout<<"Hello World !"<<std::cin;\n return 0;\n}';
+                }
+                if(this.ext == "java"){
+                  code = 'public class LE_NOM_DE_LA_CLASS {\n public static void main(String[] arg){\n  System.out.println("Hello world !");\n }\n}';
+                }
+                if(this.ext == "php"){
+                  code = '<?php echo "Hello World !"; ?>';
+                }
+                if(this.ext == "py"){
+                  code = 'print("Hello Wordl !")';
+                }
+
+                const obj = {
+                  content : code,
+                  filename : name,
+                  projectname : this.projectName,
+                  extension : this.ext
+                };
+
+                console.log(obj);
+                this.$store.dispatch('createFile', obj)
+                .then( () => {
+                  console.log("Creation de de fichier grace au bouton du project");
+                  this.$store.dispatch('getProjects');
+                });
                 
             }
         },

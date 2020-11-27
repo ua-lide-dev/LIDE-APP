@@ -37,6 +37,7 @@ export default {
     },
 
     test: function(){
+      
       const obj = {
       content : "some code",
       filename : "test4",

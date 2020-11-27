@@ -13,7 +13,6 @@ const compile = require("./controllers/compile.controller");
 //Routes User
 router.post("/user", user.createUser);
 router.get("/projects",user.getAllProjects);
-router.get("/getFile",user.getFile);
 
 // Routes Project
 router.post("/createProject", project.create);
@@ -24,7 +23,7 @@ router.delete("/deleteProject",project.delete);
 router.post("/createFile", file.create);
 router.put("/renameFile", file.rename);
 router.delete("/deleteFile", file.delete);
-router.post("/fileContent", file.getFile);
+router.post("/getFile", file.getFile);
 
 
 // Route save

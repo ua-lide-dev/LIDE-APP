@@ -6,7 +6,7 @@ const cors = require("cors");
 const db = require("./db");
 /* -- Connection à la base de donnée MongoDB --- */
 db.connect();
-//app.use(bodyparser.json());
+app.use(bodyparser.json());
 
 /*----authorisation du cors pour nos requetes---*/
 app.use(cors());

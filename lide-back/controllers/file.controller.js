@@ -114,22 +114,26 @@ exports.save = (req, res) => {
 };
 
 
-//(BOUCHON EN ATTENDANT LE CONTROLLER DE BAPTISTE) TODO a remplacer
-// POST -> getfile 
+// POST -> récupère le fichier correspondant aux infos passées dans la requête
 exports.getFile = (req, res) => {
-
-  //Données en entrée dans la requête
-
-  console.log("username : " + req.headers.username);
-  console.log("filename : " + req.body.filename);
-  console.log("extension : " + req.body.extension);
-  console.log("projectpath : " + req.body.projectpath);
-
-  res.status(201).json({
-    filename : req.body.filename,
-    extension : req.body.extension,
-    content:  "#include<iostream>\n int main () {std::cout << \"Hello World !\"  << std::endl; return 0;}",
-    date : "19/09/1989"
+  User.findOne({ username:req.headers.username})
+  .then((user) => { // Si la requête réussi (Statut 200 -> OK)
+    for(projet in user.projects){
+      if(user.projects[projet].projectname==req.body.projectname){
+        for(fic in user.projects[projet].files){
+          if(user.projects[projet].files[fic].filename==req.body.filename && user.projects[projet].files[fic].extension==req.body.extension){
+            res.status(200).json(user.projects[projet].files[fic]);
+          }
+        }
+      }
+      
+    }
+    res.status(200).json(user);
+  })
+  .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)
+    console.log(err);
+    res.status(400).json(err);
   });
 };
+
 

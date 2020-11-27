@@ -9,6 +9,7 @@ const User = require("../models/user");
 // GET -> récupère tous les projets d'un utilisateur
 exports.getAllProjects = (req, res) => {
 
+  console.log(req.headers.username);
   User.findOne({ username:req.headers.username}, 'projects ')
   .then((user) => { // Si la requête réussi (Statut 200 -> OK)
     res.status(200).json(user.projects);

@@ -16,7 +16,7 @@ function createUser(username){
 /// Projects
 function getProjects(username) {
   console.log("username dans les routes fronts projects : " + username);
-  return http.get("/projects", {headers:{username:username}})
+  return http.get("/projects", {headers:{username:username}});
 }
 
 //data est un obj avec un champ projectname  et username

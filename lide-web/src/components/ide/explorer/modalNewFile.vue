@@ -78,7 +78,7 @@
         methods: {
             closeMenu : function(){
                 this.show =  false;
-                this.title_input = "";
+                this.name_input = "";
             },
             createNewFile : function(){
                 var name = document.getElementById("file_name_input").value;

@@ -81,7 +81,7 @@
                 this.name_input = "";
             },
             createNewFile : function(){
-                var name = document.getElementById("file_name_input").value;
+                var name = this.name_input;
                 //console.log(name)
                 if(name == ""){
                     alert("Le nom du fichier ne peut pas être vide.")

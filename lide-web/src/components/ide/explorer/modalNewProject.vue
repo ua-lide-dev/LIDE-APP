@@ -38,7 +38,7 @@
             text
             @click="createNewProject"
           >
-            Accepter
+            Créer
           </v-btn>
 
           <v-spacer></v-spacer>
@@ -70,7 +70,7 @@
                 this.title_input = "";
             },
             createNewProject : function(){
-                var title = document.getElementById("project_title_input").value;
+                var title = this.title_input;
                 if(title == ""){
                     alert("Le nom de projet ne peut pas être vide.")
                 }

@@ -7,31 +7,30 @@ const User = require ("../models/user")
 
 // POST -> crée un fichier
 exports.create = (req, res) => {
- console.log("")
-
-    // on recupere le username et le projectname
-    const username = req.headers.username;
-    const projectname= req.body.projectname;
-    // On initialise un nouvel objet File
-    const file = new File({
-        filename: req.body.filename,
-        extension: req.body.extension,
-        body: req.body.body,
-        date: Date.now()
-    });
-
-  User.findOne({username:username,'projects.projectname':projectname, 'projects.files.filename':req.body.filename})
-  .then(user=>{
-   if(user){
-    res.status(400).json({
+  console.log("")
+ 
+     // on recupere le username et le projectname
+     const username = req.headers.username;
+     const projectname= req.body.projectname;
+     // On initialise un nouvel objet File
+     const file ={
+         filename: req.body.filename,
+         extension: req.body.extension,
+         body: req.body.body,
+         date: Date.now()
+     };
+ 
+   User.findOne({"username":username,"projects":{$elemMatch:{"projectname" : req.body.projectname, files:{$elemMatch: {"filename":req.body.filename,"extension":req.body.extension}}}}})
+   .then(user=>{
+    if(user){
+      res.status(400).json({
       error: "File already exists !",
-    });
-    
-   }
-   else{
-    User.findOneAndUpdate(
-      {username:username,'projects.projectname':projectname},
-      { $push: {'projects.$.files': file}},{useFindAndModify: false}).exec()
+     });
+    }
+    else{
+      User.findOneAndUpdate(
+        {username:username,'projects.projectname':projectname},
+        { $push: {'projects.$.files': file}},{useFindAndModify: false}).exec()
       .then(
         res.status(201).json(file)
       ).catch((err) => {
@@ -40,8 +39,9 @@ exports.create = (req, res) => {
           error: err,
         });
       });
-   }
-})};
+    }
+  })
+};
 
 // PUT -> renommer un fichier
 exports.rename = (req, res) => {
@@ -135,5 +135,3 @@ exports.getFile = (req, res) => {
     res.status(400).json(err);
   });
 };
-
-

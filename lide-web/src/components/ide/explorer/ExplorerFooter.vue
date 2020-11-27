@@ -50,7 +50,7 @@ export default {
       const obj = {
       content : "some code",
       filename : "test4",
-      projectname : "TP3",
+      projectname : "TP1",
       extension : "php"
     };
     console.log(obj);

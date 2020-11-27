@@ -98,7 +98,7 @@ exports.save = (req, res) => {
     }
   },{ arrayFilters:[
       {"project.projectname": req.body.projectname}, 
-      {"file.filename": req.body.filename}
+      {"file.filename": req.body.filename, "file.extension": req.body.extension}
     ]
   }) 
     .then(() => {

@@ -9,7 +9,7 @@
       <v-card>
 
         <v-card-title class="headline">
-          Nouveau Projet
+          Nouveau Fichier
 
           <v-btn
             color="red darken-1"
@@ -82,6 +82,7 @@
             },
             createNewFile : function(){
                 var name = document.getElementById("file_name_input").value;
+                //console.log(name)
                 if(name == ""){
                     alert("Le nom du fichier ne peut pas être vide.")
                 }
@@ -93,35 +94,36 @@
                     //apl au store pou l'action
                     */
                     this.closeMenu();
+                    var code = "";
+                    if(this.ext == "cpp"){
+                      code = '#include<iostream>\n\nint main(){\n std::cout<<"Hello World !"<<std::cin;\n return 0;\n}';
+                    }
+                    if(this.ext == "java"){
+                      code = 'public class ' + name + ' {\n public static void main(String[] arg){\n  System.out.println("Hello world !");\n }\n}';
+                    }
+                    if(this.ext == "php"){
+                      code = '<?php echo "Hello World !"; ?>';
+                    }
+                    if(this.ext == "py"){
+                      code = 'print("Hello World !")';
+                    }
+
+                    const obj = {
+                      content : code,
+                      filename : name,
+                      projectname : this.projectName,
+                      extension : this.ext
+                    };
+
+                    console.log(obj);
+                    this.$store.dispatch('createFile', obj)
+                    .then( () => {
+                      console.log("Creation de de fichier grace au bouton du project");
+                      this.$store.dispatch('getProjects');
+                    });
                 }
 
-                var code = "";
-                if(this.ext == "cpp"){
-                  code = '#include<iostream>\n\nint main(){\n std::cout<<"Hello World !"<<std::cin;\n return 0;\n}';
-                }
-                if(this.ext == "java"){
-                  code = 'public class ' + name + ' {\n public static void main(String[] arg){\n  System.out.println("Hello world !");\n }\n}';
-                }
-                if(this.ext == "php"){
-                  code = '<?php echo "Hello World !"; ?>';
-                }
-                if(this.ext == "py"){
-                  code = 'print("Hello World !")';
-                }
-
-                const obj = {
-                  content : code,
-                  filename : name,
-                  projectname : this.projectName,
-                  extension : this.ext
-                };
-
-                console.log(obj);
-                this.$store.dispatch('createFile', obj)
-                .then( () => {
-                  console.log("Creation de de fichier grace au bouton du project");
-                  this.$store.dispatch('getProjects');
-                });
+                
                 
             }
         },

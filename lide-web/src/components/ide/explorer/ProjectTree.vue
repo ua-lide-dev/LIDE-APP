@@ -10,7 +10,7 @@
     </div>
     
     <template>
-      <v-treeview :items="files" activatable item-key="name" open-on-click transition>
+      <v-treeview :items="files" item-key="name" open-on-click transition>
         <template slot="label" slot-scope="{ item }">
           <!-- evenement click sur le titre de l'item  -->
           <div @contextmenu="filesMenu($event, item)" @click="openFile(item)">{{ item.filename }}.{{item.extension}}</div>

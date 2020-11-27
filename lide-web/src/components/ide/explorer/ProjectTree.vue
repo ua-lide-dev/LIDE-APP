@@ -1,11 +1,9 @@
 <template>
   <div style="margin: 10px" @contextmenu="diableRightClick($event)">
-    <div style="inline" align="center">
-      <h3 style="user-select: none; ">{{ projectName }}</h3>
+    <div align="center">
+      <h3 style="user-select: none; display: inline-block">{{ projectName }}</h3>
       <v-btn
-        style="
-          background-color: #3caee9;
-          width: 8%;"
+        style="background-color: #3caee9; width: 8%; display: inline-block; margin-left: 10px"
           @click="createNewFile">
           <v-icon >mdi-plus-box</v-icon>
       </v-btn>

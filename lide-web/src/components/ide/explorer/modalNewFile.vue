@@ -86,9 +86,9 @@
                     alert("Le nom du fichier ne peut pas être vide.")
                 }
                 else{
-                  console.log("ext: ", this.ext)
-                  console.log(name);
-                  console.log(this.projectName)
+                  //console.log("ext: ", this.ext)
+                  //console.log(name);
+                  //console.log(this.projectName)
                     /*
                     //apl au store pou l'action
                     */

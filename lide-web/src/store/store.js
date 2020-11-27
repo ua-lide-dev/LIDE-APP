@@ -21,7 +21,7 @@ const store = new VueX.Store({
         state.username = payload;
       },
       SET_PROJECTS(state, payload){
-        state.project = payload;
+        state.projects = payload;
       },
       SET_CURRENTFILE(state, payload){
         state.currentFile = payload;

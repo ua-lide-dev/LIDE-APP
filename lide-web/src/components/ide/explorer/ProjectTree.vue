@@ -5,7 +5,7 @@
       <v-treeview :items="files" activatable item-key="name" open-on-click transition>
         <template slot="label" slot-scope="{ item }">
           <!-- evenement click sur le titre de l'item  -->
-          <div @contextmenu="filesMenu($event, item)" @click="openFile(item)">{{ item.name }}</div>
+          <div @contextmenu="filesMenu($event, item)" @click="openFile(item)">{{ item.filename }}</div>
         </template>
 
         <template v-slot:prepend="{ item, open }">
@@ -13,12 +13,12 @@
           <div @contextmenu="filesMenu($event, item)" @click="openFile(item)">
             <!-- evenement click sur l'icone de l'item  -->
 
-            <v-icon v-if="!item.file">
+            <v-icon v-if="!item.extension">
               <!-- icon de dossier -->
               {{ open ? "mdi-folder-open" : "mdi-folder" }}
             </v-icon>
             <v-icon v-else>
-              {{ icons[item.file] }}
+              {{ icons[item.extension] }}
               <!-- icon de fichier -->
             </v-icon>
           </div>
@@ -90,7 +90,11 @@ export default {
       pdf: "mdi-file-pdf",
       png: "mdi-file-image",
       txt: "mdi-file-document-outline",
-      xls: "mdi-file-excel"
+      xls: "mdi-file-excel",
+      java: "mdi-coffee",
+      cpp: "mdi-language-cpp",
+      py: "mdi-language-python",
+      php: "mdi-language-php"
     },
     fileOptions: [
       //contextMenu options

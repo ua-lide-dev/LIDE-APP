@@ -79,7 +79,7 @@ const store = new VueX.Store({
         console.log("content : " + obj.content);
         console.log("filename : " + obj.filename);
         console.log("userame : " + state.username);
-        service.createFile(state.username,obj.projectname, obj.content, obj.filename);
+        service.createFile(state.username,obj);
       },
 
       getFile({state, commit}, obj) {

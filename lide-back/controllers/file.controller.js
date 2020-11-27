@@ -7,7 +7,7 @@ const User = require ("../models/user")
 
 // POST -> crée un fichier
 exports.create = (req, res) => {
- console.log("")
+ console.log("create file : ");
 
     // on recupere le username et le projectname
     const username = req.headers.username;

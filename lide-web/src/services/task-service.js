@@ -44,11 +44,12 @@ function deleteProject(username, projectpath) {
 
 /// Files
 
-function createFile(username, projectname, content, filename) {
+function createFile(username, file) {
   const data = {
-    projectname : projectname,
-    content: content,
-    filename: filename
+    projectname : file.projectname,
+    content: file.content,
+    filename: file.filename,
+    extension: file.extension
   }
   return http.post("/createFile", data, {headers:{username:username}})
 }

@@ -17,7 +17,7 @@
       <v-icon dark>mdi-gavel</v-icon>
     </v-btn>
     <v-btn class="btn-save" absolute fab dark medium color="blue">
-      <v-icon dark>mdi-cloud-upload</v-icon>
+      <v-icon dark>mdi-floppy</v-icon>
     </v-btn>
     <v-btn class="btn-setting" absolute fab dark medium color="grey" @click="showMenuOptions = true">
       <v-icon dark>mdi-wrench</v-icon>

@@ -48,14 +48,18 @@ export default {
 
     test: function(){
       const obj = {
-      content : "balbalbal",
-      filename : "312354",
-      projectname : "TP1"
-    }
+      content : "some code",
+      filename : "test4",
+      projectname : "TP3",
+      extension : "php"
+    };
     console.log(obj);
-    this.$store.dispatch('createFile', obj, this.$store);
-    this.$store.dispatch('getFile', this.$store);
-    this.$store.dispatch('getProjects',this.$store);
+    this.$store.dispatch('createFile', obj)
+    .then( () => {
+      console.log("---------------------------------");
+      this.$store.dispatch('getProjects');
+    });
+    //this.$store.dispatch('getProjects',this.$store);
     }
   },
 };

@@ -56,7 +56,6 @@ export default {
     this.$store.dispatch('createFile', obj, this.$store);
     this.$store.dispatch('getFile', this.$store);
     this.$store.dispatch('getProjects',this.$store);
-
     }
   },
 };

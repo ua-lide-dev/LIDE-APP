@@ -79,6 +79,10 @@ export default {
     buildButton: function() {
       //fonction associer au button de build, pour build
       alert("votre code est en buildance");
+
+      // Appeler une sauvegarde
+      // Appeler le controller de compilation qui renvoit un containerid
+      // this.$root.$refs.Terminal.openSocket(res.data.containerid);
     },
     optionButton: function() {
       //fonction associer au button options

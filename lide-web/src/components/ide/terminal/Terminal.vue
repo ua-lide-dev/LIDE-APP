@@ -4,7 +4,6 @@
 
 <script>
 import { Terminal } from "xterm";
-import { FitAddon } from "xterm-addon-fit";
 import { AttachAddon } from "xterm-addon-attach";
 import "xterm/css/xterm.css";
 
@@ -14,24 +13,37 @@ export default {
   data() {
     return {
       terminal : new Terminal(),
-      socket : new WebSocket( "ws://localhost:3636") // TODO DEV; Ip:port de la VM
+      socket : null
     };
+  },
+
+  methods: {
+    openSocket(containerId) {
+      console.log("Le terminal a reçu le container ID : " + containerId);
+
+      // Recharger le terminal et le socket si ce n'est pas la première fois
+      if(this.socket !== null) {
+        this.socket.close();
+        this.terminal.reset();
+      }
+
+      // Création d'un socket vers le wss
+      this.socket = new WebSocket("ws://localhost:3636");
+      this.socket.onopen = () => {
+          this.socket.send(containerId); 
+      };
+
+      // Liaison socket-terminal
+      this.terminal.loadAddon(new AttachAddon(this.socket, { bidirectional: true })); 
+    }
   },
 
   created() {
-    this.socket.onopen = () => {
-      this.socket.send("36f9eb646a48737916417adef889a7959c24e24d56b931cafb37a61d154ef267"); // TODO DEV; Dynamiquement avec le retour de /compile
-    };
+    this.$root.$refs.Terminal = this;
   },
 
   mounted() {
-    const fitAddon = new FitAddon();
-    const attachAddon = new AttachAddon(this.socket, { bidirectional: true });
-
-    this.terminal.loadAddon(attachAddon);
-    this.terminal.loadAddon(fitAddon);
     this.terminal.open(this.$refs.terminal);
-    fitAddon.fit();
   }
 
   

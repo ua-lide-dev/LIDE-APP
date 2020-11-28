@@ -7,18 +7,18 @@ const User = require ("../models/user")
 
 // POST -> crée un fichier
 exports.create = (req, res) => {
- console.log("")
+ console.log("create file : ");
 
     // on recupere le username et le projectname
     const username = req.headers.username;
     const projectname= req.body.projectname;
     // On initialise un nouvel objet File
-    const file = new File({
+    const file = {
         filename: req.body.filename,
         extension: req.body.extension,
-        body: req.body.body,
+        body: req.body.content,
         date: Date.now()
-    });
+    };
 
   User.findOne({username:username,'projects.projectname':projectname, 'projects.files.filename':req.body.filename})
   .then(user=>{
@@ -111,6 +111,25 @@ exports.save = (req, res) => {
         error: err,
       });
   })
+
+  //(BOUCHON EN ATTENDANT LE CONTROLLER DE BAPTISTE) TODO a remplacer
+// POST -> getfile 
+exports.getFile = (req, res) => {
+
+  //Données en entrée dans la requête
+
+  console.log("username : " + req.headers.username);
+  console.log("filename : " + req.body.filename);
+  console.log("extension : " + req.body.extension);
+  console.log("projectname : " + req.body.projectname);
+
+    res.status(201).json({
+      filename : req.body.filename,
+      extension : req.body.extension,
+      content:  "#include<iostream>\n int main () {std::cout << \"Hello World !\"  << std::endl; return 0;}",
+      date : "19/09/1989"
+    });
+  }
 };
 
 

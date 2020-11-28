@@ -1,11 +1,21 @@
 <template>
   <div style="margin: 10px" @contextmenu="diableRightClick($event)">
-    <h3 style="user-select: none" align="center">{{ projectName }}</h3>
+    <div align="center" style="margin-bottom: 10px">
+      <h3 style="user-select: none; display: inline-block">{{ projectName }}</h3>
+      <v-btn
+        style="width: 8%; display: inline-block; margin-left: 10px"
+          outlined
+          small
+          @click="createNewFile">
+          <v-icon >mdi-plus-box</v-icon>
+      </v-btn>
+    </div>
+    
     <template>
-      <v-treeview :items="items" activatable item-key="name" open-on-click transition>
+      <v-treeview :items="files" item-key="name" open-on-click transition>
         <template slot="label" slot-scope="{ item }">
           <!-- evenement click sur le titre de l'item  -->
-          <div @contextmenu="filesMenu($event, item)" @click="openFile(item)">{{ item.name }}</div>
+          <div @contextmenu="filesMenu($event, item)" @click="openFile(item)">{{ item.filename }}.{{item.extension}}</div>
         </template>
 
         <template v-slot:prepend="{ item, open }">
@@ -13,12 +23,12 @@
           <div @contextmenu="filesMenu($event, item)" @click="openFile(item)">
             <!-- evenement click sur l'icone de l'item  -->
 
-            <v-icon v-if="!item.file">
+            <v-icon v-if="!item.extension">
               <!-- icon de dossier -->
               {{ open ? "mdi-folder-open" : "mdi-folder" }}
             </v-icon>
             <v-icon v-else>
-              {{ icons[item.file] }}
+              {{ icons[item.extension] }}
               <!-- icon de fichier -->
             </v-icon>
           </div>
@@ -38,20 +48,23 @@
     </VueSimpleContextMenu-->
 
     <!--invisible to start, will appear when needed -->
+    <NewFileModal v-model="showModal" :projectName="projectName"></NewFileModal>
   </div>
 </template>
 
 <script>
 // import VueSimpleContextMenu from "./Vue-simple-context-menu";
+import NewFileModal from "./modalNewFile.vue"
 
 export default {
   name: "ProjectTree",
-  // components: {
-  //   VueSimpleContextMenu,
-  // },
+   components: {
+     NewFileModal
+    //VueSimpleContextMenu,
+  },
   props: {
     projectName: String,
-    path: String
+    files: Array
   },
   methods: {
     openFile: function (item) {
@@ -78,6 +91,9 @@ export default {
     diableRightClick: function (e) {
       //fonction pour desaciver le clique droit sur le reste de l'arbre
       e.preventDefault();
+    },
+    createNewFile: function(){
+      this.showModal = true;
     }
   },
   data: () => ({
@@ -90,7 +106,11 @@ export default {
       pdf: "mdi-file-pdf",
       png: "mdi-file-image",
       txt: "mdi-file-document-outline",
-      xls: "mdi-file-excel"
+      xls: "mdi-file-excel",
+      java: "mdi-coffee",
+      cpp: "mdi-language-cpp",
+      py: "mdi-language-python",
+      php: "mdi-language-php"
     },
     fileOptions: [
       //contextMenu options
@@ -98,42 +118,8 @@ export default {
       { name: "Rename", action: "rename" },
       { name: "Delete", action: "delete" }
     ],
-    //tree: [],
-    items: [
-      {
-        name: "cpp",
-        children: [
-          {
-            name: "exo1.cpp",
-            file: "txt"
-          },
-          {
-            name: "exo2.cpp",
-            file: "txt"
-          },
-          {
-            name: "exo3.cpp",
-            file: "txt"
-          }
-        ]
-      },
-      {
-        name: "exo1.java",
-        file: "txt"
-      },
-      {
-        name: "exo2.java",
-        file: "txt"
-      },
-      {
-        name: "exo3.java",
-        file: "txt"
-      },
-      {
-        name: "exo1.php",
-        file: "txt"
-      }
-    ]
+
+    showModal: false,
   })
 };
 </script>

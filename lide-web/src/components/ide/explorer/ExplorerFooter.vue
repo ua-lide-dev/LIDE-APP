@@ -10,9 +10,9 @@
           margin-top: 30px;
           font-size: 0.73vw;
         "
-        >Nouveau Projet</v-btn
-      >
-    </div>
+        >Nouveau Projet</v-btn>
+
+      </div>
 
     <NewProjectModal v-model="showModal"></NewProjectModal>
   </div>
@@ -35,6 +35,23 @@ export default {
     createNewProject: function () {
       this.showModal = true;
     },
+
+    test: function(){
+      
+      const obj = {
+      content : "some code",
+      filename : "test4",
+      projectname : "TP1",
+      extension : "php"
+    };
+    console.log(obj);
+    this.$store.dispatch('createFile', obj)
+    .then( () => {
+      console.log("---------------------------------");
+      this.$store.dispatch('getProjects');
+    });
+    //this.$store.dispatch('getProjects',this.$store);
+    }
   },
 };
 </script>

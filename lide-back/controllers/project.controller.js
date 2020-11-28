@@ -16,10 +16,12 @@ exports.create = (req, res) => {
   const username = req.headers.username;
   const projectname = req.body.projectname;
   // On initialise un nouvel objet Project
-  const project = new Project({
+  console.log(username);
+  console.log(projectname);
+  const project = {
     projectname: projectname,
     files: []
-  });
+  };
 
   User.findOne({username:username,'projects.projectname':projectname})
   .then(user=>{
@@ -41,10 +43,7 @@ exports.create = (req, res) => {
             error: err,
           });
         });
-    
     }
-    
-
   })
 };
 

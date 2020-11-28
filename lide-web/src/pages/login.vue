@@ -30,7 +30,8 @@ export default {
   methods: {
     login: function () {
 
-      this.$store.commit('SET_USERNANE',this.username);
+      this.$store.commit('SET_USERNANE', this.username);
+      this.$store.dispatch('createUser',this.$store);
       this.$router.push('/app');
 
     }

@@ -9,6 +9,7 @@ const User = require("../models/user");
 // GET -> récupère tous les projets d'un utilisateur
 exports.getAllProjects = (req, res) => {
 
+  console.log(req.headers.username);
   User.findOne({ username:req.headers.username}, 'projects ')
   .then((user) => { // Si la requête réussi (Statut 200 -> OK)
     res.status(200).json(user.projects);
@@ -35,7 +36,8 @@ exports.get= (req, res) => {
 // POST -> crée un utilisateur
 exports.createUser = (req, res) => {
     //delete req.body._id;  // Sécurité, l'id sera généré par mangoDB
-  
+    console.log("creation d'un user ...")
+    console.log(req.headers.username);
     // On initialise un nouvel objet User
     const user = new User({
       username: req.headers.username,

@@ -19,8 +19,9 @@ exports.getAllProjects = (req, res) => {
   });
 };
 
+
 // GET -> récupère un utilisateur
-exports.get = (req, res) => {
+exports.get= (req, res) => {
     User.findOne({ // Fonction predefinie Mangoose
       _id: req.params.idUser,
     })

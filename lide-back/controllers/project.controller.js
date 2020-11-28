@@ -10,41 +10,6 @@ const User = require ("../models/user")
     - Res est l'objet envoyé en réponse (HTTP CODE STATUS)
 */
 
-// GET -> récupère un projet
-exports.get = (req, res) => {
-  Project.findOne({
-    // Fonction predefinie Mangoose
-    _id: req.params.idProject,
-  })
-    .then((project) => {
-      // Si la requête réussi (Statut 200 -> OK)
-      res.status(200).json(project);
-    })
-    .catch((err) => {
-      // Si la requête échoue (Statut 400 BAD REQUEST)
-      res.status(400).json(err);
-    });
-};
-
-//juste pour les tests
-exports.getTest = (req, res) => {
-  res.status(200).json("projects:{1:20,2:30}");
-}
-
-// GET -> récupère tous les projets
-exports.getAll = (req, res) => {
-  Project.find()
-    .then((project) => {
-      // Si la requête réussi (Statut 200 -> OK)
-      res.status(200).json(project);
-    })
-    .catch((err) => {
-      // Si la requête échoue (Statut 400 BAD REQUEST)
-      res.status(400).json(err);
-    });
-};
-
-
 // POST -> crée un projet
 exports.create = (req, res) => {
   // on recupere le username envoyé dans la requete 
@@ -144,50 +109,6 @@ exports.delete = (req, res) => {
      else {
       res.status(400).send("project does not exist")
     }
-    
- 
    })
   
-};
-
-
-
-
-
-// PUT -> Modifie un projet
-exports.update = (req, res) => {
-  Project.updateOne({ _id: req.params.idProject }, { ...req.body })
-    .then(() => {
-      res.status(201).json({
-        // Si la requête réussi (Statut 201 -> CREATED)
-        message: "Le projet a été mis à jour",
-      });
-    })
-    .catch((err) => {
-      // Si la requête échoue (Statut 400 BAD REQUEST)
-      res.status(400).json({
-        error: err,
-      });
-    });
-};
-
-
-
-// DELETE -> Supprime tous lse projets
-exports.deleteAll = (req, res) => {
-  Project.deleteMany({
-    idUser: req.params.idUser,
-  })
-    .then(() => {
-      // Si la requête réussi (Statut 200 -> OK)
-      res.status(200).json({
-        message: "Tous les projets ont été supprimés !",
-      });
-    })
-    .catch((err) => {
-      // Si la requête échoue (Statut 400 BAD REQUEST)
-      res.status(400).json({
-        error: err,
-      });
-    });
 };

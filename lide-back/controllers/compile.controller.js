@@ -19,13 +19,14 @@ console.log(path);
 execSync('mkdir -p /data-lide/'+ user +'/' + path);
 
 //creation du fichier
+// TODO appeler getfile
 execSync('echo "#include<iostream>\n int main () {std::cout << 12 << std::endl; return 0;}" > /data-lide/'+ user +'/' + path + '/' +file + "." + ext);
 
 //exec de docker 
 
 //docker run -i --name cppqmaignan --rm -v /data-lide/qmaignan/TP1/fichier.cpp:/fichier.cpp cpp fichier.cpp : exemple de docker run
 try {
-  execSync("docker container rm " + user);
+  execSync("docker container rm --force " + user);
 } catch (error) {
   console.log(error);
 }

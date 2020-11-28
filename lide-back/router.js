@@ -9,6 +9,8 @@ const compile = require("./controllers/compile.controller");
 
 
 /* --- Routes --- */
+
+//Routes User
 router.post("/user", user.createUser);
 router.get("/projects",user.getAllProjects);
 
@@ -21,7 +23,8 @@ router.delete("/deleteProject",project.delete);
 router.post("/createFile", file.create);
 router.put("/renameFile", file.rename);
 router.delete("/deleteFile", file.delete);
-//router.post("/getFile", file.getFile);
+router.post("/getFile", file.getFile);
+
 
 // Route save
 router.put("/save",file.save);

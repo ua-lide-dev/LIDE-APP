@@ -77,6 +77,8 @@ services:
     restart: always
     container_name: ${LIDE_CONTAINER_WSS}
     hostname: ${LIDE_CONTAINER_WSS}
+    environment:
+      LIDE_WSS_PORT: ${LIDE_WSS_PORT}
     working_dir: /app
     entrypoint: node server_socket.js
     network_mode: host

@@ -27,20 +27,16 @@ const store = new VueX.Store({
         state.currentFile = payload;
       },
       SET_CURRENTFILE_FROM_INDEX(state, payload){
-        state.currentFile = state.tab[payload];
+        state.currentFile = state.tabs[payload];
       },
       SET_TABS(state, payload){
         state.tabs = payload;
       },
-      SET_AND_ADD_CURRENTFILE(state, payload){
+      ADD_CURRENTFILE_TO_TABS(state, payload){
         
-        state.currentFile = payload;
         var tab = state.tabs;
         var exist = false
         for(var i of tab){
-          console.log("object i :");
-          console.log(i);
-          console.log("payload : ");
           console.log(payload);
           if(i.filename == payload.filename && i.extension == payload.extension)
             exist = true;
@@ -118,9 +114,9 @@ const store = new VueX.Store({
         console.log("on getfile sur =>");
         console.log(obj);
         //username + projectname + filename
-        service.getFile(state.username, obj.projectname, obj.filename, obj.extension ).then((res)=> {
+        service.getFile(state.username, obj.projectname, obj.filename, obj.extension).then((res)=> {
           //commit du res de l'apelle au back de la route getfile dans current file et dans le tabs
-          commit('SET_AND_ADD_CURRENTFILE', res.data);
+          commit('ADD_CURRENTFILE_TO_TABS', res.data);
         }); 
       }
 

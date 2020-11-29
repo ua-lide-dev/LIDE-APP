@@ -50,7 +50,7 @@ const store = new VueX.Store({
       ADD_TABS(state, payload){
         state.tabs.push(payload);
       },
-      SUPP_FILE_IN(state, payload){
+      SUPP_FILE_IN_TABS(state, payload){
         state.tabs = state.tabs.splice(payload,1);
       },  
       CLEAR_TABS(state){

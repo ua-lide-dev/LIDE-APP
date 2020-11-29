@@ -103,12 +103,12 @@ const store = new VueX.Store({
       
 
   //creation d'un fichier et le met en fichier courant
-      createFile({state}, obj) {
+      async createFile({state}, obj) {
         console.log("projectname : " + obj.projectname);
         console.log("content : " + obj.content);
         console.log("filename : " + obj.filename);
         console.log("userame : " + state.username);
-        service.createFile(state.username,obj);
+        await service.createFile(state.username,obj);
       },
 
       getFile({state, commit}, obj) {

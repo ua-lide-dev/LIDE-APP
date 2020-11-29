@@ -80,7 +80,7 @@
                 this.show =  false;
                 this.name_input = "";
             },
-            createNewFile : function(){
+            createNewFile : async function(){
                 var name = this.name_input;
                 //console.log(name)
                 if(name == ""){
@@ -116,7 +116,7 @@
                     };
 
                     console.log(obj);
-                    this.$store.dispatch('createFile', obj)
+                    await this.$store.dispatch('createFile', obj)
                     .then( () => {
                       console.log("Creation de de fichier grace au bouton du project");
                       this.$store.dispatch('getProjects');

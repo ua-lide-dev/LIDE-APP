@@ -52,6 +52,8 @@ const store = new VueX.Store({
       },
       SUPP_FILE_IN_TABS(state, payload){
         state.tabs = state.tabs.splice(payload,1);
+        console.log("le fichier dans tabs qui va etre supp est : ");
+        console.log(state.tabs[payload]);
       },  
       CLEAR_TABS(state){
         state.tabs = [];

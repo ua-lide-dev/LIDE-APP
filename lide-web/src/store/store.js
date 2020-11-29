@@ -83,9 +83,12 @@ const store = new VueX.Store({
       },
 
       getFile({state, commit}, obj) {
-        console.log("on update le file avec =>");
+        console.log("on getfile sur =>");
         console.log(obj);
-        service.get("/getFile",state.username, obj.projectname, obj.filename ).then( (res) => {
+        //username + projectname + filename
+        service.getFile(state.username, obj.projectname, obj.filename, obj.extension ).then( (res) => {
+          console.log("res.data avant de commit dans l'action getFile");
+          console.log(res.data);
           commit('SET_CURRENTFILE', res.data);
           }
         );

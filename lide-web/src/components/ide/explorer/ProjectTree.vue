@@ -70,6 +70,14 @@ export default {
     openFile: function (item) {
       //ouvrir le fichier cliqué
       console.log(" open", item);
+
+      var obj = {
+        filename : item.filename,
+        projectname : this.projectName,
+        extension: item.extension,
+      }
+      //mise a jour du current file et ajout dans les tabs (pour apres)
+      this.$store.dispatch('getFile',obj);
     },
     filesMenu: function (e, item) {
       //ouvrir le ContextMenu

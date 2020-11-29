@@ -118,7 +118,7 @@ export default {
       if(this.activeFile == index){//current tab has been closed
         if(this.$store.getters.tabs.length == 0){//it was the last open tab
           //add example file to Files
-          this.$store.getters.tabs.push({name: 'HelloWorld.cpp', chemin: "", project: "", code: '//exemple de code c++\n\n#include <iostream>\n\nint main(){\n std::cout << "Hello World!" << std::endl;\nreturn 0;\n}'},)
+          //this.$store.getters.tabs.push({name: 'HelloWorld.cpp', chemin: "", project: "", code: '//exemple de code c++\n\n#include <iostream>\n\nint main(){\n std::cout << "Hello World!" << std::endl;\nreturn 0;\n}'},)
         }
         else{//it wasn't the last tab open
           if(index == this.$store.getters.tabs.length){//it was the right-most

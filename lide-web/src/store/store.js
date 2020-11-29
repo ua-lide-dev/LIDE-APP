@@ -7,13 +7,13 @@ Vue.use(VueX)
 
 const store = new VueX.Store({
 
-    plugins: [persistedstate()],
+  plugins: [persistedstate()],
   
     state: {
         username: String,
         projects: Array,
         currentFile: Object,
-        tabs: Array,
+        tabs: [],
     },
     
     mutations: {
@@ -26,9 +26,38 @@ const store = new VueX.Store({
       SET_CURRENTFILE(state, payload){
         state.currentFile = payload;
       },
+      SET_CURRENTFILE_FROM_INDEX(state, payload){
+        state.currentFile = state.tabs[payload];
+      },
       SET_TABS(state, payload){
         state.tabs = payload;
-      }
+      },
+      ADD_CURRENTFILE_TO_TABS(state, payload){
+        
+        if(state.tabs.length == 0) state.currentFile = payload;
+        var tab = state.tabs;
+        var exist = false
+        for(var i of tab){
+          console.log(payload);
+          if(i.filename == payload.filename && i.extension == payload.extension)
+            exist = true;
+        }
+        console.log("le fichier exist deja dans les tabs : " + exist);
+        if(!exist)
+          state.tabs.push(payload);
+
+      },
+      ADD_TABS(state, payload){
+        state.tabs.push(payload);
+      },
+      SUPP_FILE_IN_TABS(state, payload){
+        state.tabs.splice(payload,1);
+        console.log("le fichier dans tabs qui va etre supp est : ");
+        console.log(state.tabs[payload]);
+      },  
+      CLEAR_TABS(state){
+        state.tabs = [];
+      },
     },
     
     actions: {
@@ -83,12 +112,13 @@ const store = new VueX.Store({
       },
 
       getFile({state, commit}, obj) {
-        console.log("on update le file avec =>");
+        console.log("on getfile sur =>");
         console.log(obj);
-        service.get("/getFile",state.username, obj.projectname, obj.filename ).then( (res) => {
-          commit('SET_CURRENTFILE', res.data);
-          }
-        );
+        //username + projectname + filename
+        service.getFile(state.username, obj.projectname, obj.filename, obj.extension).then((res)=> {
+          //commit du res de l'apelle au back de la route getfile dans current file et dans le tabs
+          commit('ADD_CURRENTFILE_TO_TABS', res.data);
+        }); 
       }
 
       /*  
@@ -132,9 +162,6 @@ const store = new VueX.Store({
       tabs(state){
         return state.tabs;
       },
-      projectname(state){
-        return state.projects.projectname;
-      }
     },
   
   });

@@ -43,6 +43,7 @@ export default {
   created: function(){
     console.log("created");
     this.$store.dispatch('getProjects');
+    this.$store.commit('CLEAR_TABS');
   },
   beforeCreate: function(){
     console.log('before created');

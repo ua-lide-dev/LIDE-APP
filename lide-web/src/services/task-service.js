@@ -54,12 +54,16 @@ function createFile(username, file) {
   return http.post("/createFile", data, {headers:{username:username}})
 }
 
-function getFile(username, projectname, filename) {
+function getFile(username, projectname, filename, extension) {
   const data = {
     projectname : projectname,
-    filename: filename
+    filename: filename,
+    extension: extension
   }
-  return http.post("/createFile", data, {headers:{username:username}})
+  console.log("taskService getFile =>");
+  console.log(data);
+  console.log("username : "+ username)
+  return http.post("/getFile", data, {headers:{username:username}})
 }
 
 function updateFile(username, projectpath, filename, data) {

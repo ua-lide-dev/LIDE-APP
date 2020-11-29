@@ -7,16 +7,16 @@
       v-model="activeFile"
       >
         <v-tab
-          v-for="(file, index) in Files"  v-bind:key="index"
-          @click="loadTab(file)"
+          v-for="(file, index) in this.$store.getters.tabs"  v-bind:key="index"
+          @click="loadTab(index)"
           >
-          {{file.name}}
+          {{file.filename}}.{{file.extension}}
           <v-btn 
             outlined
             x-small
             @click="quitTab(index)"
             v-on:click.stop
-            style="margin-left:10px;">
+            style="margin-left:40px;">
             x
           </v-btn>
         </v-tab>
@@ -88,19 +88,10 @@ export default {
   //options
   data: () => ({
     activeFile: 0,//index in Files of active tab
-    Files: [ //a remplacer
-      {name: 'exo1.java', chemin: "TP1/exo1.java", project: "TP1", code: "class HelloWorld {\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println('Hello, World!');\n\t} \n}"},
-      {name: 'exo2.java', chemin: "TP1/exo2.java", project: "TP1", code: "class HelloWorld {\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println('Hello, World again!');\n\t} \n}"}, 
-      {name: 'exo3.java', chemin: "TP1/exo3.java", project: "TP1", code: "//code java 3"}, 
-      {name: 'exo1.php', chemin: "TP1/exo1.php", project: "TP1", code: "<html>\n\t<head>\n\t\t<title>PHP Test</title>\n\t</head>\n\t<body>\n\t\t<?php echo '<p>Hello World</p>'; ?> \n\t</body>\n</html>"}
-    ],
-    //a remplacer avec ça \/
-    /*[{name: 'HelloWorld.cpp', chemin: "", project: "", code: '//exemple de code c++\n\n#include <iostream>\n\nint main(){\n std::cout << "Hello World!" << std::endl;\nreturn 0;\n}'}],*/
 
     showMenuOptions: false,
 
-    code:
-      '//exemple de code c++\n\n#include <iostream>\n\nint main(){\n std::cout << "Hello World!" << std::endl;\n return 0;\n}',
+    //code: '//exemple de code c++\n\n#include <iostream>\n\nint main(){\n std::cout << "Hello World!" << std::endl;\n return 0;\n}',
 
     cmOption: {
       tabSize: 4,
@@ -119,39 +110,33 @@ export default {
   //methode
   methods: {
     quitTab: function(index){
-      this.Files.splice(index, 1);//remove file from open files list
-
+      this.$store.commit('SUPP_FILE_IN_TABS', index)
+      
       //console.log("activeFile: ", this.activeFile);
       //console.log("index: ", index)
 
       if(this.activeFile == index){//current tab has been closed
-        if(this.Files.length == 0){//it was the last open tab
+        if(this.$store.getters.tabs.length == 0){//it was the last open tab
           //add example file to Files
-          this.Files.push({name: 'HelloWorld.cpp', chemin: "", project: "", code: '//exemple de code c++\n\n#include <iostream>\n\nint main(){\n std::cout << "Hello World!" << std::endl;\nreturn 0;\n}'},)
+          this.$store.getters.tabs.push({name: 'HelloWorld.cpp', chemin: "", project: "", code: '//exemple de code c++\n\n#include <iostream>\n\nint main(){\n std::cout << "Hello World!" << std::endl;\nreturn 0;\n}'},)
         }
         else{//it wasn't the last tab open
-          if(index == this.Files.length){//it was the right-most
+          if(index == this.$store.getters.tabs.length){//it was the right-most
             this.activeFile -= 1;
           }
         }
-
       }
       else if(index < this.activeFile){//tab to the left of current tab has been closed
         this.activeFile -= 1;
       }
+
+      this.$store.commit("SET_CURRENTFILE_FROM_INDEX", this.activeFile);
+
     },
 
-    openFile: function(file){//get file and add it to File list
-      this.openFiles.push(file);
-    },
 
-    loadTab: function(file){//when a tab is clicked
-      console.log(file.name);
-      for(var i = 0; i < this.Files.length; i++){
-        if(this.Files[i].name == file.name){
-          this.activeFile = i;
-        }
-      }
+    loadTab: function(index){//when a tab is clicked
+          this.$store.commit("SET_CURRENTFILE_FROM_INDEX", index);
     },
 
 
@@ -194,16 +179,19 @@ export default {
     },
     code: {
       get : function(){
-        if(this.Files[this.activeFile].code != undefined){
-          return this.Files[this.activeFile].code;
+        console.log(this.$store.getters.tabs);
+        if(this.$store.getters.tabs.length > 0){
+          return this.$store.getters.tabs[this.activeFile].body;
         }
         else{
-          return "";//au cas ou
+          return "";
         }
-        
       },
+
       set : function(newCode){
-        this.Files[this.activeFile].code = newCode;
+        console.log(newCode)
+        this.$store.getters.tabs[this.activeFile].body = newCode;
+        //this.Files[this.activeFile].code = newCode;
       }
     },
 

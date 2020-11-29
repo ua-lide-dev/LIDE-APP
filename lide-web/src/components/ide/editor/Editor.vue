@@ -8,15 +8,15 @@
       >
         <v-tab
           v-for="(file, index) in this.$store.getters.tabs"  v-bind:key="index"
-          @click="loadTab(file)"
+          @click="loadTab(index)"
           >
-          {{file.filename}}
+          {{file.filename}}.{{file.extension}}
           <v-btn 
             outlined
             x-small
             @click="quitTab(index)"
             v-on:click.stop
-            style="margin-left:10px;">
+            style="margin-left:40px;">
             x
           </v-btn>
         </v-tab>
@@ -135,14 +135,8 @@ export default {
     },
 
 
-    loadTab: function(file){//when a tab is clicked
-      console.log(file.name);
-      for(var i = 0; i < this.$store.getters.tabs.length; i++){
-        if(this.$store.getters.tabs[i].name == file.name){
-          this.activeFile = this.$store.getters.tabs.length;
-          this.$store.commit("SET_CURRENTFILE_FROM_INDEX", this.activeFile);
-        }
-      }
+    loadTab: function(index){//when a tab is clicked
+          this.$store.commit("SET_CURRENTFILE_FROM_INDEX", index);
     },
 
 

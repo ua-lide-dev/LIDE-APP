@@ -76,8 +76,10 @@ export default {
         projectname : this.projectName,
         extension: item.extension,
       }
-      //mise a jour du current file et ajout dans les tabs (pour apres)
+      //mise a jour du current file et ajout dans les tabs
+      //ATTENTION ON PEUT AVOIR PLUSIEUR FOIS LE MM FILE DANS TABS !!!!!!!
       this.$store.dispatch('getFile',obj);
+       
     },
     filesMenu: function (e, item) {
       //ouvrir le ContextMenu

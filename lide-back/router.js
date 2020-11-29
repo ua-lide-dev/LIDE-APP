@@ -22,7 +22,7 @@ router.delete("/deleteProject",project.delete);
 // Routes File
 router.post("/createFile", file.create);
 router.put("/renameFile", file.rename);
-router.delete("/deleteFile", file.delete);
+router.post("/deleteFile", file.delete);
 router.post("/getFile", file.getFile);
 
 

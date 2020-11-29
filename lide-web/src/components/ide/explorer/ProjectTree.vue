@@ -13,6 +13,7 @@
     
     <template>
       <v-treeview :items="files" item-key="name" open-on-click transition>
+
         <template slot="label" slot-scope="{ item }">
           <!-- evenement click sur le titre de l'item  -->
           <div @contextmenu="filesMenu($event, item)" @click="openFile(item)">{{ item.filename }}.{{item.extension}}</div>
@@ -31,6 +32,13 @@
               {{ icons[item.extension] }}
               <!-- icon de fichier -->
             </v-icon>
+          </div>
+        </template>
+        <template v-slot:append="{ item }">
+          <!-- icon du fichier/dossier -->
+          <div>
+            <!-- boutton suppression -->
+            <v-btn @click="deleteFile(item)">RM</v-btn>
           </div>
         </template>
       </v-treeview>
@@ -94,8 +102,15 @@ export default {
     renameFile: function (item) {
       console.log(" rename", item);
     },
-    deleteFile: function (item) {
-      console.log(" delete", item);
+    deleteFile: async function(item) {
+      var obj = {
+        filename : item.filename,
+        projectname : this.projectName,
+        extension: item.extension,
+      }
+      await this.$store.dispatch('deleteFile',obj).then( () => {
+        this.$store.dispatch('getProjects');
+      });
     },
     diableRightClick: function (e) {
       //fonction pour desaciver le clique droit sur le reste de l'arbre

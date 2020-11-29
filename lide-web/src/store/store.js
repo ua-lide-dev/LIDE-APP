@@ -119,35 +119,31 @@ const store = new VueX.Store({
           //commit du res de l'apelle au back de la route getfile dans current file et dans le tabs
           commit('ADD_CURRENTFILE_TO_TABS', res.data);
         }); 
-      }
-
-      /*  
-      A FAIRE
-
+      },
 
       //on ajoute du contenu au file et le remet en current file
+      /*
       updateFile({commit}, username, projectpath, filename, data) {
         service.updateFile(username,projectpath, filename, data).then((res) => {
           commit('SET_CURRENTFILE', res.data)
           })
       },
+      */
 
-      //on delet un file !!! on met quoi en current file ducoup
-      deleteFile({commit}, username, projectpath, filename) {
-        service.deleteFile(username,projectpath, filename).then((res) => {
-          commit('SET_CURRENTFILE', res.data)
-          })
+      //on delet un file
+      async deleteFile({state}, obj) {
+        await service.deleteFile(state.username, obj.projectname,obj.filename/*, obj.extension*/);
       },
 
-
       //on save notre file dans la base de données il est tjrs en current 
+      /*
       saveFile({commit}, username, projectpath, filename, data) {
         service.saveFile(username,projectpath, filename, data).then((res) => {
           commit('SET_CURRENTFILE', res.data)
           })
       },*/
+   
     },
-
 
     getters: {
       username(state){

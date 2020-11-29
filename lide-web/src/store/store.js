@@ -26,6 +26,9 @@ const store = new VueX.Store({
       SET_CURRENTFILE(state, payload){
         state.currentFile = payload;
       },
+      SET_CURRENTFILE_FROM_INDEX(state, payload){
+        state.currentFile = state.tab[payload];
+      },
       SET_TABS(state, payload){
         state.tabs = payload;
       },

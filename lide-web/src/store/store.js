@@ -30,8 +30,23 @@ const store = new VueX.Store({
         state.tabs = payload;
       },
       SET_AND_ADD_CURRENTFILE(state, payload){
+        
         state.currentFile = payload;
-        state.tabs.push(payload);
+        var tab = state.tabs;
+        var exist = false
+        for(var i of tab){
+          console.log("object i :");
+          console.log(i);
+          console.log("payload : ");
+          console.log(payload);
+          if(i.filename == payload.filename && i.extension == payload.extension)
+            exist = true;
+        }
+
+        console.log("le fichier exist deja dans les tabs : " + exist);
+        if(!exist)
+          state.tabs.push(payload);
+
       },
       ADD_TABS(state, payload){
         state.tabs.push(payload);

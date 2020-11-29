@@ -7,7 +7,7 @@
           outlined
           small
           @click="createNewFile">
-          <v-icon >mdi-plus-box</v-icon>
+          <v-icon >mdi-plus-box</v-icon> 
       </v-btn>
     </div>
     

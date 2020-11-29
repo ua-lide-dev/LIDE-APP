@@ -42,7 +42,6 @@ const store = new VueX.Store({
           if(i.filename == payload.filename && i.extension == payload.extension)
             exist = true;
         }
-
         console.log("le fichier exist deja dans les tabs : " + exist);
         if(!exist)
           state.tabs.push(payload);
@@ -51,9 +50,12 @@ const store = new VueX.Store({
       ADD_TABS(state, payload){
         state.tabs.push(payload);
       },
+      SUPP_FILE_IN(state, payload){
+        state.tabs = state.tabs.splice(payload,1);
+      },  
       CLEAR_TABS(state){
         state.tabs = [];
-      }
+      },
     },
     
     actions: {

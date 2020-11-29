@@ -34,6 +34,7 @@ const store = new VueX.Store({
       },
       ADD_CURRENTFILE_TO_TABS(state, payload){
         
+        if(state.tabs.length == 0) state.currentFile = payload;
         var tab = state.tabs;
         var exist = false
         for(var i of tab){

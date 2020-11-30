@@ -38,7 +38,7 @@
           <!-- icon du fichier/dossier -->
           <div>
             <!-- boutton suppression -->
-            <v-btn @click="deleteFile(item)">RM</v-btn>
+            <v-btn elevation="0" text @click="deleteFile(item)"><v-icon color="red">mdi-delete</v-icon></v-btn>
           </div>
         </template>
       </v-treeview>

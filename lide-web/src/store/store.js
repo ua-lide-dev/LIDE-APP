@@ -90,14 +90,12 @@ const store = new VueX.Store({
   //rename le project a l adr projectpath en data
       renameProject(username, projectpath ,data) {
         service.renameProject(username,projectpath,data);
-      },
+      },*/
 
-      //delet le project et met a jour les projects courant
-      deleteProject({commit}, username, projectpath) {
-        service.deleteProject(username,projectpath).then((res) => {
-          commit('SET_PROJECTS', res.data)
-          })
-      }, */
+      //delet le project
+      async deleteProject({state}, projectname) {
+        await service.deleteProject(state.username,projectname);
+      },
 
 //-------------------------------------FILES-------------------------------------//
       

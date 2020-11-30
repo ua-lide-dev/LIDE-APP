@@ -1,6 +1,7 @@
 <template>
   <div style="margin: 10px" @contextmenu="diableRightClick($event)">
     <div align="center" style="margin-bottom: 10px">
+      
       <h3 style="user-select: none; display: inline-block">{{ projectName }}</h3>
       <v-btn
         style="width: 8%; display: inline-block; margin-left: 20px"
@@ -10,6 +11,7 @@
           <v-icon >mdi-plus-box</v-icon>
           add
       </v-btn>
+      <v-btn elevation="0" text @click="deleteProject"><v-icon color="red">mdi-delete</v-icon></v-btn>
     </div>
     
     <template>
@@ -113,6 +115,13 @@ export default {
         this.$store.dispatch('getProjects');
       });
     },
+
+    deleteProject: async function(){
+      await this.$store.dispatch('deleteProject',this.projectName).then( () => {
+        this.$store.dispatch('getProjects');
+      });
+    },
+
     diableRightClick: function (e) {
       //fonction pour desaciver le clique droit sur le reste de l'arbre
       e.preventDefault();

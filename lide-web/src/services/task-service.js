@@ -34,11 +34,11 @@ function renameProject(username, projectpath, data) {
   return http.put("/renameProject", data);
 }
 
-function deleteProject(username, projectpath) {
-  http.setHeader("username", username);
-  http.write('{"projectpath":' + projectpath + "}");
-
-  return http.delete("/deleteProject");
+function deleteProject(username, projectname) {
+  const data = {
+    projectname: projectname,
+  };
+  return http.post("/deleteProject", data, { headers: { username: username }});
 }
 
 /// Files

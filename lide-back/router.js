@@ -17,7 +17,7 @@ router.get("/projects",user.getAllProjects);
 // Routes Project
 router.post("/createProject", project.create);
 router.put('/renameProject', project.rename);
-router.delete("/deleteProject",project.delete);
+router.post("/deleteProject",project.delete);
 
 // Routes File
 router.post("/createFile", file.create);

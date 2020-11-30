@@ -189,8 +189,10 @@ export default {
       },
 
       set : function(newCode){
-        console.log(newCode)
-        this.$store.getters.tabs[this.activeFile].body = newCode;
+        console.log(newCode);
+        if(this.$store.getters.tabs.length > 0){
+          this.$store.getters.tabs[this.activeFile].body = newCode;
+        }
         //this.Files[this.activeFile].code = newCode;
       }
     },

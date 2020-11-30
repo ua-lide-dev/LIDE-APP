@@ -3,11 +3,12 @@
     <div align="center" style="margin-bottom: 10px">
       <h3 style="user-select: none; display: inline-block">{{ projectName }}</h3>
       <v-btn
-        style="width: 8%; display: inline-block; margin-left: 10px"
-          outlined
+        style="width: 8%; display: inline-block; margin-left: 20px"
           small
+          text
           @click="createNewFile">
-          <v-icon >mdi-plus-box</v-icon> 
+          <v-icon >mdi-plus-box</v-icon>
+          add
       </v-btn>
     </div>
     

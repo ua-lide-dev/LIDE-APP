@@ -11,7 +11,7 @@
           <v-icon >mdi-plus-box</v-icon>
           add
       </v-btn>
-      <v-btn elevation="0" text @click="deleteProject"><v-icon color="red">mdi-delete</v-icon></v-btn>
+      <v-btn elevation="0" text @click="deleteProject"><v-icon color="red">mdi-delete-alert</v-icon></v-btn>
     </div>
     
     <template>

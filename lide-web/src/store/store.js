@@ -81,8 +81,8 @@ const store = new VueX.Store({
       },
 
       //avec un projectname recupé depuis de compo modalnewproject.vue et l'username du store
-      createProject({state},title) {
-         service.createProject(title,state.username);
+      async createProject({state},title) {
+         await service.createProject(title,state.username);
       },
 
   /*    

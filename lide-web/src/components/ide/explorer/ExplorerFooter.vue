@@ -36,7 +36,7 @@ export default {
       this.showModal = true;
     },
 
-    test: function(){
+    test: async function(){
       
       const obj = {
       content : "some code",
@@ -45,7 +45,7 @@ export default {
       extension : "php"
     };
     console.log(obj);
-    this.$store.dispatch('createFile', obj)
+    await this.$store.dispatch('createFile', obj)
     .then( () => {
       console.log("---------------------------------");
       this.$store.dispatch('getProjects');

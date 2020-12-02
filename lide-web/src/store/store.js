@@ -39,7 +39,7 @@ const store = new VueX.Store({
         var exist = false
         for(var i of tab){
           console.log(payload);
-          if(i.filename == payload.filename && i.extension == payload.extension)
+          if(i.filename == payload.filename && i.extension == payload.extension && i.projectname == payload.projectname)
             exist = true;
         }
         console.log("le fichier exist deja dans les tabs : " + exist);

@@ -129,10 +129,6 @@ export default {
       else if(index < this.activeFile){//tab to the left of current tab has been closed
         this.activeFile -= 1;
       }
-      if(this.$store.getters.tabs.length <= 0){
-        this.$store.commit("SET_CURRENTPROJECTNAME", "");
-      }
-
       this.$store.commit("SET_CURRENTFILE_FROM_INDEX", this.activeFile);
 
     },
@@ -145,13 +141,18 @@ export default {
 
     buildButton: function() {
       //fonction associer au button de build, pour build
-      var obj = {
-          "projectname" : this.$store.getters.currentFile.projectname,
-          "filename" : this.$store.getters.currentFile.filename,
-          "content" : this.$store.getters.tabs[this.activeFile].body,
-          "extension" : this.$store.getters.currentFile.extension
+      if(this.$store.getters.tabs.length <= 0){
+        alert("il n'y a pas de fichier à executer");
       }
-      this.$store.dispatch("execute", obj);
+      else{
+        var obj = {
+            "projectname" : this.$store.getters.currentFile.projectname,
+            "filename" : this.$store.getters.currentFile.filename,
+            "content" : this.$store.getters.tabs[this.activeFile].body,
+            "extension" : this.$store.getters.currentFile.extension
+        }
+        this.$store.dispatch("execute", obj);
+      }
 
       // Appeler une sauvegarde
       // Appeler le controller de compilation qui renvoit un containerid
@@ -164,6 +165,10 @@ export default {
     saveButton: function() {
       //fonction associer au button save
       //il n'y a pas d'onglet ouvert 
+      if(this.$store.getters.tabs.length <= 0){
+        alert("il n'y a pas de fichier à sauvegarder");
+      }
+      else{
         var obj = {
           "projectname" : this.$store.getters.currentFile.projectname,
           "filename" : this.$store.getters.currentFile.filename,
@@ -177,6 +182,7 @@ export default {
           this.$store.dispatch('getProjects');
           this.$store.commit("SET_CURRENTFILE_FROM_INDEX", this.activeFile);
         });
+      }
     },
 
     //methode pour code Mirror (juste des verifs pour la console)

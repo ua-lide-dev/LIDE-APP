@@ -11,18 +11,20 @@ exports.post = (req, res) => {
   var path = req.body.projectname;
   var content = req.body.content;
 
+  console.log("================EXECUTION==================");
   console.log(user);
   console.log(file);
   console.log(ext);
   console.log(path);
   console.log(content);
+  console.log("================fin==================");
 
   //mkdir du nouveau dir
   execSync('mkdir -p /data-lide/' + user + '/' + path);
 
   //creation du fichier
   // TODO appeler getfile
-  execSync(content + ' > /data-lide/' + user + '/' + path + '/' + file + "." + ext);
+  execSync('echo "'+content + '" > /data-lide/' + user + '/' + path + '/' + file + "." + ext);
 
   //exec de docker 
 

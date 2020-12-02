@@ -39,13 +39,12 @@ const store = new VueX.Store({
         var exist = false
         for(var i of tab){
           console.log(payload);
-          if(i.filename == payload.filename && i.extension == payload.extension)
+          if(i.filename == payload.filename && i.extension == payload.extension && i.projectname == payload.projectname)
             exist = true;
         }
         console.log("le fichier exist deja dans les tabs : " + exist);
         if(!exist)
           state.tabs.push(payload);
-
       },
       ADD_TABS(state, payload){
         state.tabs.push(payload);
@@ -100,7 +99,7 @@ const store = new VueX.Store({
 //-------------------------------------FILES-------------------------------------//
       
 
-  //creation d'un fichier et le met en fichier courant
+    //creation d'un fichier et le met en fichier courant
       async createFile({state}, obj) {
         console.log("projectname : " + obj.projectname);
         console.log("content : " + obj.content);
@@ -109,24 +108,25 @@ const store = new VueX.Store({
         await service.createFile(state.username,obj);
       },
 
-      getFile({state, commit}, obj) {
+      async getFile({state, commit}, obj) {
         console.log("on getfile sur =>");
         console.log(obj);
+        var p = obj.projectname;
         //username + projectname + filename
-        service.getFile(state.username, obj.projectname, obj.filename, obj.extension).then((res)=> {
+        await service.getFile(state.username, obj.projectname, obj.filename, obj.extension).then((res)=> {
           //commit du res de l'apelle au back de la route getfile dans current file et dans le tabs
-          commit('ADD_CURRENTFILE_TO_TABS', res.data);
+          var obj = {
+            "body" : res.data.body,
+            "date" : res.data.date,
+            "extension" : res.data.extension,
+            "filename" : res.data.filename,
+            "projectname" : p,
+          }
+          console.log("test ========");
+          console.log(res.data);
+          commit('ADD_CURRENTFILE_TO_TABS', obj);
         }); 
       },
-
-      //on ajoute du contenu au file et le remet en current file
-      /*
-      updateFile({commit}, username, projectpath, filename, data) {
-        service.updateFile(username,projectpath, filename, data).then((res) => {
-          commit('SET_CURRENTFILE', res.data)
-          })
-      },
-      */
 
       //on delet un file
       async deleteFile({state}, obj) {
@@ -134,13 +134,13 @@ const store = new VueX.Store({
       },
 
       //on save notre file dans la base de données il est tjrs en current 
-      /*
-      saveFile({commit}, username, projectpath, filename, data) {
-        service.saveFile(username,projectpath, filename, data).then((res) => {
-          commit('SET_CURRENTFILE', res.data)
-          })
-      },*/
-   
+      async saveFile({state}, obj) {
+        await service.saveFile(state.username,obj);
+      },   
+
+      async execute({state}, obj) {
+        await service.execute(state.username, obj);
+      }
     },
 
     getters: {

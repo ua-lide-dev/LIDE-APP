@@ -13,7 +13,6 @@ const store = new VueX.Store({
         username: String,
         projects: Array,
         currentFile: Object,
-        currentProjectName: String,
         tabs: [],
     },
     
@@ -32,9 +31,6 @@ const store = new VueX.Store({
       },
       SET_TABS(state, payload){
         state.tabs = payload;
-      },
-      SET_CURRENTPROJECTNAME(state,payload){
-        state.currentProjectName = payload;
       },
       ADD_CURRENTFILE_TO_TABS(state, payload){
         
@@ -113,13 +109,23 @@ const store = new VueX.Store({
         await service.createFile(state.username,obj);
       },
 
-      getFile({state, commit}, obj) {
+      async getFile({state, commit}, obj) {
         console.log("on getfile sur =>");
         console.log(obj);
+        var p = obj.projectname;
         //username + projectname + filename
-        service.getFile(state.username, obj.projectname, obj.filename, obj.extension).then((res)=> {
+        await service.getFile(state.username, obj.projectname, obj.filename, obj.extension).then((res)=> {
           //commit du res de l'apelle au back de la route getfile dans current file et dans le tabs
-          commit('ADD_CURRENTFILE_TO_TABS', res.data);
+          var obj = {
+            "body" : res.data.body,
+            "date" : res.data.date,
+            "extension" : res.data.extension,
+            "filename" : res.data.filename,
+            "projectname" : p,
+          }
+          console.log("test ========");
+          console.log(res.data);
+          commit('ADD_CURRENTFILE_TO_TABS', obj);
         }); 
       },
 
@@ -157,9 +163,6 @@ const store = new VueX.Store({
       tabs(state){
         return state.tabs;
       },
-      currentProjectName(state){
-        return state.currentProjectName;
-      }
     },
   
   });

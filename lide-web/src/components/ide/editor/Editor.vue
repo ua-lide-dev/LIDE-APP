@@ -158,11 +158,6 @@ export default {
     saveButton: function() {
       //fonction associer au button save
       //il n'y a pas d'onglet ouvert 
-      if(this.$store.getters.currentProjectName == ""){
-          alert("il n'y a pas de de fichier ouvert");
-      }
-
-      else{
         var obj = {
           "projectname" : this.$store.getters.currentProjectName,
           "filename" : this.$store.getters.currentFile.filename,
@@ -175,7 +170,6 @@ export default {
         this.$store.dispatch("saveFile", obj).then( () => {
           this.$store.dispatch('getProjects');
         });
-      }
     },
 
     //methode pour code Mirror (juste des verifs pour la console)

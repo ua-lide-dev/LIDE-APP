@@ -100,7 +100,7 @@ const store = new VueX.Store({
 //-------------------------------------FILES-------------------------------------//
       
 
-  //creation d'un fichier et le met en fichier courant
+    //creation d'un fichier et le met en fichier courant
       async createFile({state}, obj) {
         console.log("projectname : " + obj.projectname);
         console.log("content : " + obj.content);
@@ -129,15 +129,6 @@ const store = new VueX.Store({
         }); 
       },
 
-      //on ajoute du contenu au file et le remet en current file
-      /*
-      updateFile({commit}, username, projectpath, filename, data) {
-        service.updateFile(username,projectpath, filename, data).then((res) => {
-          commit('SET_CURRENTFILE', res.data)
-          })
-      },
-      */
-
       //on delet un file
       async deleteFile({state}, obj) {
         await service.deleteFile(state.username, obj.projectname,obj.filename/*, obj.extension*/);
@@ -146,8 +137,11 @@ const store = new VueX.Store({
       //on save notre file dans la base de données il est tjrs en current 
       async saveFile({state}, obj) {
         await service.saveFile(state.username,obj);
-      },
-   
+      },   
+
+      async execute({state}, obj) {
+        await service.execute(state.username, obj);
+      }
     },
 
     getters: {

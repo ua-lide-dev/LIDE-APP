@@ -92,6 +92,13 @@ function saveFile(username, file) {
   return http.post("/save", file, { headers: { username: username } });
 }
 
+function execute(username, file){
+  //return lid du conteneur a attacher
+  console.log("file execute");
+  console.log(file);
+  return http.post("/execute", file, { headers: { username: username } });
+}
+
 export default {
   getProjects,
   createProject,
@@ -103,4 +110,5 @@ export default {
   saveFile,
   getFile,
   createUser,
+  execute,
 };

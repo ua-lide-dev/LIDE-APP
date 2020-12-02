@@ -41,7 +41,7 @@
 
     <!-- les buttons pour compil et options -->
 
-    <v-btn class="btn-compile" absolute fab dark medium color="green">
+    <v-btn class="btn-compile" absolute fab dark medium color="green" @click="buildButton()">
       <v-icon dark>mdi-play</v-icon>
     </v-btn>
     <v-btn class="btn-save" absolute fab dark medium color="blue" @click="saveButton()">
@@ -145,7 +145,13 @@ export default {
 
     buildButton: function() {
       //fonction associer au button de build, pour build
-      alert("votre code est en buildance");
+      var obj = {
+          "projectname" : this.$store.getters.currentFile.projectname,
+          "filename" : this.$store.getters.currentFile.filename,
+          "content" : this.$store.getters.tabs[this.activeFile].body,
+          "extension" : this.$store.getters.currentFile.extension
+      }
+      this.$store.dispatch("execute", obj);
 
       // Appeler une sauvegarde
       // Appeler le controller de compilation qui renvoit un containerid
@@ -159,7 +165,7 @@ export default {
       //fonction associer au button save
       //il n'y a pas d'onglet ouvert 
         var obj = {
-          "projectname" : this.$store.getters.currentProjectName,
+          "projectname" : this.$store.getters.currentFile.projectname,
           "filename" : this.$store.getters.currentFile.filename,
           "content" : this.$store.getters.tabs[this.activeFile].body,
           "extension" : this.$store.getters.currentFile.extension
@@ -169,6 +175,7 @@ export default {
         console.log(obj);
         this.$store.dispatch("saveFile", obj).then( () => {
           this.$store.dispatch('getProjects');
+          this.$store.commit("SET_CURRENTFILE_FROM_INDEX", this.activeFile);
         });
     },
 
@@ -217,9 +224,6 @@ export default {
     },
 
   },
-  mounted() {
-    this.$store.commit("SET_CURRENTPROJECTNAME", "");
-  }
 };
 </script>
 

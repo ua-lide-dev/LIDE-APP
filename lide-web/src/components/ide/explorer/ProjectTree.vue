@@ -11,7 +11,13 @@
           <v-icon >mdi-plus-box</v-icon>
           add
       </v-btn>
-      <v-btn elevation="0" text @click="deleteProject"><v-icon color="red">mdi-delete-alert</v-icon></v-btn>
+      <v-btn 
+        elevation="0" 
+        text
+        @click="deleteProject"
+        style="float: right; margin-right:18px">
+        <v-icon color="red">mdi-delete</v-icon>
+      </v-btn>
     </div>
     
     <template>
@@ -41,7 +47,13 @@
           <!-- icon du fichier/dossier -->
           <div>
             <!-- boutton suppression -->
-            <v-btn elevation="0" text @click="deleteFile(item)"><v-icon color="red">mdi-delete</v-icon></v-btn>
+            <v-btn 
+              elevation="0" 
+              text 
+              @click="deleteFile(item)"
+              style="float: right; margin-right:10px">
+              <v-icon color="red">mdi-delete</v-icon>
+            </v-btn>
           </div>
         </template>
       </v-treeview>

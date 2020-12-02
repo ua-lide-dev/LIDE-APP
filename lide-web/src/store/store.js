@@ -45,7 +45,6 @@ const store = new VueX.Store({
         console.log("le fichier exist deja dans les tabs : " + exist);
         if(!exist)
           state.tabs.push(payload);
-
       },
       ADD_TABS(state, payload){
         state.tabs.push(payload);

@@ -141,6 +141,8 @@ export default {
 
     buildButton: function() {
       //fonction associer au button de build, pour build
+    this.saveButton();
+
       if(this.$store.getters.tabs.length <= 0){
         alert("il n'y a pas de fichier à executer");
       }

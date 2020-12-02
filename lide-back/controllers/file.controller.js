@@ -89,12 +89,14 @@ exports.delete = (req, res) => {
     });
 };
 
-// PUT -> Sauvegarde un fichier
+// POST -> Sauvegarde un fichier
 exports.save = (req, res) => {
+console.log(req);
+
   User.updateOne({ username:req.headers.username,}, {
 
     $set: { 
-      "projects.$[project].files.$[file].body": req.body.body, 
+      "projects.$[project].files.$[file].body": req.body.content, 
     }
   },{ arrayFilters:[
       {"project.projectname": req.body.projectname}, 

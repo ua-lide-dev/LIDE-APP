@@ -13,6 +13,7 @@ const store = new VueX.Store({
         username: String,
         projects: Array,
         currentFile: Object,
+        currentProjectName: String,
         tabs: [],
     },
     
@@ -31,6 +32,9 @@ const store = new VueX.Store({
       },
       SET_TABS(state, payload){
         state.tabs = payload;
+      },
+      SET_CURRENTPROJECTNAME(state,payload){
+        state.currentProjectName = payload;
       },
       ADD_CURRENTFILE_TO_TABS(state, payload){
         
@@ -134,12 +138,9 @@ const store = new VueX.Store({
       },
 
       //on save notre file dans la base de données il est tjrs en current 
-      /*
-      saveFile({commit}, username, projectpath, filename, data) {
-        service.saveFile(username,projectpath, filename, data).then((res) => {
-          commit('SET_CURRENTFILE', res.data)
-          })
-      },*/
+      async saveFile({state}, obj) {
+        await service.saveFile(state.username,obj);
+      },
    
     },
 
@@ -156,6 +157,9 @@ const store = new VueX.Store({
       tabs(state){
         return state.tabs;
       },
+      currentProjectName(state){
+        return state.currentProjectName;
+      }
     },
   
   });

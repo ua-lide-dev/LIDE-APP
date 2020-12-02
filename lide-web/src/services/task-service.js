@@ -80,11 +80,16 @@ function deleteFile(username, projectname, filename) {
   return http.post("/deleteFile", data, { headers: { username: username } });
 }
 
-function saveFile(username, projectpath, filename, data) {
-  http.setHeader("username", username);
-  http.write('{"projectpath":' + projectpath + ',"filename":' + filename + "}");
-
-  return http.delete("/saveFile", data);
+function saveFile(username, file) {
+  /*const file = {
+    projectname: file.projectname,
+    content: file.content,
+    filename: file.filename,
+    extension: file.extension,
+  };*/
+  console.log("file dans save file =>");
+  console.log(file);
+  return http.post("/save", file, { headers: { username: username } });
 }
 
 export default {

@@ -44,7 +44,7 @@
     <v-btn class="btn-compile" absolute fab dark medium color="green">
       <v-icon dark>mdi-play</v-icon>
     </v-btn>
-    <v-btn class="btn-save" absolute fab dark medium color="blue">
+    <v-btn class="btn-save" absolute fab dark medium color="blue" @click="saveButton()">
       <v-icon dark>mdi-floppy</v-icon>
     </v-btn>
     <v-btn class="btn-setting" absolute fab dark medium color="grey" @click="showMenuOptions = true">
@@ -129,6 +129,9 @@ export default {
       else if(index < this.activeFile){//tab to the left of current tab has been closed
         this.activeFile -= 1;
       }
+      if(this.$store.getters.tabs.length <= 0){
+        this.$store.commit("SET_CURRENTPROJECTNAME", "");
+      }
 
       this.$store.commit("SET_CURRENTFILE_FROM_INDEX", this.activeFile);
 
@@ -138,8 +141,6 @@ export default {
     loadTab: function(index){//when a tab is clicked
           this.$store.commit("SET_CURRENTFILE_FROM_INDEX", index);
     },
-
-
 
 
     buildButton: function() {
@@ -156,7 +157,25 @@ export default {
     },
     saveButton: function() {
       //fonction associer au button save
-      alert("sauvegarde ...");
+      //il n'y a pas d'onglet ouvert 
+      if(this.$store.getters.currentProjectName == ""){
+          alert("il n'y a pas de de fichier ouvert");
+      }
+
+      else{
+        var obj = {
+          "projectname" : this.$store.getters.currentProjectName,
+          "filename" : this.$store.getters.currentFile.filename,
+          "content" : this.$store.getters.tabs[this.activeFile].body,
+          "extension" : this.$store.getters.currentFile.extension
+        }
+
+        console.log("obj dans le front =>");
+        console.log(obj);
+        this.$store.dispatch("saveFile", obj).then( () => {
+          this.$store.dispatch('getProjects');
+        });
+      }
     },
 
     //methode pour code Mirror (juste des verifs pour la console)
@@ -179,6 +198,12 @@ export default {
     },
     code: {
       get : function(){
+        if(this.activeFile == undefined){
+          if(this.$store.getters.tabs[0] != undefined){
+            return this.$store.getters.tabs[0].body;
+          }
+        }
+
         console.log(this.$store.getters.tabs);
         if(this.$store.getters.tabs.length > 0){
           return this.$store.getters.tabs[this.activeFile].body;
@@ -197,10 +222,10 @@ export default {
       }
     },
 
-  },/*
+  },
   mounted() {
-    this.openAllFiles();
-  }*/
+    this.$store.commit("SET_CURRENTPROJECTNAME", "");
+  }
 };
 </script>
 

@@ -27,7 +27,7 @@ router.post("/getFile", file.getFile);
 
 
 // Route save
-router.put("/save",file.save);
+router.post("/save",file.save);
 
 //Route Compile
 router.post("/execute", compile.post);

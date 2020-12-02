@@ -92,8 +92,6 @@ export default {
       }
       //mise a jour du current file et ajout dans les tabs
       this.$store.dispatch('getFile',obj);
-      this.$store.commit("SET_CURRENTPROJECTNAME", this.projectName);
-       
     },
     filesMenu: function (e, item) {
       //ouvrir le ContextMenu

@@ -83,7 +83,7 @@ export default {
   methods: {
     openFile: function (item) {
       //ouvrir le fichier cliqué
-      console.log(" open", item);
+      //console.log(" open", item);
 
       var obj = {
         filename : item.filename,

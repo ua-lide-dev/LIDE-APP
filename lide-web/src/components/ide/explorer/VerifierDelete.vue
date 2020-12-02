@@ -58,8 +58,6 @@
               this.show =  false;
           },
           deleteFileOrProject : function(){
-            console.log("FIRST");
-            console.log(this.type);
             if (this.type == "project"){
               this.deleteProject()
               this.closeMenu()
@@ -72,7 +70,6 @@
           },
 
           deleteFile: async function() {
-            console.log("YES");
             var obj = {
               filename : this.fileName,
               projectname : this.projectName,

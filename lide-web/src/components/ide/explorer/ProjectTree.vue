@@ -60,17 +60,20 @@
 
     <!--invisible to start, will appear when needed -->
     <NewFileModal v-model="showModal" :projectName="projectName"></NewFileModal>
+    <VerifierDelete id="verifDelete" v-model="showVerifDelete" :type="delType" :fileName="delFileName" :projectName="delProjectName" :extension="delExtension"></VerifierDelete>
   </div>
 </template>
 
 <script>
 // import VueSimpleContextMenu from "./Vue-simple-context-menu";
 import NewFileModal from "./modalNewFile.vue"
+import VerifierDelete from "./VerifierDelete.vue"
 
 export default {
   name: "ProjectTree",
    components: {
-     NewFileModal
+     NewFileModal,
+     VerifierDelete
     //VueSimpleContextMenu,
   },
   props: {
@@ -89,6 +92,8 @@ export default {
       }
       //mise a jour du current file et ajout dans les tabs
       this.$store.dispatch('getFile',obj);
+      this.$store.commit("SET_CURRENTPROJECTNAME", this.projectName);
+       
     },
     filesMenu: function (e, item) {
       //ouvrir le ContextMenu
@@ -104,7 +109,16 @@ export default {
     renameFile: function (item) {
       console.log(" rename", item);
     },
-    deleteFile: async function(item) {
+
+    deleteFile: function(item) {
+      //var modalVerif = document.getElementById('verifDelete');
+      this.delType = "file";
+      this.delFileName = item.filename;
+      this.delProjectName = this.projectName;
+      this.delExtension = item.extension;
+      this.showVerifDelete = true;
+
+      /*
       var obj = {
         filename : item.filename,
         projectname : this.projectName,
@@ -112,13 +126,22 @@ export default {
       }
       await this.$store.dispatch('deleteFile',obj).then( () => {
         this.$store.dispatch('getProjects');
-      });
+      });*/
     },
 
-    deleteProject: async function(){
+    deleteProject: function(){
+      //var modalVerif = document.getElementById('verifDelete');
+      this.delType = "project";
+      this.delFileName = "";
+      this.delProjectName = this.projectName;
+      this.delExtension = "";
+      this.showVerifDelete = true;
+
+
+      /*
       await this.$store.dispatch('deleteProject',this.projectName).then( () => {
         this.$store.dispatch('getProjects');
-      });
+      });*/
     },
 
     diableRightClick: function (e) {
@@ -153,6 +176,12 @@ export default {
     ],
 
     showModal: false,
+    showVerifDelete: false,
+
+    delType : "",
+    delFileName : "",
+    delProjectName : "",
+    delExtension : "",
   })
 };
 </script>

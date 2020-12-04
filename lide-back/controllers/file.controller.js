@@ -16,7 +16,7 @@ exports.create = (req, res) => {
      const file ={
          filename: req.body.filename,
          extension: req.body.extension,
-         body: req.body.body,
+         body: req.body.content,
          date: Date.now()
      };
  

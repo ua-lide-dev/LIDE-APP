@@ -136,7 +136,7 @@ export default {
     },
 
 
-    buildButton: function() {
+    buildButton: async function() {
       //fonction associer au button de build, pour build
     this.saveButton();
 
@@ -144,21 +144,21 @@ export default {
         alert("il n'y a pas de fichier à executer");
       }
       else{
+        var content = this.$store.getters.tabs[this.activeFile].body;
         var obj = {
             "projectname" : this.$store.getters.currentFile.projectname,
             "filename" : this.$store.getters.currentFile.filename,
-            "content" : this.$store.getters.tabs[this.activeFile].body,
+            "content" : content.replaceAll('"','\\"'),
             "extension" : this.$store.getters.currentFile.extension
         }
-        this.$store.dispatch("execute", obj);
-        // Appeler une sauvegarde
+      console.log("=================");
+      console.log(obj);
+      await this.$store.dispatch("execute", obj);
+      // Appeler une sauvegarde
       // Appeler le controller de compilation qui renvoit un containerid
       console.log("id du conteneur apres la compile = " + this.$store.getters.containerId);
       this.$root.$refs.Terminal.openSocket(this.$store.getters.containerId);
       }
-
-
-      
     },
     optionButton: function() {
       //fonction associer au button options

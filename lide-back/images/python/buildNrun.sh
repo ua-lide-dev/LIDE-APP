@@ -8,4 +8,4 @@
 
 read socket
 
-python fichier.py
+python $1

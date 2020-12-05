@@ -8,5 +8,5 @@
 
 read socket
 
-php fichier.php
+php $1
 

@@ -8,6 +8,7 @@ read socket
 #								       #
 ########################################################################
 varsansjava="$(echo $1 | cut -d'.' -f 1)"
+myString="${varsansjava:1}"
 if javac $1
-then java $varsansjava
+then java $myString
 fi

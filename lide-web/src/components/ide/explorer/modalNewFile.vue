@@ -96,7 +96,7 @@
                     this.closeMenu();
                     var code = "";
                     if(this.ext == "cpp"){
-                      code = '#include<iostream>\n\nint main(){\n std::cout<<"Hello World !"<<std::cin;\n return 0;\n}';
+                      code = '#include<iostream>\n\nint main(){\n std::cout<<"Hello World !"<<std::endl;\n return 0;\n}';
                     }
                     if(this.ext == "java"){
                       code = 'public class ' + name + ' {\n public static void main(String[] arg){\n  System.out.println("Hello world !");\n }\n}';

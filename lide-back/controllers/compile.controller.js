@@ -24,22 +24,44 @@ exports.post = (req, res) => {
 
   //creation du fichier
   // TODO appeler getfile
-  execSync('echo "'+content+ '" > /data-lide/' + user + '/' + path + '/' + file + "." + ext);
+  execSync('echo "'+content+'" > /data-lide/' + user + '/' + path + '/' + file + "." + ext);
 
   //exec de docker 
 
   //docker run -i --name cppqmaignan --rm -v /data-lide/qmaignan/TP1/fichier.cpp:/fichier.cpp cpp fichier.cpp : exemple de docker run
   try {
     execSync("docker container rm --force " + user);
+    
   } catch (error) {
     console.log(error);
   }
+
+  var img;
+
+  switch (ext) {
+    case 'cpp':
+      img = "cpp_lide";
+      break;
+    case 'java':
+      img = "java_lide";
+      break;
+    case 'py':
+      img = "py_lide";
+      break;
+    case 'php':
+      img = "php_lide";
+      break;
+
+    default:
+  }
+
+
 
   execSync(
     "docker run -it -d" +
     " --name " + user +
     " -v " + "/data-lide/" + user + "/" + path + "/" + file + "." + ext + ":/" + file + "." + ext +
-    " " + ext +
+    " " + img +
     " /" + file + "." + ext
   );
 

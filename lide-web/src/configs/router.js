@@ -4,7 +4,7 @@ import Home from "../pages/Home.vue";
 import Ide from "../pages/Ide.vue";
 import Page404 from "../pages/Page404.vue";
 import FakeLogin from "../pages/login.vue";
-
+import Cas from "./cas";
 Vue.use(VueRouter);
 
 const routes = [
@@ -19,5 +19,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
+Vue.use(Cas,router);
 
 export default router;

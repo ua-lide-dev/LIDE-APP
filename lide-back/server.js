@@ -4,6 +4,9 @@ const bodyparser = require("body-parser");
 const router = require("./router");
 const cors = require("cors");
 const db = require("./db");
+const axios = require('axios');
+
+
 
 /* -- Connection à la base de donnée MongoDB --- */
 db.connect();

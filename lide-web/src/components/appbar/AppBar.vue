@@ -51,6 +51,7 @@ export default {
       } else {
         this.isConnected = false;
       }
+      window.location = "/cas"
     },
 
     disconnect: function() {

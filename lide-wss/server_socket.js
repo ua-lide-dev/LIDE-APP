@@ -16,7 +16,7 @@ ws.on('connection', function connection(ws) {
       containerId = input;
       console.log("containerid " + containerId);
       
-      dockerSocket = new WebSocket('ws://localhost:2375/containers/' + containerId + '/attach/ws?stream=1&stdout=1&stdin=1&logs1');
+      dockerSocket = new WebSocket('ws://localhost:2375/containers/' + containerId + '/attach/ws?stream=1&stdout=1&stdin=1&logs=1');
 
       dockerSocket.on('open', function open() {
         console.log("> successfully connected to docker api");

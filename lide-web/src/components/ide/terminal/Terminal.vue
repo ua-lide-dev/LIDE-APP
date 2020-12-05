@@ -30,11 +30,11 @@ export default {
       // Création d'un socket vers le wss
       this.socket = new WebSocket("ws://localhost:3636");
       this.socket.onopen = () => {
-          this.socket.send(containerId); 
+          this.socket.send(containerId);
       };
 
       // Liaison socket-terminal
-      this.terminal.loadAddon(new AttachAddon(this.socket, { bidirectional: true })); 
+      this.terminal.loadAddon(new AttachAddon(this.socket, { bidirectional: true }));
     }
   },
 

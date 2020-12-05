@@ -24,7 +24,7 @@ exports.post = (req, res) => {
 
   //creation du fichier
   // TODO appeler getfile
-  execSync('echo "'+content + '" > /data-lide/' + user + '/' + path + '/' + file + "." + ext);
+  execSync('echo "'+content+ '" > /data-lide/' + user + '/' + path + '/' + file + "." + ext);
 
   //exec de docker 
 

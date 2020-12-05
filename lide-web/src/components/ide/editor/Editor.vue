@@ -22,8 +22,6 @@
         </v-tab>
       </v-tabs>
 
-    
-
         <!-- component code mirror -->
             <codemirror
               v-model="code"
@@ -35,7 +33,6 @@
               @input="onCmInput"
               id="cmirror"
             ></codemirror>
-      
     </div>
       
 
@@ -154,11 +151,14 @@ export default {
             "extension" : this.$store.getters.currentFile.extension
         }
         this.$store.dispatch("execute", obj);
+        // Appeler une sauvegarde
+      // Appeler le controller de compilation qui renvoit un containerid
+      console.log("id du conteneur apres la compile = " + this.$store.getters.containerId);
+      this.$root.$refs.Terminal.openSocket(this.$store.getters.containerId);
       }
 
-      // Appeler une sauvegarde
-      // Appeler le controller de compilation qui renvoit un containerid
-      // this.$root.$refs.Terminal.openSocket(res.data.containerid);
+
+      
     },
     optionButton: function() {
       //fonction associer au button options

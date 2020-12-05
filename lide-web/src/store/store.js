@@ -14,6 +14,7 @@ const store = new VueX.Store({
         projects: Array,
         currentFile: Object,
         tabs: [],
+        containerId: String,
     },
     
     mutations: {
@@ -31,6 +32,9 @@ const store = new VueX.Store({
       },
       SET_TABS(state, payload){
         state.tabs = payload;
+      },
+      SET_CONTAINERID(state, payload){
+        state.containerId = payload;
       },
       ADD_CURRENTFILE_TO_TABS(state, payload){
         
@@ -57,6 +61,7 @@ const store = new VueX.Store({
       CLEAR_TABS(state){
         state.tabs = [];
       },
+
     },
     
     actions: {
@@ -138,8 +143,10 @@ const store = new VueX.Store({
         await service.saveFile(state.username,obj);
       },   
 
-      async execute({state}, obj) {
-        await service.execute(state.username, obj);
+      async execute({state, commit}, obj) {
+        await service.execute(state.username, obj).then( (res) => {
+          commit('SET_CONTAINERID', res.data.containerid);
+        });
       }
     },
 
@@ -156,6 +163,9 @@ const store = new VueX.Store({
       tabs(state){
         return state.tabs;
       },
+      containerId(state){
+        return state.containerId;
+      }
     },
   
   });

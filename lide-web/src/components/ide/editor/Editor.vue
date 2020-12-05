@@ -238,7 +238,7 @@ export default {
 <style>
 .CodeMirror {
   border: 1px solid #eee;
-  height: 70vh;
+  height: 44vh;
 }
 
 .pos-relative {

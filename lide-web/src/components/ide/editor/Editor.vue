@@ -246,15 +246,15 @@ export default {
 }
 .btn-compile {
   top: 60px;
-  right: 50px;
+  right: 30px;
 }
 .btn-save {
   top: 130px;
-  right: 50px;
+  right: 30px;
 }
 .btn-setting {
   top: 200px;
-  right: 50px;
+  right: 30px;
 }
 .v-tab {
 text-transform: none !important;

@@ -54,7 +54,7 @@
               <strong>Choisis ton langage</strong>
             </div>
             <div class="d-flex align-end justify-center pt-2">
-              <v-icon size="25" class="mx-2">mdi-language-c</v-icon>
+              <v-icon size="25" class="mx-2">mdi-language-php</v-icon>
               <v-icon size="25" class="mx-2">mdi-language-cpp</v-icon>
               <v-icon size="25" class="mx-2">mdi-language-python</v-icon>
               <v-icon size="25" class="mx-2">mdi-language-java</v-icon>

@@ -6,6 +6,8 @@ const user = require("./controllers/user.controller");
 const project = require("./controllers/project.controller");
 const file = require("./controllers/file.controller");
 const compile = require("./controllers/compile.controller");
+const session = require("./controllers/session.controller");
+
 
 
 /* --- Routes --- */
@@ -31,5 +33,10 @@ router.post("/save",file.save);
 
 //Route Compile
 router.post("/execute", compile.post);
+
+
+// Route de validation cas + génération du token de session
+router.get("/session", session.session);
+
 
 module.exports = router;

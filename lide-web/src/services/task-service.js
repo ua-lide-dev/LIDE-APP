@@ -8,7 +8,7 @@ import http from "./http-config";
 function createUser(username) {
   console.log("username dans les routes fronts create user : " + username);
   const request = new XMLHttpRequest();
-  request.open("POST", "http://localhost:3000/user");
+  request.open("POST", "https://lide.leria-etud.univ-angers.fr:10000/user");
   request.setRequestHeader("username", username);
   return request.send();
 }

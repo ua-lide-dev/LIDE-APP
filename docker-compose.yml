@@ -35,7 +35,8 @@ services:
       - ./lide-back:/app
       - /var/run/docker.sock:/var/run/docker.sock
       - /data-lide:/data-lide
-
+    env_file:
+      - .env
     environment:
       COMPOSE_HTTP_TIMEOUT: 200
       DB_HOST: ${LIDE_CONTAINER_DB}
@@ -59,6 +60,8 @@ services:
     volumes:
       - /app/node_modules
       - ./lide-web:/app
+    env_file:
+      - .env
     environment:
       COMPOSE_HTTP_TIMEOUT: 200
       LIDE_BACK_PORT: ${LIDE_BACK_PORT}

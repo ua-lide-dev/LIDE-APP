@@ -28,7 +28,7 @@ export default {
       }
 
       // Création d'un socket vers le wss
-      this.socket = new WebSocket("ws://localhost:3636");
+      this.socket = new WebSocket("wss://lide.leria-etud.univ-angers.fr:10001/");
       this.socket.onopen = () => {
           this.socket.send(containerId);
       };

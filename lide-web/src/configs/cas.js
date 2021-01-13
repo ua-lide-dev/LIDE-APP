@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "./axios-config";
 
 export default {
   /**
@@ -10,85 +10,54 @@ export default {
    * @param options.serverCAS {String} - URL of CAS server
    */
   install(vue, router) {
-    if (!router) throw new Error('You must install Vue-Router and pass an instance as a parameter of the CAS call.')
-    if (!axios) throw new Error('You must install Axios and Vue-Axios and pass an instance as a parameter of the CAS call.')
-
     const serverURL = process.env.VUE_APP_LIDE_WEB_URL;
-    const serverCAS =  process.env.VUE_APP_CAS_URL;
-    const serviceValidate =  process.env.VUE_APP_LIDE_BACK_URL + "session";
-    const encoddedServerURL = encodeURIComponent(serverURL);
 
-    router.beforeEach((to, from, next) => {
-      // si redirection depuis le login cas
-      if (to.fullPath.startsWith("/?ticket=")) {
-        console.log("redirected from cas");
-        let ticketCAS = to.query.ticket;
+    router.beforeEach(async (to, from, next) => {
+      // route protégée
+      if (to.matched.some((record) => record.meta.requiresAuth)) {
+        if (localStorage.session != null) {  // TODO : validate session
+          // si identifié via login
+          next();
+        } else {
+          // si pas identifié
+          login();
+        }
+      } else if (to.fullPath.startsWith("/login")) {
+        // on nettoie la dernière session
+        localStorage.clear();
 
-        // 1 - validate + enregistrement session
-        axios.get(serviceValidate, { headers: { ticket: ticketCAS } }).then((res) => {
-          console.log(res.data);
-          // TODO set uniquement si valide
-          localStorage.username = res.data.username;
+        // bouchon username sans cas
+        localStorage.username = "user1";
+
+        // récupération de la session
+        await axios.get("/session").then(async (res) => {
           localStorage.session = res.data.session;
-          // TODO !!!!! rediriger uniquement si username valide dans réponse
-          // On redirige vers /app
+          // register
+          await axios.get("/user");
+          // redirect
           window.location = serverURL + "app";
         }).catch((error) => {
-          // TODO  ERREUR ! _> On redirige vers /
-          //window.location = serverURL;
-          console.log(error);
+          window.location = serverURL;
+          throw error;
         })
 
+      } else if (to.fullPath.startsWith("/logout")) {
+        // clear du local storage
+        logout();
       }
-      // si on tape sur /logout
-      else if (to.fullPath.startsWith("/logout")) {
-        localStorage.clear();
-        console.log("redirect from logout");
-        next({
-          path: logout(),
-          params: { nextUrl: to.fullPath }
-        })
-      }
-      // si on tape sur /login
-      else if (to.fullPath.startsWith("/login")) {
-        console.log("redirect from login");
-        next({
-          path: login(),
-          params: { nextUrl: to.fullPath }
-        })
-      }
-      // Si on tape une url protégée
-      else if (to.matched.some(record => record.meta.requiresAuth)) {
-        console.log("protected url");
-
-        // Si session
-        // TODO vérif session
-        if (localStorage.session != null && localStorage.username != "NOT_FOUND") {
-          next();
-        }
-        // Si pas de session
-        else {
-          // TODO page erreur connexion connexion pécor
-          window.location = serverURL + "login";
-        }
-
-      }
-      // Si on tape pas une url protégée --> ok
       else {
-        console.log("unportected url");
+        // Si on tape pas une url protégée --> ok
         next();
       }
-    })
+    });
 
     const login = () => {
-      let login = `${serverCAS}login?service=${encoddedServerURL}`;
-      window.location = login;
-    }
+      window.location = serverURL + "login";
+    };
 
     const logout = () => {
-      localStorage.removeItem('session');
-      window.location = `${serverCAS}logout?service=${encoddedServerURL}`
-    }
-
+      localStorage.clear();
+      window.location = serverURL;
+    };
   },
-}
+};

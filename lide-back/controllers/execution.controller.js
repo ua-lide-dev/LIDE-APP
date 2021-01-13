@@ -63,10 +63,10 @@ exports.execute = async (req, res) => {
     // Lancement du conteneur
     execSync(
       'docker run -it -d' +
-      ' -v ' + filePath + ':/execution/' + filename + '.' + extension +
+      ' -v ' + filePath + ':/' + filename + '.' + extension +
       ' --name ' + containerName +
       ' ' + img + 
-      ' /execution/' + filename + '.' + extension
+      ' ' + filename + '.' + extension
     );
 
     // Récupération de l'id du conteneur

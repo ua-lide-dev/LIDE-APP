@@ -62,7 +62,7 @@ export default {
 
 	mounted() {
 		this.terminal.open(this.$refs.terminal);
-		// this.terminal.resize(160, this.nbRow);
+		this.terminal.resize(160, this.nbRow);
 		this.terminal.loadAddon(this.fitAddon);
 		this.setSize();
 	},

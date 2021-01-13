@@ -18,6 +18,8 @@ if [ "$1" = "-f" ]; then
     docker volume prune -f
     docker image rm lide-web lide-back lide-wss
     docker-compose up -d --force-recreate -V
+    cd ./lide-back/images/
+    ./build_images.sh
 elif [ "$1" = "-i" ]; then
     build_images
 else

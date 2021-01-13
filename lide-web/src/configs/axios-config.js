@@ -8,11 +8,8 @@ const http = axios.create({
   },
 });
 
-// intercepte les requêtes pour alimenter les headers
+/** Interceptor de requête */
 http.interceptors.request.use((config) => {
-  if (localStorage.username != null) {
-    config.headers.username = localStorage.username;
-  }
   if (localStorage.session != null) {
     config.headers.session = localStorage.session;
   }
@@ -32,8 +29,8 @@ http.interceptors.response.use(
     if (error.response.status == 401)
       window.location = "/login"
     else {
-      console.err("ERROR CATCHED FROM BACKEND API");
-      console.err(error);
+      console.error("ERROR CATCHED FROM BACKEND API");
+      console.error(error);
     }
     return Promise.reject(error);
   }

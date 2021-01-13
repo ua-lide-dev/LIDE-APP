@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "./axios-config";
 
 export default {
   /**
@@ -15,7 +15,6 @@ export default {
 
     const serverURL = process.env.VUE_APP_LIDE_WEB_URL;
     const serverCAS =  process.env.VUE_APP_CAS_URL;
-    const serviceValidate =  process.env.VUE_APP_LIDE_BACK_URL + "session";
     const encoddedServerURL = encodeURIComponent(serverURL);
 
     router.beforeEach((to, from, next) => {
@@ -24,58 +23,70 @@ export default {
         console.log("redirected from cas");
         let ticketCAS = to.query.ticket;
 
-        // 1 - validate + enregistrement session
-        axios.get(serviceValidate, { headers: { ticket: ticketCAS } }).then((res) => {
-          console.log(res.data);
-          // TODO set uniquement si valide
+        // 1 - validatation ticket cas + enregistrement session
+        axios.get("session", { headers: { ticket: ticketCAS } }).then((res) => {
+          console.log(res.data); //TODO a suppr
+
           localStorage.username = res.data.username;
+
+          // Set du token de session
           localStorage.session = res.data.session;
-          // TODO !!!!! rediriger uniquement si username valide dans réponse
+
           // On redirige vers /app
-          window.location = serverURL + "app";
+          window.location="/app"; //TODO : .next();
         }).catch((error) => {
-          // TODO  ERREUR ! _> On redirige vers /
-          //window.location = serverURL;
           console.log(error);
+          login();
         })
 
       }
       // si on tape sur /logout
       else if (to.fullPath.startsWith("/logout")) {
-        localStorage.clear();
-        console.log("redirect from logout");
-        next({
-          path: logout(),
-          params: { nextUrl: to.fullPath }
-        })
+          // localStorage.clear();
+          // console.log("redirect from logout");
+          // next({
+          //   path: logout(),
+          //   params: { nextUrl: to.fullPath }
+          // })
+        logout();
       }
       // si on tape sur /login
       else if (to.fullPath.startsWith("/login")) {
         console.log("redirect from login");
-        next({
-          path: login(),
-          params: { nextUrl: to.fullPath }
-        })
+        // next({
+        //   path: login(),
+        //   params: { nextUrl: to.fullPath }
+        // })
+        login();
       }
+
+
       // Si on tape une url protégée
       else if (to.matched.some(record => record.meta.requiresAuth)) {
         console.log("protected url");
 
         // Si session
         // TODO vérif session
-        if (localStorage.session != null && localStorage.username != "NOT_FOUND") {
-          next();
+        if (localStorage.session != null) {
+
+          axios.get("validateSession").then(async (res) => {
+            //Initialisation ou création de l'utilisateur 
+            await axios.get("user");
+            next();
+          }).catch((error) => {
+            login();
+            console.log(error);
+          })
+
         }
+          
         // Si pas de session
         else {
-          // TODO page erreur connexion connexion pécor
-          window.location = serverURL + "login";
+          login();
         }
-
       }
-      // Si on tape pas une url protégée --> ok
+      // Si on tape pas une url non protégée --> ok
       else {
-        console.log("unportected url");
         next();
       }
     })
@@ -86,7 +97,7 @@ export default {
     }
 
     const logout = () => {
-      localStorage.removeItem('session');
+      localStorage.clear();
       window.location = `${serverCAS}logout?service=${encoddedServerURL}`
     }
 

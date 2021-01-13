@@ -2,7 +2,6 @@ const UserService = require('../services/db/user.service');
 
 exports.get = (req, res) => {
   const username = req.username;
-  console.log("username userservice :" + username);
   UserService.getOrCreate(username)
       .then((result) => {
         res.status(200).json(result);

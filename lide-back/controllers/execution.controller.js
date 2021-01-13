@@ -22,7 +22,7 @@ exports.execute = async (req, res) => {
   let containerId = '';
 
   try {
-    const extension = reqExtension.replace('.', '');
+    const extension = reqExtension.replace('.', ''); //TODO A ENLEVER et adapter 
     // Création du volume et du fichier
     execSync('mkdir -p /lide-data/' + username + '/' + projectname);
 
@@ -36,17 +36,37 @@ exports.execute = async (req, res) => {
       execSync('docker rm --force ' + containerName);
     } catch (error) { }
 
+
+
+    // Sélection de l'image docker //TODO réupérer ça dynamiquement en base
+    var img;
+
+    switch (extension) {
+      case 'cpp':
+        img = "cpp_lide";
+        break;
+      case 'java':
+        img = "java_lide";
+        break;
+      case 'py':
+        img = "py_lide";
+        break;
+      case 'php':
+        img = "php_lide";
+        break;
+
+      default:
+        res.status(400).response("Extension non gérée");
+
+    }
+
     // Lancement du conteneur
     execSync(
       'docker run -it -d' +
-      ' -v ' +
-      filePath +
-      ':/exec/file.' +
-      extension +
-      ' --name ' +
-      containerName +
-      ' ' +
-      extension,
+      ' -v ' + filePath + ':/execution/' + filename + '.' + extension +
+      ' --name ' + containerName +
+      ' ' + img + 
+      ' /execution/' + filename + '.' + extension
     );
 
     // Récupération de l'id du conteneur
@@ -54,6 +74,7 @@ exports.execute = async (req, res) => {
     containerId = containerId.substr(0, containerId.length - 1);
   } catch (error) {
     console.error(error);
+    res.status(400);
   }
 
   res.status(200).json({ containerid: containerId });

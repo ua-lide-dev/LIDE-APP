@@ -1,2 +1,0 @@
-build : docker build --tag php .
-run : docker run --rm -it --name phpUSER -v /root/data/fichier.php:/fichier.php php fichier.php

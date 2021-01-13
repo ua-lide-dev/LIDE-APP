@@ -1,140 +1,71 @@
-const User = require ("../models/user")
+const FileService = require('../services/db/file.service');
 
-/*
-    Le controlleur File gère les appels à la bdd 
-        pour tout ce qui concerne les fichiers (nom + extension + contenu + date)
-*/
+// TODO : pour tout les controlleurs, s'assurer que les parametres ne sont pas vide, cela brise les requetes
 
-// POST -> crée un fichier
+exports.get = (req, res) => {
+  const username = req.username;
+  const fileid = req.params.fileid;
+
+  FileService.get(username, fileid)
+      .then((result) => {
+        res.status(200).json(result);
+      })
+      .catch((err) => {
+        res.status(400).json({error: err.message});
+      });
+};
+
 exports.create = (req, res) => {
-  console.log("")
- 
-     // on recupere le username et le projectname
-     const username = req.headers.username;
-     const projectname= req.body.projectname;
-     // On initialise un nouvel objet File
-     const file ={
-         filename: req.body.filename,
-         extension: req.body.extension,
-         body: req.body.content,
-         date: Date.now()
-     };
- 
-   User.findOne({"username":username,"projects":{$elemMatch:{"projectname" : req.body.projectname, files:{$elemMatch: {"filename":req.body.filename,"extension":req.body.extension}}}}})
-   .then(user=>{
-    if(user){
-      res.status(400).json({
-      error: "File already exists !",
-     });
-    }
-    else{
-      User.findOneAndUpdate(
-        {username:username,'projects.projectname':projectname},
-        { $push: {'projects.$.files': file}},{useFindAndModify: false}).exec()
-      .then(
-        res.status(201).json(file)
-      ).catch((err) => {
-        // Si la requête échoue (Statut 400 BAD REQUEST)
-        res.status(400).json({
-          error: err,
-        });
+  const username = req.username;
+  const projectid = req.body.projectid;
+  const filename = req.body.filename;
+  const extension = req.body.extension;
+
+  FileService.create(username, projectid, filename, extension)
+      .then((result) => {
+        res.status(201).json(result);
+      })
+      .catch((err) => {
+        res.status(400).json({error: err.message});
       });
-    }
-  })
 };
 
-// PUT -> renommer un fichier
-exports.rename = (req, res) => {
-  // on recupere le username envoyé dans la requete 
-  const username = req.headers.username;
-  const projectname = req.body.projectname;
-  const filename = req.body.filename;
-  const newfilename = req.body.newfilename;
-
-  
-    User.findOneAndUpdate(
-      {username:username , 'projects.projectname':projectname,'projects.files.filename':filename},
-      { $set: {'projects.$[projectFilter].files.$[fileFilter].filename' : newfilename}},
-      { arrayFilters: [{ 'projectFilter.projectname': projectname },{'fileFilter.filename':filename}] }).exec()
-      .then(user=>{
-          if(user!=null){
-            res.status(204).send("file renamed")
-          }else{
-            //Si la requête échoue (Statut 400 BAD REQUEST)
-            res.status(400).send("file does not exist")
-          }
-        
-      });
-    
-    };
-
-//DELETE -> Supprimer un fichier
 exports.delete = (req, res) => {
-  // on recupere le username envoyé dans la requete 
-  const username = req.headers.username;
-  const projectname = req.body.projectname;
-  const filename = req.body.filename;
+  const username = req.username;
+  const fileid = req.params.fileid;
 
-  User.findOneAndUpdate(
-    {username:username , 'projects.projectname':projectname,'projects.files.filename':filename},
-    { $pull: {'projects.$.files' : {filename: filename}}}).exec()
-    .then(user=>{
-        if(user!=null){
-          res.status(204).send("file removed")
-        }else{
-          //Si la requête échoue (Statut 400 BAD REQUEST)
-          res.status(400).send("file does not exist")
-        }
-      
+  FileService.delete(username, fileid)
+      .then((result) => {
+        res.status(200).json(result);
+      })
+      .catch((err) => {
+        res.status(400).json({error: err.message});
+      });
+};
+
+// Fonction pour renommer un fichier
+exports.update = async (req, res) => {
+  const username = req.username;
+  const fileid = req.params.fileid;
+
+  let file = null;
+
+  const rename = req.query.rename;
+  const save = req.query.save;
+
+  if (rename == 'true') {
+    const newfilename = req.body.newfilename;
+    file = await FileService.rename(username, fileid, newfilename).catch((err) => {
+      res.status(400).json(err.message);
     });
+  }
+
+  if (save == 'true') {
+    const content = req.body.content;
+    file = await FileService.save(username, fileid, content).catch((err) => {
+      res.status(400).json(err.message);
+    });
+  }
+
+  res.status(200).json(file);
 };
-
-// POST -> Sauvegarde un fichier
-exports.save = (req, res) => {
-console.log(req);
-
-  User.updateOne({ username:req.headers.username,}, {
-
-    $set: { 
-      "projects.$[project].files.$[file].body": req.body.content, 
-    }
-  },{ arrayFilters:[
-      {"project.projectname": req.body.projectname}, 
-      {"file.filename": req.body.filename, "file.extension": req.body.extension}
-    ]
-  }) 
-    .then(() => {
-      res.status(201).json({// Si la requête réussi (Statut 201 -> CREATED
-        message: "le fichier a bien été sauvegardé"
-      });
-  })
-  .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)
-      res.status(400).json({
-        error: err,
-      });
-  })
-};
-
-// POST -> récupère le fichier correspondant aux infos passées dans la requête
-exports.getFile = (req, res) => {
-  User.findOne({ username:req.headers.username})
-  .then((user) => { // Si la requête réussi (Statut 200 -> OK)
-    for(projet in user.projects){
-      if(user.projects[projet].projectname==req.body.projectname){
-        for(fic in user.projects[projet].files){
-          if(user.projects[projet].files[fic].filename==req.body.filename && user.projects[projet].files[fic].extension==req.body.extension){
-            res.status(200).json(user.projects[projet].files[fic]);
-          }
-        }
-      }
-      
-    }
-    res.status(200).json(user);
-  })
-  .catch((err) => { // Si la requête échoue (Statut 400 BAD REQUEST)
-    console.log(err);
-    res.status(400).json(err);
-  });
-};
-
-

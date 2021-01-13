@@ -1,42 +1,49 @@
 const express = require("express");
 const router = express.Router();
 
-// Controllers
+/* --------------- Controllers----------------- */
+
 const user = require("./controllers/user.controller");
 const project = require("./controllers/project.controller");
 const file = require("./controllers/file.controller");
-const compile = require("./controllers/compile.controller");
+const execution = require("./controllers/execution.controller");
 const session = require("./controllers/session.controller");
 
+/* ---------------- Security ------------------ */
 
+const SessionService = require("./services/security/session.service");
 
-/* --- Routes --- */
+/* ---------------- Routes -------------------- */
 
-//Routes User
-router.post("/user", user.createUser);
-router.get("/projects",user.getAllProjects);
+// Route permettant de créer un utilisateur lors de sa première connexion
+router.get("/user", ensureAuthenticated, user.get);
+router.delete("/user", ensureAuthenticated, user.delete);
+router.get("/user/projects", ensureAuthenticated, user.getProjects);
 
-// Routes Project
-router.post("/createProject", project.create);
-router.put('/renameProject', project.rename);
-router.post("/deleteProject",project.delete);
+// Routes de gestion des projets
+router.post("/project", ensureAuthenticated, project.create);
+router.get("/project/:projectid", ensureAuthenticated, project.get);
+router.delete("/project/:projectid", ensureAuthenticated, project.delete);
+router.put("/project/:projectid", ensureAuthenticated, project.update);
 
-// Routes File
-router.post("/createFile", file.create);
-router.put("/renameFile", file.rename);
-router.post("/deleteFile", file.delete);
-router.post("/getFile", file.getFile);
+// Routes de gestion des fichiers
+router.post("/file", ensureAuthenticated, file.create);
+router.get("/file/:fileid", ensureAuthenticated, file.get);
+router.delete("/file/:fileid", ensureAuthenticated, file.delete);
+router.put("/file/:fileid", ensureAuthenticated, file.update);
 
-
-// Route save
-router.post("/save",file.save);
-
-//Route Compile
-router.post("/execute", compile.post);
-
+// Route de compilation & exécution
+router.post("/execute/:fileid", ensureAuthenticated, execution.execute);
 
 // Route de validation cas + génération du token de session
 router.get("/session", session.session);
 
+async function ensureAuthenticated(req, res, next) {
+  const session = req.headers.session;
+  const username = await SessionService.validateSession(session);
+  if (!username) res.status(401).json("User is not authenticated");
+  req.username = username;
+  next();
+}
 
 module.exports = router;

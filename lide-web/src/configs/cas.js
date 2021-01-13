@@ -1,8 +1,5 @@
 import axios from "axios";
 
-import store from '../store/store'; 
-
-
 export default {
   /**
    *
@@ -31,12 +28,8 @@ export default {
         axios.get(serviceValidate, { headers: { ticket: ticketCAS } }).then((res) => {
           console.log(res.data);
           // TODO set uniquement si valide
-
+          localStorage.username = res.data.username;
           localStorage.session = res.data.session;
-
-          store.commit('SET_USERNANE', res.data.username);
-          store.dispatch('createUser',this.$store);
-    
           // TODO !!!!! rediriger uniquement si username valide dans réponse
           // On redirige vers /app
           window.location = serverURL + "app";

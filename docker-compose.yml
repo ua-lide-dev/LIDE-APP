@@ -1,13 +1,12 @@
-version: '3'
+version: "3"
 
 services:
-  
   # Database
   database-service:
     image: mongo:latest
     restart: always
     container_name: ${LIDE_CONTAINER_DB}
-    volumes: 
+    volumes:
       - database:/data/db
     environment:
       MONGO_INIT_DATABASE: ${LIDE_DB_NAME}
@@ -16,16 +15,15 @@ services:
     ports:
       - ${LIDE_DB_PORT}:27017
     networks:
-      -  lidenetwork
-
+      - lidenetwork
 
   # Back-end Server
   lide-back-service:
     build: ./lide-back
     image: lide-back
-    depends_on: 
+    depends_on:
       - database-service
-    links: 
+    links:
       - database-service
     restart: always
     container_name: ${LIDE_CONTAINER_BACK}
@@ -33,22 +31,22 @@ services:
     volumes:
       - /app/node_modules
       - ./lide-back:/app
+      - /lide-data:/lide-data
       - /var/run/docker.sock:/var/run/docker.sock
-      - /data-lide:/data-lide
-    env_file:
-      - .env
     environment:
       COMPOSE_HTTP_TIMEOUT: 200
       DB_HOST: ${LIDE_CONTAINER_DB}
       DB_NAME: ${LIDE_DB_NAME}
       DB_PORT: ${LIDE_DB_PORT}
-    ports: 
+    env_file:
+      - .env
+    ports:
       - ${LIDE_BACK_PORT}:3000
     working_dir: /app
-    entrypoint: node server.js
+    #entrypoint: node server.js
+    entrypoint: npm run dev
     networks:
-        -  lidenetwork
-
+      - lidenetwork
 
   # Web Server
   lide-web-service:
@@ -60,18 +58,18 @@ services:
     volumes:
       - /app/node_modules
       - ./lide-web:/app
-    env_file:
-      - .env
     environment:
       COMPOSE_HTTP_TIMEOUT: 200
       LIDE_BACK_PORT: ${LIDE_BACK_PORT}
       BACK_HOST: ${LIDE_CONTAINER_BACK}
-    ports: 
+    env_file:
+      - .env
+    ports:
       - ${LIDE_WEB_PORT}:8080
     working_dir: /app
     entrypoint: npm run serve
     networks:
-        -  lidenetwork
+      - lidenetwork
 
   # WebSocket Server
   lide-wss-service:
@@ -82,6 +80,8 @@ services:
     hostname: ${LIDE_CONTAINER_WSS}
     environment:
       LIDE_WSS_PORT: ${LIDE_WSS_PORT}
+    env_file:
+      - .env
     working_dir: /app
     entrypoint: node server_socket.js
     network_mode: host
@@ -91,5 +91,3 @@ volumes:
 
 networks:
   lidenetwork:
-
-

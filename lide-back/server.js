@@ -1,25 +1,25 @@
 const express = require("express");
 const app = express();
-const bodyparser = require("body-parser");
 const router = require("./router");
 const cors = require("cors");
+const bodyParser = require("body-parser");
+const port = 3000;
+
+const https = require("https");
+const fs = require("fs");
+
 const db = require("./db");
 
 /* -- Connection à la base de donnée MongoDB --- */
 db.connect();
-app.use(bodyparser.json());
 
-/*----authorisation du cors pour nos requetes---*/
 app.use(cors());
-
-app.use(express.json());
+app.use(bodyParser.json());
 
 /* --- Ensemble des routes --- */
-app.use("/", router);
+app.use("/api/v1", router);
 
 /* --- Lancement du serveur back --- */
-app.listen(3000, () => {
-  console.log(
-    `Server starting : http://localhost:3000`
-  );
+app.listen(port, () => {
+  console.log("Server starting : http://localhost:" + port);
 });

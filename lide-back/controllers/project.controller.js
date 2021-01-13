@@ -1,114 +1,57 @@
-const Project = require("../models/project");
-const User = require ("../models/user")
-/*
-    Le controlleur Project gère les appels à la bdd 
-        pour tout ce qui concerne les projets (nom + fichiers)
-*/
+const ProjectService = require('../services/db/project.service');
 
-/* Pour chaque controlleur :
-    - Req est l'objet correspondant à la requête. req.header et re.params contiennent les infos
-    - Res est l'objet envoyé en réponse (HTTP CODE STATUS)
-*/
+exports.get = (req, res) => {
+  const username = req.username;
+  const projectid = req.params.projectid;
 
-// POST -> crée un projet
+  ProjectService.get(username, projectid)
+      .then((result) => {
+        res.status(200).json(result);
+      })
+      .catch((err) => {
+        res.status(400).json({error: err.message});
+      });
+};
+
 exports.create = (req, res) => {
-  // on recupere le username envoyé dans la requete 
-  const username = req.headers.username;
+  const username = req.username;
   const projectname = req.body.projectname;
-  // On initialise un nouvel objet Project
-  console.log(username);
-  console.log(projectname);
-  const project = {
-    projectname: projectname,
-    files: []
-  };
 
-  User.findOne({username:username,'projects.projectname':projectname})
-  .then(user=>{
-    if(user){
-      res.status(400).json({
-        error: "Project already exists !",
+  ProjectService.create(username, projectname)
+      .then((result) => {
+        res.status(201).json(result);
+      })
+      .catch((err) => {
+        res.status(400).json({error: err.message});
       });
-      
-    }
-    else {
-      User.findOneAndUpdate(
-        {username:username},
-        { $push: {projects : project}},{useFindAndModify: false}).exec()
-        .then(
-          res.status(201).json(project)
-        ).catch((err) => {
-          // Si la requête échoue (Statut 400 BAD REQUEST)
-          res.status(400).json({
-            error: err,
-          });
-        });
-    }
-  })
 };
 
-
-// PUT -> renommer un projet
-exports.rename = (req, res) => {
-  // on recupere le username envoyé dans la requete 
-  const username = req.headers.username;
-  const projectname = req.body.projectname;
-  const newprojectname = req.body.newprojectname;
-
-  
-   User.findOne({username:username , 'projects.projectname':projectname})
-  .then(user=>{
-    
-    if(user != null){ 
-    User.findOneAndUpdate(
-      {username:username , 'projects.projectname':projectname},
-      { $set: {'projects.$.projectname' : newprojectname}},{useFindAndModify: false}).exec()
-      .then(
-        res.status(204).send("project renamed")
-      ).catch((err) => {
-        // Si la requête échoue (Statut 400 BAD REQUEST)
-        res.status(400).json({
-          error: err,
-        });
-      });
-    
-    }
-    
-    else {
-      res.status(400).send("project does not exist")
-    }
-    
-
-  })
-};
-
-
-//DELETE -> Supprimer un projet
 exports.delete = (req, res) => {
-   // on recupere le username envoyé dans la requete 
-   const username = req.headers.username;
-   const projectname = req.body.projectname;
+  const username = req.username;
+  const projectid = req.params.projectid;
 
-   User.findOne({username:username , 'projects.projectname':projectname})
-   .then(user=>{
-     
-     if(user != null){ 
-     User.findOneAndUpdate(
-       {username:username , 'projects.projectname':projectname},
-       { $pull: {projects : {projectname: projectname}}},{useFindAndModify: false}).exec()
-       .then(
-        res.status(200).send("project deleted")
-      ).catch((err) => {
-        // Si la requête échoue (Statut 400 BAD REQUEST)
-        res.status(400).json({
-          error: err,
-        });
+  ProjectService.delete(username, projectid)
+      .then((result) => {
+        res.status(200).json(result);
+      })
+      .catch((err) => {
+        res.status(400).json({error: err.message});
       });
-     }
-     
-     else {
-      res.status(400).send("project does not exist")
-    }
-   })
-  
+};
+
+exports.update = async (req, res) => {
+  const username = req.username;
+  const projectid = req.params.projectid;
+  const rename = req.query.rename;
+
+  let project = null;
+
+  if (rename == 'true') {
+    const newprojectname = req.body.newprojectname;
+    project = await ProjectService.rename(username, projectid, newprojectname).catch((err) => {
+      res.status(400).json({error: err.message});
+    });
+  }
+
+  res.status(200).json(project);
 };

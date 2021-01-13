@@ -1,9 +1,6 @@
-FROM node:lts-alpine
+FROM docker:latest
+RUN apk add nodejs
+RUN apk add npm
 WORKDIR /app
-COPY package*.json ./
-
-#ligne qui permet de metre des dockers dans des dockers
-RUN apk add --update docker openrc
-RUN rc-update add docker boot
-
+COPY package.json ./
 RUN npm install

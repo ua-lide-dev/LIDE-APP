@@ -1,17 +1,18 @@
 import Vue from "vue";
-import store from "./store/store";
+import Vuetify from "./configs/vuetify";
+import Router from "./configs/router";
+import Store from "./store/index"
 import App from "./App.vue";
-import router from "./configs/router";
-import vuetify from "./configs/vuetify";
-import axios from "axios";
 
 Vue.config.productionTip = false;
-Vue.prototype.$http = axios;
+
+const router = Router;
+const vuetify = Vuetify;
+const store = Store;
 
 new Vue({
-  vuetify,
   router,
   store,
+  vuetify,
   render: (h) => h(App),
-
 }).$mount("#app");

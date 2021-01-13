@@ -4,16 +4,23 @@
   "description": "Back-end LIDE",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon -L server.js"
   },
   "author": "Département informatiqe - Université Angers",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "child_process": "^1.0.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.10.15",
-    "axios": "^0.20.0"
+    "express-session": "^1.17.1",
+    "moment": "^2.29.1",
+    "mongoose": "^5.10.5",
+    "node-cas-authentication": "^0.0.15",
+    "axios": "^0.20.0",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
   }
 }

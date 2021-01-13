@@ -1,57 +1,55 @@
 <template>
-  <v-container class="pa-0" fluid>
-    <v-row>
-      <!-- Explorer -->
-      <v-col class="" cols="2">
-        <Explorer />
-      </v-col>
-
-      <!-- Editeur et Terminal-->
-      <v-col class="pa-0" cols="10">
-        <v-row>
-          <v-col class="pa-0" cols="12">
-            <Editor />
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col class="pa-0" cols="12">
-            <Terminal />
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
-  </v-container>
+	<v-app>
+		<AppBar />
+		<v-main>
+			<v-container fill-height class="pa-0" fluid>
+				<v-row class="parent" wrap>
+					<v-col cols="12" sm="2" class="py-0">
+						<Explorer />
+					</v-col>
+					<v-col cols="12" sm="10" class="py-0">
+						<Editor />
+						<Terminal />
+					</v-col>
+				</v-row>
+			</v-container>
+			<!-- <SettingDrawer />
+			<HelpDrawer /> -->
+		</v-main>
+	</v-app>
 </template>
 
 <script>
-import Editor from "../components/ide/editor/Editor";
-import Explorer from "../components/ide/explorer/Explorer";
-import Terminal from "../components/ide/terminal/Terminal";
+import AppBar from "../components/appbar/AppBar";
+import Explorer from "../components/explorer/Explorer";
+import Editor from "../components/editor/Editor";
+import Terminal from "../components/terminal/Terminal";
+// import SettingDrawer from "../components/drawer/SettingDrawer";
+// import HelpDrawer from "../components/drawer/HelpDrawer";
 
 export default {
-  name: "Ide",
+	name: "Ide",
 
-  components: {
-    Editor,
-    Explorer,
-    Terminal
-  },
-
-  data: () => ({}),
-
-  created: function(){
-    console.log("created");
-    this.$store.dispatch('getProjects');
-    this.$store.commit('CLEAR_TABS');
-  },
-  beforeCreate: function(){
-    console.log('before created');
-  },
-  updated: function(){
-    console.log('update');
-  }
+	components: {
+		AppBar,
+		Explorer,
+		Editor,
+		Terminal,
+		// SettingDrawer,
+		// HelpDrawer,
+	},
+	created() {
+		this.$store.dispatch("user/setUsername", localStorage.getItem("username"));
+		this.$store.dispatch("project/fetchProjects");
+	},
 };
 </script>
+
 <style scoped>
+.parent {
+	height: 100%;
+}
+.drawer-setting {
+	z-index: 10;
+}
 </style>

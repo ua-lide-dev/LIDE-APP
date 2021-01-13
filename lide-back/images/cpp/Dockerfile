@@ -1,19 +1,17 @@
 #image de depart
 FROM gcc:latest
 
-#variables env
-ENV VERSION = 1 \
-    UBUNTU_FRONTEND=noninteractive
-
 # metadonnées de l'image
 LABEL maintainer="Quentin Maignan for LIDE" \
         version="${VERSION}"
 
+WORKDIR /exec
+
 #copie du script 
-COPY buildNrun.sh /buildNrun.sh
+COPY buildNrun.sh /exec/buildNrun.sh
 
 #on donne des droits pour exec le script
-RUN chmod +x buildNrun.sh
+RUN chmod +x /exec/buildNrun.sh
 
 #Entrypoint
-ENTRYPOINT ["./buildNrun.sh"]
+ENTRYPOINT ["/exec/buildNrun.sh"]

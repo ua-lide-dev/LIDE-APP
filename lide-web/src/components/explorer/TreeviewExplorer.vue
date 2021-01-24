@@ -251,7 +251,9 @@ export default {
 				.catch((error) => {
 					// TODO Notification pour avertir  d'une erreur à l'utilisateur
 					console.log(error);
-				});
+					this.newprojectname = "";
+				})
+				.then(() => (this.newprojectname = ""));
 			this.dialogRenameProject = false;
 		},
 
@@ -267,6 +269,12 @@ export default {
 				.catch((error) => {
 					// TODO Notification pour avertir  d'une erreur à l'utilisateur
 					console.log(error);
+					this.filename = "";
+					this.extension = "";
+				})
+				.then(() => {
+					this.filename = "";
+					this.extension = "";
 				});
 			this.dialogCreateFile = false;
 		},
@@ -299,7 +307,9 @@ export default {
 				.catch((error) => {
 					// TODO Notification pour avertir  d'une erreur à l'utilisateur
 					console.log(error);
-				});
+					this.newfilename = "";
+				})
+				.then(() => (this.newfilename = ""));
 			// workaround d'un bug des tabs vuetify, cf: https://github.com/vuetifyjs/vuetify/issues/4733
 			window.dispatchEvent(new Event("resize"));
 			this.dialogRenameFile = false;

@@ -53,8 +53,11 @@ export default {
 			this.$store
 				.dispatch("project/create", this.projectname)
 				.catch((error) => {
+					// TODO Notification pour avertir d'une erreur à l'utilisateur
 					console.log(error);
-				});
+					this.projectname = "";
+				})
+				.then(() => (this.projectname = ""));
 			this.dialog = false;
 		},
 	},

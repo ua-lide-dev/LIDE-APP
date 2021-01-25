@@ -1,7 +1,12 @@
 <template>
 	<v-app>
-		<AppBar />
-		<Explorer />
+		<v-app-bar elevation="1" clipped-left flat dark app>
+			<v-app-bar-nav-icon @click.stop="explorerDrawer = !explorerDrawer"></v-app-bar-nav-icon>
+			<AppBar />
+		</v-app-bar>
+		<v-navigation-drawer v-model="explorerDrawer" clipped app fixed dark floating>
+			<Explorer />
+		</v-navigation-drawer>
 		<v-main >
 			<v-container fluid>
 				<v-row>
@@ -11,14 +16,7 @@
 				</v-row>
 				<v-row>
 					<v-col cols="12" class="px-0 pb-0">
-						<v-card 
-							class="white--text pl-1 terminal-title" 
-							color="bodysecondary" 
-							width="100%" 
-							height="18" tile>
-								TERMINAL
-
-						</v-card>
+						<ActionTerminal />
 					</v-col>
 					<v-col cols="12" class="pa-0">
 						<Terminal />
@@ -36,6 +34,7 @@ import AppBar from "../components/appbar/AppBar";
 import Explorer from "../components/explorer/Explorer";
 import Editor from "../components/editor/Editor";
 import Terminal from "../components/terminal/Terminal";
+import ActionTerminal from "../components/terminal/ActionTerminal";
 // import SettingDrawer from "../components/drawer/SettingDrawer";
 // import HelpDrawer from "../components/drawer/HelpDrawer";
 
@@ -43,6 +42,7 @@ export default {
 	name: "Ide",
 
 	components: {
+		ActionTerminal,
 		AppBar,
 		Explorer,
 		Editor,
@@ -50,6 +50,9 @@ export default {
 		// SettingDrawer,
 		// HelpDrawer,
 	},
+	data: () => ({
+		explorerDrawer: null,
+	}),
 	created() {
 		this.$store.dispatch("user/setUsername", localStorage.getItem("username"));
 		this.$store.dispatch("project/fetchProjects");
@@ -59,12 +62,4 @@ export default {
 
 <style scoped>
 
-.terminal-title {
-	font-weight: bold;
-	font-size: 0.775rem;
-	letter-spacing: 0.1rem;
-}
-.drawer-setting {
-	z-index: 10;
-}
 </style>

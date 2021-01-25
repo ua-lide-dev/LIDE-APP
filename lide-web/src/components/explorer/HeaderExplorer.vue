@@ -61,17 +61,19 @@ export default {
 			this.$store
 				.dispatch("project/create", this.projectname)
 				.catch((error) => {
+					// TODO Notification pour avertir d'une erreur à l'utilisateur
 					console.log(error);
-				});
-			this.dialogCreateFolder = false;
+					this.projectname = "";
+				})
+				.then(() => (this.projectname = ""));
+			this.dialog = false;
 		},
 		openDialogCreateFolder() {
 			this.dialogCreateFolder = true;
-		}
+		},
 	},
 };
 </script>
 
 <style scoped>
-
 </style>

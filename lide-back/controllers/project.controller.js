@@ -15,6 +15,7 @@ exports.get = (req, res) => {
 
 exports.create = (req, res) => {
   const username = req.username;
+  console.log("USERNAME CONTROLLER " + username);
   const projectname = req.body.projectname;
 
   ProjectService.create(username, projectname)
@@ -22,6 +23,7 @@ exports.create = (req, res) => {
         res.status(201).json(result);
       })
       .catch((err) => {
+        console.log(err);
         res.status(400).json({error: err.message});
       });
 };

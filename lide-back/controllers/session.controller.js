@@ -6,25 +6,23 @@ const serverCAS = process.env.VUE_APP_CAS_URL;
 const encoddedServerURL = encodeURIComponent(serverURL);
 
 exports.session = async (req, res) => {
-  // const ticket = req.get('ticket');
-  // let casResponse = null;
+  const ticket = req.get('ticket');
+  let casResponse = null;
 
-  // await axios.get(forgeValidate(ticket)).then((casRes) => {
-  //   casResponse = casRes.data.serviceResponse;
-  // }).catch((error) => {
-  //   console.log('Error during cas validation : ' + error);
-  //   res.status(401).json(error);
-  // });
+  await axios.get(forgeValidate(ticket)).then((casRes) => {
+    casResponse = casRes.data.serviceResponse;
+  }).catch((error) => {
+    console.log('Error during cas validation : ' + error);
+    res.status(401).json(error);
+  });
 
-  // let username = null;
-  // try {
-  //   username = casResponse.authenticationSuccess.user;
-  // } catch (error) {
-  //   console.log('error -> ' + error);
-  //   res.status(401).json(error);
-  // }
-
-  const username = req.headers.username;
+  let username = null;
+  try {
+    username = casResponse.authenticationSuccess.user;
+  } catch (error) {
+    console.log('error -> ' + error);
+    res.status(401).json(error);
+  }
 
   const session = await SessionService.getSession(username);
 
@@ -35,6 +33,20 @@ exports.session = async (req, res) => {
 
   res.status(200).json(response);
 };
+
+
+exports.validateSession = async (req, res) => {
+  const token = req.headers.session;
+
+  console.log("TOKEN : " + token);
+
+  if(!SessionService.validateSession(token)){
+    res.status(401).json("pas ok");
+  }
+
+  res.status(200).json("ok");
+};
+
 
 /**
  *

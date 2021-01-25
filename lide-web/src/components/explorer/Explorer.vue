@@ -2,20 +2,20 @@
 	<div>
 		<HeaderExplorer />
 		<v-divider></v-divider>	
-		<TreeviewExplorerTest />
+		<TreeviewExplorer />
 	</div>
 </template>
 
 <script>
 import HeaderExplorer from "./HeaderExplorer";
-import TreeviewExplorerTest from "./TreeviewExplorerTest";
+import TreeviewExplorer from "./TreeviewExplorer";
 
 export default {
 	name: "Explorer",
 
 	components: {
 		HeaderExplorer,
-		TreeviewExplorerTest
+		TreeviewExplorer
 	},
 	computed: {
 		explorerDrawer: {

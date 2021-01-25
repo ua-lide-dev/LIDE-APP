@@ -1,9 +1,9 @@
 <template>
-	<div class="parent-explorer">
+	<v-navigation-drawer app fixed dark floating>
 		<HeaderExplorer />
-		<TreeviewExplorer />
-		<FooterExplorer />
-	</div>
+		<v-divider></v-divider>	
+		<TreeviewExplorerTest />
+	</v-navigation-drawer>
 </template>
 
 <script>
@@ -11,21 +11,22 @@ import HeaderExplorer from "./HeaderExplorer";
 import TreeviewExplorer from "./TreeviewExplorer";
 import FooterExplorer from "./FooterExplorer";
 
+import TreeviewExplorerTest from "./TreeviewExplorerTest";
+
 export default {
 	name: "Explorer",
 
 	components: {
 		HeaderExplorer,
-		TreeviewExplorer,
-		FooterExplorer,
+		//TreeviewExplorer,
+		//FooterExplorer,
+		TreeviewExplorerTest
 	},
-
-	data: () => ({}),
 };
 </script>
 
 <style scoped>
 .parent-explorer {
-	height: 100%;
+	height: 100vh;
 }
 </style>

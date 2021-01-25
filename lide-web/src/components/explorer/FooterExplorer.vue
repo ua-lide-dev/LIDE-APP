@@ -1,4 +1,5 @@
 <template>
+
 	<v-row class="explorer-footer elevation-15" justify="center">
 		<v-col cols="11" md="9" lg="10" xl="7">
 			<v-dialog v-model="dialog" persistent max-width="410">
@@ -63,6 +64,7 @@ export default {
 
 <style scoped>
 .explorer-footer {
-	height: 10%;
+	position:absolute;
+	bottom:0;
 }
 </style>

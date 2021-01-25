@@ -1,7 +1,7 @@
 <template>
   <!-- App.vue -->
   <v-app>
-    <v-app-bar height="100" color="primary" style="z-index: 100" app>
+    <v-app-bar color="primary" style="z-index: 100" app>
       <v-img
         src="../assets/img/logo_ua.png"
         max-height="50"
@@ -9,12 +9,12 @@
         contain
       ></v-img>
       <v-spacer></v-spacer>
-      <v-btn color="success" to="/login">Connexion</v-btn>
+      <v-btn color="white" small outlined to="/login">Connexion</v-btn>
     </v-app-bar>
 
     <v-main>
       <v-container fluid class="pa-0">
-        <v-card class="background" elevation="0" :height="mobileView">
+        <v-card class="background" elevation="0" height="500">
           <span class="background-title item-1">LIDE</span>
           <span class="background-title item-2"
             >L'environnement de développement en ligne</span
@@ -23,14 +23,14 @@
             Aucune installation - Accessible depuis chez toi - Connexion via
             identifiant ENT
           </span>
-          <v-img src="../assets/img/background.jpg" aspect-ratio="2.4"></v-img>
+          <v-img :height="$vuetify.breakpoint.xs ? 500 : 600" src="../assets/img/background.jpg" aspect-ratio="2.4" fit></v-img>
         </v-card>
       </v-container>
       <v-container fluid class="mt-15 mb-15 pl-15 pr-15">
         <v-row>
           <v-col md="3">
             <v-card height="300" class="text-center">
-              <v-icon class="mt-5" size="100">mdi-cloud</v-icon>
+              <v-icon class="mt-5" size="70">mdi-cloud</v-icon>
               <p class="mt-5 text-center size-text-1">
                 Sauvegarde tes fichiers
                 <br />à distance
@@ -39,7 +39,7 @@
           </v-col>
           <v-col md="3">
             <v-card height="300" class="text-center">
-              <v-icon class="mt-5" size="100">mdi-code-tags</v-icon>
+              <v-icon class="mt-5" size="70">mdi-code-tags</v-icon>
               <p class="mt-5 mb-5 text-center size-text-1">
                 Choisis ton langage
               </p>
@@ -57,13 +57,13 @@
           </v-col>
           <v-col md="3">
             <v-card height="300" class="text-center">
-              <v-icon class="mt-5" size="100">mdi-file-code</v-icon>
+              <v-icon class="mt-5" size="70">mdi-file-code</v-icon>
               <p class="mt-5 text-center size-text-1">Développe en ligne</p>
             </v-card>
           </v-col>
           <v-col md="3">
             <v-card height="300" class="text-center">
-              <v-icon class="mt-5" size="100">mdi-play-circle</v-icon>
+              <v-icon class="mt-5" size="70">mdi-play-circle</v-icon>
               <p class="mt-5 text-center size-text-1">
                 Compile & exécute
                 <br />ton code

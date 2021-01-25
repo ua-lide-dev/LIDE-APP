@@ -1,9 +1,8 @@
 <template>
-	<v-app-bar color="white" hide-on-scroll app>
-		<v-toolbar-title class="text--secondary font-weight-bold headline ml-5">
+	<v-toolbar flat>
+		<v-toolbar-title v-show="!$vuetify.breakpoint.xs" class="font-weight-bold headline">
 			<v-icon class="mr-5 mt-n1" large>mdi-school</v-icon>U I D E
 		</v-toolbar-title>
-		<v-spacer></v-spacer>
 		<v-spacer></v-spacer>
 		<v-tooltip bottom>
 			<template v-slot:activator="{ on, attrs }">
@@ -25,7 +24,7 @@
 		<v-menu offset-y>
 			<template v-slot:activator="{ on, attrs }">
 				<v-btn class="ml-10 mr-2" icon x-large v-bind="attrs" v-on="on">
-					<v-avatar color="primary" size="48">
+					<v-avatar color="primary" :size="$vuetify.breakpoint.xs ? 38 : 48">
 						<span class="white--text title">{{ initials }}</span>
 					</v-avatar>
 				</v-btn>
@@ -43,7 +42,7 @@
 				</v-list-item-content>
 			</v-card>
 		</v-menu>
-	</v-app-bar>
+	</v-toolbar>
 </template>
 
 <script>
@@ -56,6 +55,7 @@ export default {
 	data() {
 		return {
 			drawerSetting: null,
+
 		};
 	},
 	computed: {
@@ -67,6 +67,11 @@ export default {
 			initialsStr = initialsStr.toUpperCase();
 			return initialsStr;
 		},
+		explorerDrawer: {
+			get() { return this.$store.state.drawer.explorerDrawer},
+			set(v) { return this.$store.commit("drawer/SET_EXPLORER_DRAWER", v)}
+		}
+
 	},
 	methods: {
 		openDrawerSetting: function () {

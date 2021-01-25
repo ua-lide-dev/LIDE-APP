@@ -1,108 +1,83 @@
 <template>
-	<v-row class="explorer-treeview">
-		<v-col cols="12" class="child">
-			<v-row v-for="(project, i) in projects" :key="i">
-				<v-col cols="12" class="py-2">
-					<v-row
-						@mouseover="projecthover = i"
-						@mouseleave="projecthover = null"
-						:class="{ 'background-selected': projecthover == i }"
-					>
-						<v-col class="cursor-pointer" @click="openDropDown(i)" cols="8">
-							<v-icon class="ml-2">{{
-								dropdown == i ? "mdi-menu-down" : "mdi-menu-right"
-							}}</v-icon>
-							<v-icon class="ml-2">{{
-								dropdown == i ? "mdi-folder-open" : "mdi-folder"
-							}}</v-icon>
-							<span class="ml-2">{{ project.projectname }}</span>
-						</v-col>
-
-						<v-col
-							cols="4"
-							class="group-addfile-menu pl-7 mt-n1 pa-0"
-							align-self="center"
-						>
-							<v-btn icon @click="openDialogCreateFile(project._id)"
-								><v-icon>mdi-file-plus-outline</v-icon></v-btn
+    <div>
+        <v-list v-for="(project, i) in projects" :key="i" dense nav>
+            <v-list-group >
+                <template v-slot:activator>
+					<v-menu bottom offset-y>
+						<template v-slot:activator="{ on, attrs }">
+							<v-btn class="ml-n2" icon v-bind="attrs" v-on="on">
+								<v-icon>mdi-dots-vertical</v-icon>
+							</v-btn>
+						</template>
+						<v-list>
+							<v-list-item
+								class="my-n2"
+								@click="openDialogRenameProject(project._id)"
+								link
 							>
-							<v-menu bottom offset-y>
-								<template v-slot:activator="{ on, attrs }">
-									<v-btn icon v-bind="attrs" v-on="on"
-										><v-icon>mdi-dots-vertical</v-icon></v-btn
-									>
-								</template>
-								<v-list>
-									<v-list-item
-										class="my-n2"
-										@click="openDialogRenameProject(project._id)"
-										link
-									>
-										<v-list-item-title>Renommer</v-list-item-title>
-									</v-list-item>
-									<v-list-item
-										class="my-n2"
-										@click="removeProject(project._id)"
-										link
-									>
-										<v-list-item-title>Supprimer</v-list-item-title>
-									</v-list-item>
+							<v-list-item-title>Renommer</v-list-item-title>
+							</v-list-item>
+							<v-list-item
+								class="my-n2"
+								@click="removeProject(project._id)"
+								link
+							>
+								<v-list-item-title>Supprimer</v-list-item-title>
+							</v-list-item>
+							</v-list>
+					</v-menu>
+
+					<v-list-item-title><v-icon class="pr-2">mdi-folder</v-icon>{{ project.projectname }}</v-list-item-title>
+                </template>
+                <v-list-item
+                    v-for="(file, j) in project.files"
+                    :key="j"
+                    class="pl-7"
+                    link
+					@click="openFile(file._id)"
+                >
+                    <v-list-item-icon>
+                    <v-icon>mdi-file-document-outline</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                    <v-list-item-title>{{ file.filename + file.extension }}</v-list-item-title>
+                    </v-list-item-content>
+                        <v-menu bottom offset-y>
+							<template v-slot:activator="{ on, attrs }">
+								<v-btn icon v-bind="attrs" v-on="on">
+									<v-icon>mdi-dots-vertical</v-icon>
+								</v-btn>
+							</template>
+							<v-list>
+								<v-list-item
+									class="my-n2"
+									@click="openDialogRenameFile(file._id)"
+									link
+								>
+								<v-list-item-title>Renommer</v-list-item-title>
+								</v-list-item>
+								<v-list-item
+									class="my-n2"
+									@click="removeFile(file._id)"
+									link
+								>
+									<v-list-item-title>Supprimer</v-list-item-title>
+								</v-list-item>
 								</v-list>
 							</v-menu>
-						</v-col>
-					</v-row>
-					<v-row
-						v-show="dropdown === i"
-						v-for="(file, j) in project.files"
-						:key="j"
-						@mouseover="filehover = j"
-						@mouseleave="filehover = null"
-						:class="{ 'background-selected': filehover == j }"
-						justify="center"
-					>
-						<v-col cols="8" class="py-0 cursor-pointer">
-							<v-row>
-								<v-col
-									cols="10"
-									class=""
-									align-self="center"
-									@click="openFile(file._id)"
-								>
-									<v-icon class="ml-2">mdi-file-document-outline</v-icon>
-									<span class="ml-2">{{ file.filename + file.extension }}</span>
-								</v-col>
-								<v-col cols="1" class="pa-0" align-self="center">
-									<v-menu bottom offset-y>
-										<template v-slot:activator="{ on, attrs }">
-											<v-btn icon v-bind="attrs" v-on="on"
-												><v-icon>mdi-dots-vertical</v-icon></v-btn
-											>
-										</template>
-										<v-list>
-											<v-list-item
-												class="my-n2"
-												@click="openDialogRenameFile(file._id)"
-												link
-											>
-												<v-list-item-title>Renommer</v-list-item-title>
-											</v-list-item>
-											<v-list-item
-												class="my-n2"
-												@click="removeFile(file._id)"
-												link
-											>
-												<v-list-item-title>Supprimer</v-list-item-title>
-											</v-list-item>
-										</v-list>
-									</v-menu>
-								</v-col>
-							</v-row>
-						</v-col>
-					</v-row>
-				</v-col>
-			</v-row>
-		</v-col>
-		<v-dialog v-model="dialogCreateFile" persistent max-width="410">
+                    </v-list-item>
+
+                    <v-list-item class="pl-7">
+                        <v-list-item-content>
+                            <v-btn max-width="180" outlined x-small  class="py-3" @click="openDialogCreateFile(project._id)">
+                                <v-icon left>mdi-file-plus-outline</v-icon>
+                                Ajouter un fichier
+                            </v-btn>
+                        </v-list-item-content>
+                    </v-list-item>
+            </v-list-group>
+        </v-list>
+        <v-dialog v-model="dialogCreateFile" persistent max-width="410">
 			<v-card>
 				<v-card-title class="title">Créer un nouveau fichier</v-card-title>
 				<v-card-text>
@@ -175,7 +150,7 @@
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
-	</v-row>
+    </div>
 </template>
 
 <script>
@@ -315,22 +290,6 @@ export default {
 };
 </script>
 
-<style scoped>
-.explorer-treeview {
-	height: 83%;
-	position: relative;
-}
-.child {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	right: 0;
-	overflow: auto;
-}
-.background-selected {
-	background-color: #ecf0f1;
-}
-.cursor-pointer {
-	cursor: pointer;
-}
+<style>
+
 </style>

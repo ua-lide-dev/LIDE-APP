@@ -1,5 +1,5 @@
 <template>
-	<v-toolbar  flat>
+	<v-toolbar flat>
 		<v-toolbar-title v-show="!$vuetify.breakpoint.xs" class="font-weight-bold headline">
 			<v-icon class="mr-5 mt-n1" large>mdi-school</v-icon>U I D E
 		</v-toolbar-title>

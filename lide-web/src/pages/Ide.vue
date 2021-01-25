@@ -1,10 +1,10 @@
 <template>
 	<v-app>
-		<v-app-bar elevation="1" clipped-left flat dark app>
+		<v-app-bar elevation="1" clipped-left flat app>
 			<v-app-bar-nav-icon @click.stop="explorerDrawer = !explorerDrawer"></v-app-bar-nav-icon>
 			<AppBar />
 		</v-app-bar>
-		<v-navigation-drawer v-model="explorerDrawer" clipped app fixed dark floating>
+		<v-navigation-drawer v-model="explorerDrawer" clipped app fixed floating>
 			<Explorer />
 		</v-navigation-drawer>
 		<v-main >

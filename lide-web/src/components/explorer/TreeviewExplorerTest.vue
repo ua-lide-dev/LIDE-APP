@@ -1,14 +1,13 @@
 <template>
     <div>
         <v-list v-for="(project, i) in projects" :key="i" dense nav>
-            <v-list-group  prepend-icon="mdi-folder">
+            <v-list-group >
                 <template v-slot:activator>
-                    <v-list-item-title>{{ project.projectname }}</v-list-item-title>
 					<v-menu bottom offset-y>
 						<template v-slot:activator="{ on, attrs }">
-							<v-btn  icon v-bind="attrs" v-on="on"
-									><v-icon>mdi-dots-vertical</v-icon></v-btn
-							>
+							<v-btn class="ml-n2" icon v-bind="attrs" v-on="on">
+								<v-icon>mdi-dots-vertical</v-icon>
+							</v-btn>
 						</template>
 						<v-list>
 							<v-list-item
@@ -27,6 +26,8 @@
 							</v-list-item>
 							</v-list>
 					</v-menu>
+
+					<v-list-item-title><v-icon class="pr-2">mdi-folder</v-icon>{{ project.projectname }}</v-list-item-title>
                 </template>
                 <v-list-item
                     v-for="(file, j) in project.files"
@@ -43,9 +44,9 @@
                     </v-list-item-content>
                         <v-menu bottom offset-y>
 							<template v-slot:activator="{ on, attrs }">
-								<v-btn icon v-bind="attrs" v-on="on"
-									><v-icon>mdi-dots-vertical</v-icon></v-btn
-								>
+								<v-btn icon v-bind="attrs" v-on="on">
+									<v-icon>mdi-dots-vertical</v-icon>
+								</v-btn>
 							</template>
 							<v-list>
 								<v-list-item

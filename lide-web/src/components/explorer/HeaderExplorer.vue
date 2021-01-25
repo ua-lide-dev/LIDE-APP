@@ -1,18 +1,24 @@
 <template>
-	<!--<v-row justify="center">
-		<v-col cols="11">
-			<h2 class="mt-4 subtitle-1">EXPLORER</h2>
-			<v-divider class="mt-1"></v-divider>
-		</v-col>
-	</v-row>-->
 	<div>
-
 		<v-subheader>
 			EXPLORER
 			<v-spacer></v-spacer>
-			<v-btn icon @click="openDialogCreateFolder">
-				<v-icon>mdi-folder-plus</v-icon>
-			</v-btn>
+			<v-tooltip bottom>
+				<template v-slot:activator="{ on, attrs }">
+					<v-btn v-bind="attrs" v-on="on" icon>
+						<v-icon>mdi-export-variant</v-icon>
+					</v-btn>
+				</template>
+				<span>Exporter ses fichiers</span>
+			</v-tooltip>
+			<v-tooltip bottom>
+				<template v-slot:activator="{ on, attrs }">
+					<v-btn v-bind="attrs" v-on="on" @click="openDialogCreateFolder" icon>
+						<v-icon>mdi-folder-plus</v-icon>
+					</v-btn>
+				</template>
+				<span>Créer un projet</span>
+			</v-tooltip>
 		</v-subheader>
 
 		<v-dialog v-model="dialogCreateFolder" persistent max-width="410">
@@ -32,6 +38,7 @@
 					<v-btn color="red darken-1" text @click="dialogCreateFolder = false"
 						>Annuler</v-btn
 					>
+
 					<v-btn color="green darken-1" text @click="createProject"
 						>Valider</v-btn
 					>

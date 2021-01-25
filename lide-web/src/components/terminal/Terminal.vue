@@ -44,9 +44,9 @@ export default {
 			);
 		},
 		setSize() {
-			this.terminalHeight = (window.innerHeight - 64 - 48 - 18) * (30 / 100);
+			this.terminalHeight = (window.innerHeight - 56 - 48 - 18) * (30 / 100);
 			this.nbRow = Math.floor((this.terminalHeight * 13) / 252);
-			this.fitAddon.fit();
+			//this.fitAddon.fit();
 		},
 	},
 

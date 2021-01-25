@@ -1,13 +1,13 @@
 <template>
 	<v-app>
-		<v-app-bar elevation="1" clipped-left flat app>
+		<v-app-bar height="56" elevation="1" clipped-left flat app>
 			<v-app-bar-nav-icon @click.stop="explorerDrawer = !explorerDrawer"></v-app-bar-nav-icon>
 			<AppBar />
 		</v-app-bar>
 		<v-navigation-drawer v-model="explorerDrawer" clipped app fixed floating>
 			<Explorer />
 		</v-navigation-drawer>
-		<v-main >
+		<v-main>
 			<v-container fluid>
 				<v-row>
 					<v-col cols="12">
@@ -23,8 +23,10 @@
 					</v-col>
 				</v-row>
 			</v-container>
-			<!-- <SettingDrawer />
-			<HelpDrawer /> -->
+			<!-- 
+				<SettingDrawer />
+				<HelpDrawer /> 
+			-->
 		</v-main>
 	</v-app>
 </template>

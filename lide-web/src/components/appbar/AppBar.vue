@@ -1,8 +1,5 @@
 <template>
-	<v-app-bar color="white" hide-on-scroll app>
-		<v-toolbar-title class="text--secondary font-weight-bold headline ml-5">
-			<v-icon class="mr-5 mt-n1" large>mdi-school</v-icon>U I D E
-		</v-toolbar-title>
+	<v-app-bar elevation="1" flat dark app>
 		<v-spacer></v-spacer>
 		<v-spacer></v-spacer>
 		<v-tooltip bottom>

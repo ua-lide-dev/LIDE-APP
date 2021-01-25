@@ -11,25 +11,14 @@ export default {
    */
   install(vue, router) {
     const serverURL = process.env.VUE_APP_LIDE_WEB_URL;
-    const serverCAS =  process.env.VUE_APP_CAS_URL;
+    const serverCAS = process.env.VUE_APP_CAS_URL;
     const encoddedServerURL = encodeURIComponent(serverURL);
 
-    router.beforeEach(async (to, from, next) => {
-      // route protégée
-      if (to.matched.some((record) => record.meta.requiresAuth)) {
-        if (localStorage.session != null) {  // TODO : validate session
-          // si identifié via login
-          next();
-        } else {
-          // si pas identifié
-          login();
-        }
-      } else if (to.fullPath.startsWith("/login")) {
-        // on nettoie la dernière session
-        localStorage.clear();
-
-        // bouchon username sans cas
-        localStorage.username = "user1";
+    router.beforeEach((to, from, next) => {
+      // si redirection depuis le login cas
+      if (to.fullPath.startsWith("/?ticket=")) {
+        console.log("redirected from cas");
+        let ticketCAS = to.query.ticket;
 
         // 1 - validatation ticket cas + enregistrement session
         axios.get("session", { headers: { ticket: ticketCAS } }).then((res) => {
@@ -41,23 +30,20 @@ export default {
           localStorage.session = res.data.session;
 
           // On redirige vers /app
-          window.location="/app"; //TODO : .next();
+          window.location = "/app"; //TODO : .next();
         }).catch((error) => {
           console.log(error);
           login();
         })
-      } else if (to.fullPath.startsWith("/logout")) {
-        // clear du local storage
-        logout();
       }
       // si on tape sur /logout
       else if (to.fullPath.startsWith("/logout")) {
-          // localStorage.clear();
-          // console.log("redirect from logout");
-          // next({
-          //   path: logout(),
-          //   params: { nextUrl: to.fullPath }
-          // })
+        // localStorage.clear();
+        // console.log("redirect from logout");
+        // next({
+        //   path: logout(),
+        //   params: { nextUrl: to.fullPath }
+        // })
         logout();
       }
       // si on tape sur /login
@@ -72,11 +58,9 @@ export default {
       // Si on tape une url protégée
       else if (to.matched.some(record => record.meta.requiresAuth)) {
         console.log("protected url");
-        
         // Si session
         // TODO vérif session
         if (localStorage.session != null) {
-
           axios.get("validateSession").then(async (res) => {
             //Initialisation ou création de l'utilisateur 
             await axios.get("user");
@@ -95,11 +79,12 @@ export default {
       else {
         next();
       }
-    });
+    })
 
     const login = () => {
-      window.location = serverURL + "login";
-    };
+      let login = `${serverCAS}login?service=${encoddedServerURL}`;
+      window.location = login;
+    }
 
     const logout = () => {
       localStorage.clear();
@@ -107,4 +92,4 @@ export default {
     }
 
   },
-};
+}

@@ -1,32 +1,28 @@
 <template>
 	<v-row class="parent-editor">
-		<v-col cols="12" class="py-0">
-			<v-row class="tabs tabs-editor">
-				<v-col cols="12" class="pa-0">
-					<v-tabs class="tabs" center-active dark v-model="currentTabIndex">
-						<v-tab
-							v-for="file in openedFiles"
-							:key="file._id"
-							:ref="'tab' + file._id"
-							@click="focusTab(file._id)"
-						>
-							{{ file.filename + file.extension }}
-							<v-btn
-								class="btn-close-tab"
-								x-small
-								icon
-								elevation="4"
-								v-on:click.stop
-								@click="closeTab(file._id)"
-							>
-								<v-icon dark>mdi-close</v-icon>
-							</v-btn>
-						</v-tab>
-					</v-tabs>
-				</v-col>
-			</v-row>
-			<v-row class="editor">
-				<v-col cols="12" class="py-0"></v-col>
+		<v-col cols="12" class="pa-0">
+			<v-tabs class="tabs" center-active dark v-model="currentTabIndex">
+				<v-tab
+					v-for="file in openedFiles"
+					:key="file._id"
+					:ref="'tab' + file._id"
+					@click="focusTab(file._id)" px-0
+				>
+					{{ file.filename + file.extension }}
+					<v-btn
+						class="btn-close-tab"
+						x-small
+						icon
+						elevation="4"
+						v-on:click.stop
+						@click="closeTab(file._id)"
+					>
+						<v-icon dark>mdi-close</v-icon>
+					</v-btn>
+				</v-tab>
+			</v-tabs>
+		</v-col>
+		<v-col cols="12" class="pa-0">
 				<codemirror
 					class="codemirror"
 					ref="cmEditor"
@@ -75,8 +71,8 @@
 						</v-tooltip>
 					</div>
 				</div>
-			</v-row>
 		</v-col>
+	
 		<v-dialog v-model="dialogFileNotSaved" max-width="500">
 			<v-card>
 				<v-card-title class="title">Fichier non sauvegardé !</v-card-title>
@@ -136,7 +132,7 @@ export default {
 	},
 	methods: {
 		setSize() {
-			this.codemirrorHeight = (window.innerHeight - 64 - 48) * (70 / 100);
+			this.codemirrorHeight = (window.innerHeight - 56 - 48 - 18) * (70 / 100);
 			this.codemirror.setSize("100%", this.codemirrorHeight);
 		},
 		async exec() {

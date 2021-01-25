@@ -1,31 +1,31 @@
 <template>
-	<div class="parent-explorer">
+	<div>
 		<HeaderExplorer />
+		<v-divider></v-divider>	
 		<TreeviewExplorer />
-		<FooterExplorer />
 	</div>
 </template>
 
 <script>
 import HeaderExplorer from "./HeaderExplorer";
 import TreeviewExplorer from "./TreeviewExplorer";
-import FooterExplorer from "./FooterExplorer";
 
 export default {
 	name: "Explorer",
 
 	components: {
 		HeaderExplorer,
-		TreeviewExplorer,
-		FooterExplorer,
+		TreeviewExplorer
 	},
-
-	data: () => ({}),
+	computed: {
+		explorerDrawer: {
+			get:function() { return this.$store.state.drawer.explorerDrawer},
+			set: () => null
+		}
+	},
 };
 </script>
 
 <style scoped>
-.parent-explorer {
-	height: 100%;
-}
+
 </style>

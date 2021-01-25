@@ -1,10 +1,9 @@
 <template>
-	<v-row
+	<div 
 		ref="terminal"
-		class="black"
-		:style="{ height: terminalHeight + 'px' }"
-	>
-	</v-row>
+		class="body" 
+		:style="{ height: terminalHeight + 'px' }">
+	</div>
 </template>
 
 <script>
@@ -18,7 +17,7 @@ export default {
 		return {
 			terminalHeight: 0,
 			nbRow: 0,
-			terminal: new Terminal(),
+			terminal: new Terminal({theme: {background: '#151515'}}),
 			fitAddon: new FitAddon(),
 			socket: null,
 		};
@@ -45,9 +44,9 @@ export default {
 			);
 		},
 		setSize() {
-			this.terminalHeight = (window.innerHeight - 64 - 48) * (30 / 100);
-			//this.nbRow = Math.floor((this.terminalHeight * 13) / 252);
-			this.fitAddon.fit();
+			this.terminalHeight = (window.innerHeight - 56 - 48 - 18) * (30 / 100);
+			this.nbRow = Math.floor((this.terminalHeight * 13) / 252);
+			//this.fitAddon.fit();
 		},
 	},
 
@@ -65,6 +64,7 @@ export default {
 		this.terminal.resize(160, this.nbRow);
 		this.terminal.loadAddon(this.fitAddon);
 		this.setSize();
+		
 	},
 };
 </script>

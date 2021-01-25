@@ -1,16 +1,13 @@
 <template>
-	<v-navigation-drawer app fixed dark floating>
+	<div>
 		<HeaderExplorer />
 		<v-divider></v-divider>	
 		<TreeviewExplorerTest />
-	</v-navigation-drawer>
+	</div>
 </template>
 
 <script>
 import HeaderExplorer from "./HeaderExplorer";
-import TreeviewExplorer from "./TreeviewExplorer";
-import FooterExplorer from "./FooterExplorer";
-
 import TreeviewExplorerTest from "./TreeviewExplorerTest";
 
 export default {
@@ -18,15 +15,17 @@ export default {
 
 	components: {
 		HeaderExplorer,
-		//TreeviewExplorer,
-		//FooterExplorer,
 		TreeviewExplorerTest
+	},
+	computed: {
+		explorerDrawer: {
+			get:function() { return this.$store.state.drawer.explorerDrawer},
+			set: () => null
+		}
 	},
 };
 </script>
 
 <style scoped>
-.parent-explorer {
-	height: 100vh;
-}
+
 </style>

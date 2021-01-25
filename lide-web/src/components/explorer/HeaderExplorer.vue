@@ -6,11 +6,7 @@
 		</v-col>
 	</v-row>-->
 	<div>
-		<v-toolbar elevation="1" flat>
-			<v-toolbar-title class="font-weight-bold headline">
-				<v-icon class="mr-5 mt-n1" large>mdi-school</v-icon>U I D E
-			</v-toolbar-title>
-		</v-toolbar>
+
 		<v-subheader>
 			EXPLORER
 			<v-spacer></v-spacer>

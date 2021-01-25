@@ -1,6 +1,6 @@
 const FileService = require('../services/db/file.service');
 const ProjectService = require('../services/db/project.service');
-const { execSync } = require('child_process');
+const { execSync, spawn } = require('child_process');
 
 // Fonction de compilation & exécution
 exports.execute = async (req, res) => {
@@ -62,7 +62,7 @@ exports.execute = async (req, res) => {
 
     // Lancement du conteneur
     execSync(
-      'docker run -it -d' +
+      'docker run -it -d --cpus=1' +
       ' -v ' + filePath + ':/' + filename + '.' + extension +
       ' --name ' + containerName +
       ' ' + img + 

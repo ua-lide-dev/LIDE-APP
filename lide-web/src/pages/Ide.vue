@@ -1,14 +1,26 @@
 <template>
 	<v-app>
 		<AppBar />
-		<v-main>
-			<v-container fill-height class="pa-0" fluid>
-				<v-row class="parent" wrap>
-					<v-col cols="12" sm="2" class="py-0">
-						<Explorer />
-					</v-col>
-					<v-col cols="12" sm="10" class="py-0">
+		<Explorer />
+		<v-main >
+			<v-container fluid>
+				<v-row>
+					<v-col cols="12">
 						<Editor />
+					</v-col>
+				</v-row>
+				<v-row>
+					<v-col cols="12" class="px-0 pb-0">
+						<v-card 
+							class="white--text pl-1 terminal-title" 
+							color="bodysecondary" 
+							width="100%" 
+							height="18" tile>
+								TERMINAL
+
+						</v-card>
+					</v-col>
+					<v-col cols="12" class="pa-0">
 						<Terminal />
 					</v-col>
 				</v-row>
@@ -46,8 +58,11 @@ export default {
 </script>
 
 <style scoped>
-.parent {
-	height: 100%;
+
+.terminal-title {
+	font-weight: bold;
+	font-size: 0.775rem;
+	letter-spacing: 0.1rem;
 }
 .drawer-setting {
 	z-index: 10;

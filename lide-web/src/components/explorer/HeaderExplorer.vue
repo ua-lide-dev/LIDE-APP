@@ -66,7 +66,7 @@ export default {
 					this.projectname = "";
 				})
 				.then(() => (this.projectname = ""));
-			this.dialog = false;
+			this.dialogCreateFolder = false;
 		},
 		openDialogCreateFolder() {
 			this.dialogCreateFolder = true;

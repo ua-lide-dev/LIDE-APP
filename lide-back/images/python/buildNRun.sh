@@ -1,4 +1,4 @@
 #!/bin/sh
 
 read socket
-python $1
+timeout -s SIGKILL $TIMEOUT_VALUE python $1

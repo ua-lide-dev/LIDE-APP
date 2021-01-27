@@ -65,7 +65,7 @@ exports.execute = async (req, res) => {
       'docker run -it -d --cpus=1' +
       ' -v ' + filePath + ':/' + filename + '.' + extension +
       ' --name ' + containerName +
-      ' ' + img + 
+      ' ' + img +
       ' ' + filename + '.' + extension
     );
 
@@ -78,4 +78,19 @@ exports.execute = async (req, res) => {
   }
 
   res.status(200).json({ containerid: containerId });
+}
+
+exports.killExec = (req, res) => {
+  const username = req.username;
+  const containerName = 'lide-' + username
+
+  try {
+    console.debug(`docker kill "${containerName}"`)
+    execSync('docker kill ' + containerName);
+    const statusMessage = `Container "${containerName}" successfully stopped.`;
+    console.debug(`container "${containerName}" killed`)
+    res.status(200).json({ status: statusMessage });
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
 }

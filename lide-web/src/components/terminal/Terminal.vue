@@ -1,9 +1,9 @@
 <template>
-	<div 
+	<div
 		ref="terminal"
-		class="body" 
-		:style="{ height: terminalHeight + 'px' }">
-	</div>
+		class="body"
+		:style="{ height: terminalHeight + 'px' }"
+	></div>
 </template>
 
 <script>
@@ -17,13 +17,15 @@ export default {
 		return {
 			terminalHeight: 0,
 			nbRow: 0,
-			terminal: new Terminal({theme: {background: '#151515'}}),
+			terminal: new Terminal({ theme: { background: "#151515" } }),
 			fitAddon: new FitAddon(),
 			socket: null,
 		};
 	},
 	methods: {
 		openSocket(containerId) {
+			this.terminal.clear();
+
 			console.log("Le terminal a reçu le container ID : " + containerId);
 
 			// Recharger le terminal et le socket si ce n'est pas la première fois
@@ -64,7 +66,6 @@ export default {
 		this.terminal.resize(160, this.nbRow);
 		this.terminal.loadAddon(this.fitAddon);
 		this.setSize();
-		
 	},
 };
 </script>

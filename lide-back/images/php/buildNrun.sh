@@ -1,4 +1,4 @@
 #!/bin/bash
 
 read socket
-php $1
+timeout -s SIGKILL $TIMEOUT_VALUE php $1

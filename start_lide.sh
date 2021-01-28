@@ -6,7 +6,7 @@ build_images() {
         dir="${dir:2}"
         if [ "$dir" != "" ]; then
             cd $dir
-            docker build . -t "$dir"
+            docker build . --no-cache -t "$dir"
             cd ..
         fi
     done

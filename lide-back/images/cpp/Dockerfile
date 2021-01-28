@@ -5,13 +5,11 @@ FROM gcc:latest
 LABEL maintainer="Quentin Maignan for LIDE" \
         version="${VERSION}"
 
-WORKDIR /exec
-
 #copie du script 
-COPY buildNrun.sh /exec/buildNrun.sh
+COPY buildNrun.sh buildNrun.sh
 
 #on donne des droits pour exec le script
-RUN chmod +x /exec/buildNrun.sh
+RUN chmod +x /buildNrun.sh
 
 #Entrypoint
-ENTRYPOINT ["/exec/buildNrun.sh"]
+ENTRYPOINT ["/buildNrun.sh"]

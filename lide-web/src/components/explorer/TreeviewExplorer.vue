@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="projects !== 'undefined' && projects.length > 0" >
         <v-list v-for="(project, i) in projects" :key="i" dense nav>
             <v-list-group >
                 <template v-slot:activator>
@@ -141,16 +141,17 @@
 				</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn color="red darken-1" text @click="dialogRenameProject = false"
-						>Annuler</v-btn
-					>
-					<v-btn color="green darken-1" text @click="renameProject"
-						>Valider</v-btn
-					>
+					<v-btn color="red darken-1" text @click="dialogRenameProject = false">
+						Annuler
+					</v-btn>
+					<v-btn color="green darken-1" text @click="renameProject">
+						Valider
+					</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
     </div>
+	<div v-else class="text-center py-10 secondary--text">Vous n'avez pas de projet.</div>
 </template>
 
 <script>

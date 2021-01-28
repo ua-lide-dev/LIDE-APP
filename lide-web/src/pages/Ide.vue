@@ -63,5 +63,7 @@ export default {
 </script>
 
 <style scoped>
-
+.drawer-setting {
+  z-index: 10;
+}
 </style>

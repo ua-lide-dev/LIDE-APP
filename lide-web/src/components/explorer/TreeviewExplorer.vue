@@ -99,10 +99,10 @@
 				</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn color="red darken-1" text @click="dialogCreateFile = false"
+					<v-btn color="red darken-1" small outlined @click="dialogCreateFile = false"
 						>Annuler</v-btn
 					>
-					<v-btn color="green darken-1" text @click="createFile">Valider</v-btn>
+					<v-btn color="green darken-1" small outlined @click="createFile">Créer</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -120,10 +120,10 @@
 				</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn color="red darken-1" text @click="dialogRenameFile = false"
+					<v-btn color="red darken-1" small outlined @click="dialogRenameFile = false"
 						>Annuler</v-btn
 					>
-					<v-btn color="green darken-1" text @click="renameFile">Valider</v-btn>
+					<v-btn color="green darken-1" small outlined @click="renameFile">Renommer</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -141,11 +141,11 @@
 				</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn color="red darken-1" text @click="dialogRenameProject = false">
+					<v-btn color="red darken-1" small outlined @click="dialogRenameProject = false">
 						Annuler
 					</v-btn>
-					<v-btn color="green darken-1" text @click="renameProject">
-						Valider
+					<v-btn color="green darken-1" small outlined @click="renameProject">
+						Renommer
 					</v-btn>
 				</v-card-actions>
 			</v-card>

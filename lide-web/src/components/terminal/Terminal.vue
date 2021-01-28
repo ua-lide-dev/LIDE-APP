@@ -24,7 +24,7 @@ export default {
 	},
 	methods: {
 		openSocket(containerId) {
-			this.terminal.clear();
+			//this.terminal.clear();
 
 			console.log("Le terminal a reçu le container ID : " + containerId);
 

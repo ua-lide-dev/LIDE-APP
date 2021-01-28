@@ -15,13 +15,13 @@
         </v-card>
         <v-row justify="center">
             <v-col cols="10">
-                <h3>Comment créer un nouveau dossier ou fichier ?</h3>
+                <h4 class="my-2">Comment créer un nouveau dossier ou fichier ?</h4>
                 <p class="text-justify">Sur UIDE, la création de dossiers ou de fichiers est simple d'utilisation, pour ajouter un projet, 
                     il suffit de cliquer sur l'icon dossier plus dans le menu de gauche
                     puis de remplir les champs demandés. Pour ajouter un fichier, vous trouverez un bouton "Ajouté un fichier" en déroulant le menu de votre nouveau projet, 
                     comme pour le projet, remplissez les champs demandés. Et voilà, vous pouvez commencer à développer en cliquant sur votre fichier.
                 </p>
-                <h3>Comment compiler et exécuter mon code ?</h3>
+                <h4 class="my-2">Comment compiler et exécuter mon code ?</h4>
                 <p class="text-justify">UIDE a été pensé pour simplifier la compilation et l'exécution du code. Il vous suffit juste dans un premier temps de sauvegarder votre
                     fichier en cliquant sur le bouton "Sauvegarder" (icône disquette). Une fois votre fichier sauvegardé, il suffit simplement d'appuyer sur le bouton "Exécuter" (icône play)
                     et l'UIDE se chargera de compiler et exécuter votre code. Si tout se passe bien, vous verrez votre résultat de compilation apparaître dans le Terminal en bas de l'application.
@@ -50,5 +50,7 @@
 </script>
 
 <style scoped>
-
+.drawer-setting {
+  z-index: 10;
+}
 </style>

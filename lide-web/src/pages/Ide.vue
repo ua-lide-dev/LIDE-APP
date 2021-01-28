@@ -25,8 +25,9 @@
 			</v-container>
 			<!-- 
 				<SettingDrawer />
+				-->
 				<HelpDrawer /> 
-			-->
+			
 		</v-main>
 	</v-app>
 </template>
@@ -38,7 +39,7 @@ import Editor from "../components/editor/Editor";
 import Terminal from "../components/terminal/Terminal";
 import ActionTerminal from "../components/terminal/ActionTerminal";
 // import SettingDrawer from "../components/drawer/SettingDrawer";
-// import HelpDrawer from "../components/drawer/HelpDrawer";
+import HelpDrawer from "../components/drawer/HelpDrawer";
 
 export default {
 	name: "Ide",
@@ -50,7 +51,7 @@ export default {
 		Editor,
 		Terminal,
 		// SettingDrawer,
-		// HelpDrawer,
+		HelpDrawer,
 	},
 	data: () => ({
 		explorerDrawer: null,

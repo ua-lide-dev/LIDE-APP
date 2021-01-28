@@ -35,12 +35,12 @@
 				</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn color="red darken-1" text @click="dialogCreateFolder = false"
+					<v-btn color="red darken-1" small outlined @click="dialogCreateFolder = false"
 						>Annuler</v-btn
 					>
 
-					<v-btn color="green darken-1" text @click="createProject"
-						>Valider</v-btn
+					<v-btn color="green darken-1" small outlined @click="createProject"
+						>Créer</v-btn
 					>
 				</v-card-actions>
 			</v-card>
@@ -66,7 +66,7 @@ export default {
 					this.projectname = "";
 				})
 				.then(() => (this.projectname = ""));
-			this.dialog = false;
+			this.dialogCreateFolder = false;
 		},
 		openDialogCreateFolder() {
 			this.dialogCreateFolder = true;

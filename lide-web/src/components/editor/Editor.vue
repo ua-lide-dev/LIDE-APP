@@ -78,12 +78,12 @@
 				<v-card-title class="title">Fichier non sauvegardé !</v-card-title>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn color="red darken-1" text @click="forceCloseTab"
-						>Fermer sans sauvegarder</v-btn
-					>
-					<v-btn color="green darken-1" text @click="saveAndCloseTab"
-						>Sauvegarder et fermer</v-btn
-					>
+					<v-btn color="red darken-1" small outlined @click="forceCloseTab">
+						Fermer sans sauvegarder
+					</v-btn>
+					<v-btn color="green darken-1" small outlined @click="saveAndCloseTab">
+						Sauvegarder et Fermer
+					</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>

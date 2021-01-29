@@ -55,6 +55,7 @@ export default {
 	created() {
 		this.$root.$refs.Terminal = this;
 		window.addEventListener("resize", this.setSize);
+		this.setSize();
 	},
 
 	destroyed() {

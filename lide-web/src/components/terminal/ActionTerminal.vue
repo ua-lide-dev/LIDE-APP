@@ -34,15 +34,16 @@ export default {
 	methods: {
 		kill() {
 			ExecService.killExecution()
-				.then((res) => {
+				.then(() => {
 					this.hideAlerts();
-					this.alertMessage = "Execution successfully stopped.";
+					this.alertMessage = "Exécution stoppée.";
 					this.alert_kill_sucess = true;
+					this.$root.$refs.Terminal.terminal.reset();
 					setTimeout(this.hideAlerts, 5000);
 				})
-				.catch((error) => {
+				.catch(() => {
 					this.hideAlerts();
-					this.alertMessage = error.response.data;
+					this.alertMessage = "Impossible de stopper l'exécution.";
 					this.alert_kill_failure = true;
 					setTimeout(this.hideAlerts, 5000);
 				});

@@ -123,7 +123,7 @@ export default {
 				tabSize: 4,
 				mode: "text/x-c++src",
 				theme: "base16-dark",
-				lineNumbers: true,
+				lineNumbers: false,
 				line: true,
 				viewportMargin: Infinity,
 				readOnly: "nocursor",
@@ -221,8 +221,10 @@ export default {
 
 			if (currentFile == null) {
 				this.cmOptions.readOnly = "nocursor";
+				this.cmOptions.lineNumbers = false;
 			} else {
 				this.cmOptions.readOnly = false;
+				this.cmOptions.lineNumbers = true;
 			}
 		},
 		// check if a file present

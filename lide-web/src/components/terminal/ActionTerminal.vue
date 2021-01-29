@@ -54,7 +54,7 @@ export default {
 	data() {
 		return {
 			color_succes_fail: false,
-			alertMessage: "",
+			message: "",
 		};
 	},
 	methods: {

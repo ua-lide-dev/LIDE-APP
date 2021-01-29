@@ -135,7 +135,7 @@ export default {
 	},
 	methods: {
 		setSize() {
-			this.codemirrorHeight = (window.innerHeight - 56 - 48 - 18) * (70 / 100);
+			this.codemirrorHeight = (window.innerHeight - 56 - 48 - 20) * (70 / 100);
 			this.codemirror.setSize("100%", this.codemirrorHeight);
 		},
 		async exec() {

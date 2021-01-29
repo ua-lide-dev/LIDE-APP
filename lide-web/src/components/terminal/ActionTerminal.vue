@@ -3,31 +3,57 @@
 		class="white--text pl-1 terminal-title"
 		color="bodysecondary"
 		width="100%"
-		height="18"
+		height="20"
 		tile
 	>
-		TERMINAL
-		<v-btn class="mx-2" fab dark small color="red" @click="kill">
-			<v-icon dark>mdi-stop</v-icon>
-		</v-btn>
-		<v-alert v-model="alert_kill_sucess" type="success" dismissible>{{
-			alertMessage
-		}}</v-alert>
-		<v-alert v-model="alert_kill_failure" type="error" dismissible>{{
-			alertMessage
-		}}</v-alert>
+		<div class="d-flex justify-space-between">
+			<span class="ml-2">TERMINAL</span>
+			<div class="mx-5">
+				<v-tooltip bottom>
+					<template v-slot:activator="{ on, attrs }">
+						<v-btn 
+							v-bind="attrs"
+							v-on="on" dark height="20"
+							color="red"
+							icon tile 
+							@click="kill">
+							<v-icon size="22">mdi-stop</v-icon>
+						</v-btn>
+					</template>
+					<span>Kill Terminal</span>
+				</v-tooltip>
+				<v-tooltip bottom>
+					<template v-slot:activator="{ on, attrs }">
+						<v-btn 
+							v-bind="attrs"
+							v-on="on" dark height="20" 
+							icon tile @click="clear" >
+							<v-icon size="18">mdi-delete</v-icon>
+						</v-btn>
+					</template>
+					<span>Clear Terminal</span>
+				</v-tooltip>
+			</div>
+		</div>
+		<Notification 
+			:msg="message" 
+			:color="color_succes_fail ? 'success' : 'error'"
+		/>
 	</v-card>
 </template>
 
 <script>
 import ExecService from "../../services/exec-service";
+import Notification from "../utils/Notification"
 
 export default {
 	name: "ActionTerminal",
+	components: {
+		Notification
+	},
 	data() {
 		return {
-			alert_kill_sucess: false,
-			alert_kill_failure: false,
+			color_succes_fail: false,
 			alertMessage: "",
 		};
 	},
@@ -35,23 +61,22 @@ export default {
 		kill() {
 			ExecService.killExecution()
 				.then(() => {
-					this.hideAlerts();
-					this.alertMessage = "Exécution stoppée.";
-					this.alert_kill_sucess = true;
+					this.message = "Exécution stoppée.";
+					this.$root.$refs.Notification.show = true;
+					this.color_succes_fail = true;
 					this.$root.$refs.Terminal.terminal.reset();
-					setTimeout(this.hideAlerts, 5000);
 				})
 				.catch(() => {
-					this.hideAlerts();
-					this.alertMessage = "Impossible de stopper l'exécution.";
-					this.alert_kill_failure = true;
-					setTimeout(this.hideAlerts, 5000);
+					this.message = "Impossible de stopper l'exécution.";
+					this.$root.$refs.Notification.show = true;
+					this.color_succes_fail = false;
 				});
 		},
-		hideAlerts() {
-			this.alert_kill_sucess = false;
-			this.alert_kill_failure = false;
-		},
+		clear() {
+			this.message = "Il ne se passe rien pour le moment :)";
+			this.$root.$refs.Notification.show = true;
+			this.color_succes_fail = true;
+		}
 	},
 };
 </script>

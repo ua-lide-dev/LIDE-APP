@@ -30,7 +30,7 @@
 				v-model="currentFileContent"
 				:options="cmOptions"
 			/>
-			<div class="group-btn">
+			<div class="group-btn" v-show="currentFilePresent()">
 				<div>
 					<v-tooltip left>
 						<template v-slot:activator="{ on, attrs }">

@@ -6,7 +6,8 @@
 					v-for="file in openedFiles"
 					:key="file._id"
 					:ref="'tab' + file._id"
-					@click="focusTab(file._id)" px-0
+					@click="focusTab(file._id)"
+					px-0
 				>
 					{{ file.filename + file.extension }}
 					<v-btn
@@ -23,56 +24,56 @@
 			</v-tabs>
 		</v-col>
 		<v-col cols="12" class="pa-0">
-				<codemirror
-					class="codemirror"
-					ref="cmEditor"
-					v-model="currentFileContent"
-					:options="cmOptions"
-				/>
-				<div class="group-btn">
-					<div>
-						<v-tooltip left>
-							<template v-slot:activator="{ on, attrs }">
-								<v-btn
-									class="btn-save"
-									v-bind="attrs"
-									v-on="on"
-									absolute
-									fab
-									dark
-									small
-									color="blue"
-									@click="saveFile"
-								>
-									<v-icon dark>mdi-content-save-outline</v-icon>
-								</v-btn>
-							</template>
-							<span>Sauvegarder</span>
-						</v-tooltip>
-					</div>
-					<div>
-						<v-tooltip left>
-							<template v-slot:activator="{ on, attrs }">
-								<v-btn
-									class="btn-compile"
-									v-bind="attrs"
-									v-on="on"
-									absolute
-									fab
-									dark
-									small
-									color="green"
-									@click="exec"
-								>
-									<v-icon dark>mdi-play</v-icon>
-								</v-btn>
-							</template>
-							<span>Exécuter</span>
-						</v-tooltip>
-					</div>
+			<codemirror
+				class="codemirror"
+				ref="cmEditor"
+				v-model="currentFileContent"
+				:options="cmOptions"
+			/>
+			<div class="group-btn">
+				<div>
+					<v-tooltip left>
+						<template v-slot:activator="{ on, attrs }">
+							<v-btn
+								class="btn-save"
+								v-bind="attrs"
+								v-on="on"
+								absolute
+								fab
+								dark
+								small
+								color="blue"
+								@click="saveFile"
+							>
+								<v-icon dark>mdi-content-save-outline</v-icon>
+							</v-btn>
+						</template>
+						<span>Sauvegarder</span>
+					</v-tooltip>
 				</div>
+				<div>
+					<v-tooltip left>
+						<template v-slot:activator="{ on, attrs }">
+							<v-btn
+								class="btn-compile"
+								v-bind="attrs"
+								v-on="on"
+								absolute
+								fab
+								dark
+								small
+								color="green"
+								@click="exec"
+							>
+								<v-icon dark>mdi-play</v-icon>
+							</v-btn>
+						</template>
+						<span>Exécuter</span>
+					</v-tooltip>
+				</div>
+			</div>
 		</v-col>
-	
+
 		<v-dialog v-model="dialogFileNotSaved" max-width="500">
 			<v-card>
 				<v-card-title class="title">Fichier non sauvegardé !</v-card-title>
@@ -93,6 +94,8 @@
 <script>
 import { codemirror } from "vue-codemirror";
 
+import "codemirror/addon/hint/show-hint.js";
+
 // import language js
 import "codemirror/mode/javascript/javascript.js";
 import "codemirror/mode/php/php.js";
@@ -106,8 +109,7 @@ import "codemirror/lib/codemirror.css";
 
 // services
 import FileService from "../../services/file-service";
-import { mapGetters, mapState } from "vuex";
-import file from "../../store/modules/file";
+import { mapState } from "vuex";
 
 export default {
 	components: {
@@ -124,6 +126,7 @@ export default {
 				lineNumbers: true,
 				line: true,
 				viewportMargin: Infinity,
+				readOnly: "nocursor",
 			},
 			codemirrorHeight: 0,
 			dialogFileNotSaved: false,
@@ -211,6 +214,21 @@ export default {
 			this.fileidToClose = null;
 			this.dialogFileNotSaved = false;
 		},
+		onCurrentFileContentChange() {
+			const currentFile = this.openedFiles.find(
+				(file) => file._id == this.currentFileId
+			);
+
+			if (currentFile == null) {
+				this.cmOptions.readOnly = "nocursor";
+			} else {
+				this.cmOptions.readOnly = false;
+			}
+		},
+		// check if a file present
+		currentFilePresent() {
+			return this.currentFileId != null;
+		},
 	},
 	computed: {
 		...mapState({
@@ -232,6 +250,7 @@ export default {
 		currentFileContent: {
 			get() {
 				try {
+					this.onCurrentFileContentChange();
 					return this.openedFiles.find((file) => file._id == this.currentFileId)
 						.content;
 				} catch (error) {

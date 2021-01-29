@@ -40,9 +40,6 @@ router.post("/killexec", ensureAuthenticated, execution.killExec);
 // Route de validation cas + génération du token de session
 router.get("/session", session.session);
 
-// Route de validation du token de session
-router.get("/validateSession", session.validateSession);
-
 async function ensureAuthenticated(req, res, next) {
   const session = req.headers.session;
   const username = await SessionService.validateSession(session);

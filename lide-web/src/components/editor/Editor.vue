@@ -84,6 +84,7 @@
 					<v-btn color="green darken-1" small outlined @click="saveAndCloseTab"
 						>Sauvegarder et fermer</v-btn
 					>
+
 				</v-card-actions>
 			</v-card>
 		</v-dialog>

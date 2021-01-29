@@ -24,15 +24,15 @@
 		<v-menu offset-y>
 			<template v-slot:activator="{ on, attrs }">
 				<v-btn class="ml-10 mr-2" icon x-large v-bind="attrs" v-on="on">
-					<v-avatar color="primary" :size="$vuetify.breakpoint.xs ? 38 : 48">
-						<span class="white--text title">{{ initials }}</span>
+					<v-avatar color="primary" size="38">
+						<span class="white--text font-weight-bold subtitle-1">{{ initials }}</span>
 					</v-avatar>
 				</v-btn>
 			</template>
 			<v-card class="px-5">
 				<v-list-item-content class="justify-center">
 					<div class="mx-auto text-center">
-						<v-avatar color="primary" size="48">
+						<v-avatar color="primary" size="38">
 							<span class="white--text title">{{ initials }}</span>
 						</v-avatar>
 						<h3>{{ username }}</h3>

@@ -10,6 +10,9 @@ const http = axios.create({
 
 /** Interceptor de requête */
 http.interceptors.request.use((config) => {
+  if (localStorage.username != null) {
+    config.headers.username = localStorage.username;
+  }
   if (localStorage.session != null) {
     config.headers.session = localStorage.session;
   }

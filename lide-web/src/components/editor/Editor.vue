@@ -154,7 +154,7 @@ export default {
 				lineNumbers: false,
 				autoCloseBrackets: true,
 				matchBrackets: true,
-				styleActiveLine: true,
+				styleActiveLine: false,
 				foldGutter: true,
 				gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
 				showHint: true,
@@ -268,9 +268,11 @@ export default {
 			if (currentFile == null) {
 				this.cmOptions.readOnly = "nocursor";
 				this.cmOptions.lineNumbers = false;
+				this.cmOptions.styleActiveLine = false;
 			} else {
 				this.cmOptions.readOnly = false;
 				this.cmOptions.lineNumbers = true;
+				this.cmOptions.styleActiveLine = true;
 			}
 		},
 		// check if a file is opened

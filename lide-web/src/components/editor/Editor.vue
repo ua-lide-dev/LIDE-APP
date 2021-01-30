@@ -153,10 +153,23 @@ export default {
 			await this.$store.dispatch("file/lightSave", this.editor.getValue());
 			await this.$store
 				.dispatch("file/save", this.currentFileId)
+				.then(() => {
+					// TODO Notification pour avertir de la réussite de la sauvegarde à l'utilisateur
+				})
 				.catch((error) => {
 					// TODO Notification pour avertir d'une erreur à l'utilisateur
 					console.error(error);
 				});
+		},
+		doSave(key) {
+			// si CTRL + S --> sauvegarde du fichier
+			if (key.ctrlKey && key.keyCode === 83) {
+				this.saveFile();
+				// on empeche le comportement par défaut
+				key.preventDefault();
+			}
+			// on sort de la fonction --> comportement par défaut du clavier
+			console.log("saving from DOM!");
 		},
 		async focusTab(fileid) {
 			await this.$store.dispatch("file/lightSave", this.editor.getValue());
@@ -269,12 +282,16 @@ export default {
 			return this.$refs.cmEditor.codemirror;
 		},
 	},
+	created() {
+		window.addEventListener("resize", this.setSize);
+	},
 	mounted() {
 		this.setSize();
 		this.editor = this.$refs.cmEditor.codemirror;
+		document.addEventListener("keydown", this.doSave);
 	},
-	created() {
-		window.addEventListener("resize", this.setSize);
+	beforeDestroy() {
+		document.removeEventListener("keydown", this.doSave);
 	},
 	destroyed() {
 		window.removeEventListener("resize", this.setSize);

@@ -22,7 +22,10 @@
 		</v-subheader>
 
 		<v-dialog v-model="dialogCreateFolder" persistent max-width="410">
-			<v-card>
+			<v-card
+				v-on:keydown.esc="dialogCreateFolder = false"
+				v-on:keydown.enter="createProject"
+			>
 				<v-card-title class="title">Créer un nouveau projet </v-card-title>
 				<v-card-text>
 					<v-text-field
@@ -30,12 +33,17 @@
 						label="Nom du projet"
 						outlined
 						dense
+						autofocus="true"
 						v-model="projectname"
 					></v-text-field>
 				</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn color="red darken-1" small outlined @click="dialogCreateFolder = false"
+					<v-btn
+						color="red darken-1"
+						small
+						outlined
+						@click="dialogCreateFolder = false"
 						>Annuler</v-btn
 					>
 

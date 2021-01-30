@@ -1,8 +1,8 @@
 <template>
-    <div v-if="projects !== 'undefined' && projects.length > 0" >
-        <v-list v-for="(project, i) in projects" :key="i" dense nav>
-            <v-list-group >
-                <template v-slot:activator>
+	<div v-if="projects !== 'undefined' && projects.length > 0">
+		<v-list v-for="(project, i) in projects" :key="i" dense nav>
+			<v-list-group>
+				<template v-slot:activator>
 					<v-menu bottom offset-y>
 						<template v-slot:activator="{ on, attrs }">
 							<v-btn class="ml-n2" icon v-bind="attrs" v-on="on">
@@ -15,7 +15,7 @@
 								@click="openDialogRenameProject(project._id)"
 								link
 							>
-							<v-list-item-title>Renommer</v-list-item-title>
+								<v-list-item-title>Renommer</v-list-item-title>
 							</v-list-item>
 							<v-list-item
 								class="my-n2"
@@ -24,61 +24,71 @@
 							>
 								<v-list-item-title>Supprimer</v-list-item-title>
 							</v-list-item>
-							</v-list>
+						</v-list>
 					</v-menu>
 
-					<v-list-item-title><v-icon class="pr-2">mdi-folder</v-icon>{{ project.projectname }}</v-list-item-title>
-                </template>
-                <v-list-item
-                    v-for="(file, j) in project.files"
-                    :key="j"
-                    class="pl-7"
-                    link
+					<v-list-item-title
+						><v-icon class="pr-2">mdi-folder</v-icon
+						>{{ project.projectname }}</v-list-item-title
+					>
+				</template>
+				<v-list-item
+					v-for="(file, j) in project.files"
+					:key="j"
+					class="pl-7"
+					link
 					@click="openFile(file._id)"
-                >
-                    <v-list-item-icon>
-                    <v-icon>mdi-file-document-outline</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                    <v-list-item-title>{{ file.filename + file.extension }}</v-list-item-title>
-                    </v-list-item-content>
-                        <v-menu bottom offset-y>
-							<template v-slot:activator="{ on, attrs }">
-								<v-btn icon v-bind="attrs" v-on="on">
-									<v-icon>mdi-dots-vertical</v-icon>
-								</v-btn>
-							</template>
-							<v-list>
-								<v-list-item
-									class="my-n2"
-									@click="openDialogRenameFile(file._id)"
-									link
-								>
+				>
+					<v-list-item-icon>
+						<v-icon>mdi-file-document-outline</v-icon>
+					</v-list-item-icon>
+					<v-list-item-content>
+						<v-list-item-title>{{
+							file.filename + file.extension
+						}}</v-list-item-title>
+					</v-list-item-content>
+					<v-menu bottom offset-y>
+						<template v-slot:activator="{ on, attrs }">
+							<v-btn icon v-bind="attrs" v-on="on">
+								<v-icon>mdi-dots-vertical</v-icon>
+							</v-btn>
+						</template>
+						<v-list>
+							<v-list-item
+								class="my-n2"
+								@click="openDialogRenameFile(file._id)"
+								link
+							>
 								<v-list-item-title>Renommer</v-list-item-title>
-								</v-list-item>
-								<v-list-item
-									class="my-n2"
-									@click="removeFile(file._id)"
-									link
-								>
-									<v-list-item-title>Supprimer</v-list-item-title>
-								</v-list-item>
-								</v-list>
-							</v-menu>
-                    </v-list-item>
+							</v-list-item>
+							<v-list-item class="my-n2" @click="removeFile(file._id)" link>
+								<v-list-item-title>Supprimer</v-list-item-title>
+							</v-list-item>
+						</v-list>
+					</v-menu>
+				</v-list-item>
 
-                    <v-list-item class="pl-7">
-                        <v-list-item-content>
-                            <v-btn max-width="180" outlined x-small  class="py-3" @click="openDialogCreateFile(project._id)">
-                                <v-icon left>mdi-file-plus-outline</v-icon>
-                                Ajouter un fichier
-                            </v-btn>
-                        </v-list-item-content>
-                    </v-list-item>
-            </v-list-group>
-        </v-list>
-        <v-dialog v-model="dialogCreateFile" persistent max-width="410">
-			<v-card>
+				<v-list-item class="pl-7">
+					<v-list-item-content>
+						<v-btn
+							max-width="180"
+							outlined
+							x-small
+							class="py-3"
+							@click="openDialogCreateFile(project._id)"
+						>
+							<v-icon left>mdi-file-plus-outline</v-icon>
+							Ajouter un fichier
+						</v-btn>
+					</v-list-item-content>
+				</v-list-item>
+			</v-list-group>
+		</v-list>
+		<v-dialog v-model="dialogCreateFile" persistent max-width="410">
+			<v-card
+				v-on:keydown.enter="createFile"
+				v-on:keydown.esc="dialogCreateFile = false"
+			>
 				<v-card-title class="title">Créer un nouveau fichier</v-card-title>
 				<v-card-text>
 					<v-text-field
@@ -86,6 +96,7 @@
 						label="Nom du fichier"
 						outlined
 						dense
+						autofocus="true"
 						v-model="filename"
 					></v-text-field>
 					<v-select
@@ -99,15 +110,24 @@
 				</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn color="red darken-1" small outlined @click="dialogCreateFile = false"
+					<v-btn
+						color="red darken-1"
+						small
+						outlined
+						@click="dialogCreateFile = false"
 						>Annuler</v-btn
 					>
-					<v-btn color="green darken-1" small outlined @click="createFile">Créer</v-btn>
+					<v-btn color="green darken-1" small outlined @click="createFile"
+						>Créer</v-btn
+					>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
 		<v-dialog v-model="dialogRenameFile" persistent max-width="410">
-			<v-card>
+			<v-card
+				v-on:keydown.enter="renameFile"
+				v-on:keydown.esc="dialogRenameFile = false"
+			>
 				<v-card-title class="title">Renommer le fichier</v-card-title>
 				<v-card-text>
 					<v-text-field
@@ -115,20 +135,30 @@
 						label="Nouveau nom"
 						outlined
 						dense
+						autofocus="true"
 						v-model="newfilename"
 					></v-text-field>
 				</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn color="red darken-1" small outlined @click="dialogRenameFile = false"
+					<v-btn
+						color="red darken-1"
+						small
+						outlined
+						@click="dialogRenameFile = false"
 						>Annuler</v-btn
 					>
-					<v-btn color="green darken-1" small outlined @click="renameFile">Renommer</v-btn>
+					<v-btn color="green darken-1" small outlined @click="renameFile">
+						Renommer</v-btn
+					>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
 		<v-dialog v-model="dialogRenameProject" persistent max-width="410">
-			<v-card>
+			<v-card
+				v-on:keydown.esc="dialogRenameProject = false"
+				v-on:keydown.enter="renameProject"
+			>
 				<v-card-title class="title">Renommer le projet</v-card-title>
 				<v-card-text>
 					<v-text-field
@@ -136,12 +166,18 @@
 						label="Nouveau nom"
 						outlined
 						dense
+						autofocus="true"
 						v-model="newprojectname"
 					></v-text-field>
 				</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn color="red darken-1" small outlined @click="dialogRenameProject = false">
+					<v-btn
+						color="red darken-1"
+						small
+						outlined
+						@click="dialogRenameProject = false"
+					>
 						Annuler
 					</v-btn>
 					<v-btn color="green darken-1" small outlined @click="renameProject">
@@ -150,13 +186,14 @@
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
-    </div>
-	<div v-else class="text-center py-10 secondary--text">Vous n'avez pas de projet.</div>
+	</div>
+	<div v-else class="text-center py-10 secondary--text">
+		Vous n'avez pas de projet.
+	</div>
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
-import fileService from "../../services/file-service";
+import { mapState } from "vuex";
 export default {
 	data() {
 		return {
@@ -302,5 +339,4 @@ export default {
 </script>
 
 <style>
-
 </style>

@@ -198,6 +198,7 @@ export default {
 			this.fileidToClose = null;
 			this.dialogFileNotSaved = false;
 		},
+		// called on tab quit button
 		async saveAndCloseTab() {
 			await this.$store
 				.dispatch("file/save", this.fileidToClose)
@@ -214,6 +215,7 @@ export default {
 			this.fileidToClose = null;
 			this.dialogFileNotSaved = false;
 		},
+		// remove ability to type in editor if no file is opened
 		onCurrentFileContentChange() {
 			const currentFile = this.openedFiles.find(
 				(file) => file._id == this.currentFileId
@@ -227,7 +229,7 @@ export default {
 				this.cmOptions.lineNumbers = true;
 			}
 		},
-		// check if a file present
+		// check if a file is opened
 		currentFilePresent() {
 			return this.currentFileId != null;
 		},

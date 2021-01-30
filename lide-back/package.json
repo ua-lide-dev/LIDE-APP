@@ -17,7 +17,7 @@
     "moment": "^2.29.1",
     "mongoose": "^5.10.5",
     "node-cas-authentication": "^0.0.15",
-    "axios": "^0.20.0",
+    "axios": ">=0.21.1",
     "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {

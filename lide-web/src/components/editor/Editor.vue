@@ -42,7 +42,7 @@
 								fab
 								dark
 								small
-								color="blue"
+								color="primary"
 								@click="saveFile"
 							>
 								<v-icon dark>mdi-content-save-outline</v-icon>
@@ -94,12 +94,33 @@
 <script>
 import { codemirror } from "vue-codemirror";
 
-import "codemirror/addon/hint/show-hint.js";
-
 // import language js
 import "codemirror/mode/javascript/javascript.js";
 import "codemirror/mode/php/php.js";
 import "codemirror/mode/clike/clike.js";
+
+// active line
+import "codemirror/addon/selection/active-line.js";
+// auto close backets
+import "codemirror/addon/edit/closebrackets.js";
+// basic auto-complete
+import "codemirror/addon/hint/show-hint.js";
+import "codemirror/addon/hint/anyword-hint.js";
+// highlight mathcin brackets
+import "codemirror/addon/edit/matchbrackets.js";
+
+// foldGutter
+import "codemirror/addon/fold/foldgutter.css";
+import "codemirror/addon/fold/brace-fold.js";
+import "codemirror/addon/fold/comment-fold.js";
+import "codemirror/addon/fold/foldcode.js";
+import "codemirror/addon/fold/foldgutter.js";
+import "codemirror/addon/fold/indent-fold.js";
+import "codemirror/addon/fold/markdown-fold.js";
+import "codemirror/addon/fold/xml-fold.js";
+
+// autocomplete
+import "codemirror/addon/hint/show-hint.js";
 
 // import theme style
 import "codemirror/theme/base16-dark.css";
@@ -120,13 +141,23 @@ export default {
 			editor: null,
 			code: "",
 			cmOptions: {
-				tabSize: 4,
+				// TODO : Configurer dans les paramaètres utilisateur
+				tabSize: 2,
+				indentUnit: 2,
+				indentWithTabs: true,
+				lineWrapping: false,
 				mode: "text/x-c++src",
 				theme: "base16-dark",
-				lineNumbers: false,
 				line: true,
 				viewportMargin: Infinity,
 				readOnly: "nocursor",
+				lineNumbers: false,
+				autoCloseBrackets: true,
+				matchBrackets: true,
+				styleActiveLine: true,
+				foldGutter: true,
+				gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+				showHint: true,
 			},
 			codemirrorHeight: 0,
 			dialogFileNotSaved: false,

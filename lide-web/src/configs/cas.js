@@ -12,11 +12,22 @@ export default {
   install(vue, router) {
     const serverURL = process.env.VUE_APP_LIDE_WEB_URL;
 
-    router.beforeEach((to, from, next) => {
-      // si redirection depuis le login cas
-      if (to.fullPath.startsWith("/?ticket=")) {
-        console.log("redirected from cas");
-        let ticketCAS = to.query.ticket;
+    router.beforeEach(async (to, from, next) => {
+      // route protégée
+      if (to.matched.some((record) => record.meta.requiresAuth)) {
+        if (localStorage.session != null) {  // TODO : validate session
+          // si identifié via login
+          next();
+        } else {
+          // si pas identifié
+          login();
+        }
+      } else if (to.fullPath.startsWith("/login")) {
+        // on nettoie la dernière session
+        localStorage.clear();
+
+        // bouchon username sans cas
+        localStorage.username = "user1";
 
         // récupération de la session
         await axios.get("/session").then(async (res) => {
@@ -26,6 +37,7 @@ export default {
           // redirect
           window.location = serverURL + "app";
         }).catch((error) => {
+          console.log(error);
           window.location = serverURL;
           throw error;
         })
@@ -38,12 +50,11 @@ export default {
         // Si on tape pas une url protégée --> ok
         next();
       }
-    })
+    });
 
     const login = () => {
-      let login = `${serverCAS}login?service=${encoddedServerURL}`;
-      window.location = login;
-    }
+      window.location = serverURL + "login";
+    };
 
     const logout = () => {
       localStorage.clear();

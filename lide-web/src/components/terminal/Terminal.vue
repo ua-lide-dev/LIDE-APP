@@ -24,7 +24,14 @@ export default {
 	},
 	methods: {
 		openSocket(containerId) {
-			this.terminal.clear();
+			this.$store
+				.dispatch("execution/setExecutionInProgress", true)
+				.catch((error) => {
+					console.log(error);
+					// TODO : message erreur
+				});
+
+			//this.terminal.clear();
 
 			console.log("Le terminal a reçu le container ID : " + containerId);
 
@@ -36,6 +43,17 @@ export default {
 
 			// Création d'un socket vers le wss
 			this.socket = new WebSocket(process.env.VUE_APP_LIDE_WSS_URL);
+
+			this.socket.onclose = () => {
+				console.log("socket onclose");
+				this.$store
+					.dispatch("execution/setExecutionInProgress", false)
+					.catch((error) => {
+						console.log(error);
+						// TODO : message erreur
+					});
+			};
+
 			this.socket.onopen = () => {
 				this.socket.send(containerId);
 			};

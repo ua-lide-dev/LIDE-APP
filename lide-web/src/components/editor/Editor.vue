@@ -94,9 +94,8 @@
 <script>
 import { codemirror } from "vue-codemirror";
 
-// import language js
+// import languages
 import "codemirror/mode/javascript/javascript.js";
-import "codemirror/mode/php/php.js";
 import "codemirror/mode/clike/clike.js";
 
 // active line

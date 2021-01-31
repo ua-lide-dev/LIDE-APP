@@ -1,6 +1,6 @@
 const FileService = require('../services/db/file.service');
 const ProjectService = require('../services/db/project.service');
-const { execSync, spawn } = require('child_process');
+const { execSync } = require('child_process');
 const fs = require('fs').promises;
 
 // Fonction de compilation & exécution
@@ -8,7 +8,7 @@ exports.execute = async (req, res) => {
   const username = req.username;
   const fileid = req.params.fileid;
 
-  // récupération du fichier
+  // Récupération du fichier initiateur de l'exécution
   const file = await FileService.get(username, fileid).catch((error) => {
     console.error(error);
     res.status(500).json(error);
@@ -16,7 +16,7 @@ exports.execute = async (req, res) => {
   const filename = file.filename;
   const reqExtension = file.extension;
 
-  // récupération de son projet
+  // Récupération de son projet
   const project = await ProjectService.get(username, file.projectid).catch((error) => {
     console.error(error);
     res.status(500).json(error);
@@ -29,27 +29,16 @@ exports.execute = async (req, res) => {
 
   try {
     const extension = reqExtension.replace('.', ''); //FIXME A ENLEVER et adapter 
+
+    // Suppression des anciens fichiers sur le FS du serveur
     execSync('rm -rf /lide-data/' + username + '/');
-    // Création du volume et du fichier
+
+    // Création du dossier de l'utilisateur sur le FS du serveur
     const projectPath = '/lide-data/' + username + '/' + projectname + '/';
     execSync('mkdir -p ' + projectPath);
 
-    for (const fileid of project.files) {
-      await FileService.get(username, fileid).catch((error) => {
-        console.error(error);
-        res.status(500).json(error);
-      }).then(async (file) => {
-        const extension = file.extension.replace('.', ''); //FIXME A ENLEVER et adapter 
-        // Remplir le contenu du fichier
-        const filePath = '/lide-data/' + username + '/' + projectname + '/' + file.filename + '.' + extension;
-        await fs.writeFile(filePath, file.content).catch((error) => {
-          console.error(error);
-        }).then(() => {
-          console.debug(`Write ${filePath}`);
-        })
-
-      });
-    }
+    // Construction des fichiers sur le FS du serveur
+    constructFs(project, username, res);
 
     // Supression d'un potentiel précedent container
     try {
@@ -95,6 +84,25 @@ exports.execute = async (req, res) => {
   }
 
   res.status(200).json({ containerid: containerId });
+}
+
+async function constructFs(project, username, res) {
+  for (const fileid of project.files) {
+    await FileService.get(username, fileid).catch((error) => {
+      console.error(error);
+      res.status(500).json(error);
+    }).then(async (file) => {
+      const extension = file.extension.replace('.', ''); //FIXME A ENLEVER et adapter 
+      // Remplir le contenu du fichier
+      const filePath = '/lide-data/' + username + '/' + project.projectname + '/' + file.filename + '.' + extension;
+      await fs.writeFile(filePath, file.content).catch((error) => {
+        console.error(error);
+      }).then(() => {
+        console.debug(`Write ${filePath}`);
+      })
+
+    });
+  }
 }
 
 exports.killExec = (req, res) => {

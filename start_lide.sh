@@ -27,12 +27,6 @@ if [ "$1" = "-f" ]; then
     docker volume prune -f
     docker image rm lide-web lide-back lide-wss
     docker-compose up -d --force-recreate -V
-elif [ "$1" = "-F" ]; then
-    echo " >using force"
-    docker-compose down --remove-orphans -v
-    docker volume prune -f
-    docker image rm lide-web lide-back lide-wss
-    docker-compose up -d --force-recreate -V
     echo " >building images"
     build_images
 elif [ "$1" = "-i" ]; then

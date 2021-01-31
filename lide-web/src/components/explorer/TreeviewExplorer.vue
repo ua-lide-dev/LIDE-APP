@@ -205,7 +205,7 @@ export default {
 			dialogRenameProject: false,
 			filename: "",
 			extension: "",
-			langages: [".cpp", ".py", ".java", ".php"],
+			langages: [".cpp", ".h", ".py", ".java"],
 			selectedFileId: "",
 			newfilename: "",
 			selectedProjectId: "",

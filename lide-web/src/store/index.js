@@ -8,6 +8,7 @@ import project from "./modules/project"
 import file from "./modules/file"
 import drawer from "./modules/drawer"
 import execution from "./modules/execution"
+import tab from "./modules/tab"
 
 Vue.use(Vuex);
 
@@ -18,6 +19,7 @@ const store = new Vuex.Store({
         file,
         drawer,
         execution,
+        tab,
     },
     plugins: [createPersistedState()],
 })

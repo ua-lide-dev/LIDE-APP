@@ -3,75 +3,78 @@
 		<v-col cols="12" class="pa-0">
 			<v-tabs class="tabs" center-active dark v-model="currentTabIndex">
 				<v-tab
-					v-for="file in openedFiles"
-					:key="file._id"
-					:ref="'tab' + file._id"
-					@click="focusTab(file._id)"
+					v-for="tab in tabs"
+					:key="tab.id"
+					:ref="'tab' + tab.id"
+					@click="focusTab(tab.id)"
 					px-0
 				>
-					{{ file.filename + file.extension }}
+					{{ tab.file.filename + tab.file.extension }}
 					<v-btn
 						class="btn-close-tab"
 						x-small
 						icon
 						elevation="4"
 						v-on:click.stop
-						@click="closeTab(file._id)"
+						@click="closeTab(tab.id)"
 					>
 						<v-icon dark>mdi-close</v-icon>
 					</v-btn>
 				</v-tab>
 			</v-tabs>
-		</v-col>
-		<v-col cols="12" class="pa-0">
-			<codemirror
-				class="codemirror"
-				ref="cmEditor"
-				v-model="currentFileContent"
-				:options="cmOptions"
-			/>
-			<div class="group-btn" v-show="currentFilePresent()">
-				<div>
-					<v-tooltip left>
-						<template v-slot:activator="{ on, attrs }">
-							<v-btn
-								class="btn-save"
-								v-bind="attrs"
-								v-on="on"
-								absolute
-								fab
-								dark
-								small
-								color="primary"
-								@click="saveFile"
-							>
-								<v-icon dark>mdi-content-save-outline</v-icon>
-							</v-btn>
-						</template>
-						<span>Sauvegarder</span>
-					</v-tooltip>
-				</div>
-				<div>
-					<v-tooltip left>
-						<template v-slot:activator="{ on, attrs }">
-							<v-btn
-								class="btn-compile"
-								v-bind="attrs"
-								v-on="on"
-								absolute
-								fab
-								dark
-								small
-								color="green"
-								@click="exec"
-							>
-								<v-icon dark>mdi-play</v-icon>
-							</v-btn>
-						</template>
-						<span>Exécuter</span>
-					</v-tooltip>
-				</div>
-			</div>
+			<v-tabs-items v-model="currentTabIndex">
+				<v-tab-item v-for="tab in tabs" :key="tab.id">
+					<v-col cols="12" class="pa-0">
+						<codemirror
+							class="codemirror"
+							:ref="'cmEditor' + tab.id"
+							v-model="tab.file.content"
+							:options="cmOptions"
+							@ready="onNewEditor"
+						/>
+						<div class="group-btn" v-show="currentFilePresent()">
+							<div>
+								<v-tooltip left>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											class="btn-save"
+											v-bind="attrs"
+											v-on="on"
+											absolute
+											fab
+											dark
+											small
+											color="primary"
+										>
+											<v-icon dark>mdi-content-save-outline</v-icon>
+										</v-btn>
+									</template>
+									<span>Sauvegarder</span>
+								</v-tooltip>
+							</div>
+							<div>
+								<v-tooltip left>
+									<template v-slot:activator="{ on, attrs }">
+										<v-btn
+											class="btn-compile"
+											v-bind="attrs"
+											v-on="on"
+											absolute
+											fab
+											dark
+											small
+											color="green"
+										>
+											<v-icon dark>mdi-play</v-icon>
+										</v-btn>
+									</template>
+									<span>Exécuter</span>
+								</v-tooltip>
+							</div>
+						</div>
+					</v-col>
+				</v-tab-item>
+			</v-tabs-items>
 		</v-col>
 
 		<v-dialog v-model="dialogFileNotSaved" max-width="500">
@@ -128,7 +131,6 @@ import "codemirror/theme/base16-dark.css";
 import "codemirror/lib/codemirror.css";
 
 // services
-import FileService from "../../services/file-service";
 import { mapState } from "vuex";
 
 export default {
@@ -137,7 +139,7 @@ export default {
 	},
 	data() {
 		return {
-			editor: null,
+			editors: [],
 			code: "",
 			cmOptions: {
 				// TODO : Configurer dans les paramaètres utilisateur
@@ -160,94 +162,68 @@ export default {
 			},
 			codemirrorHeight: 0,
 			dialogFileNotSaved: false,
-			fileidToClose: null,
+			tabToCloseId: null,
 		};
+	},
+	computed: {
+		...mapState({
+			tabs: (state) => state.tab.tabs,
+			currentTab: (state) => state.tab.currentTab,
+		}),
+		currentTabIndex: {
+			get() {
+				return 0;
+			},
+			set(val) {
+				return val;
+			},
+		},
 	},
 	methods: {
 		setSize() {
 			this.codemirrorHeight = (window.innerHeight - 56 - 48 - 20) * (70 / 100);
-			this.codemirror.setSize("100%", this.codemirrorHeight);
+			this.editors.forEach((editor) => {
+				editor.setSize("100%", this.codemirrorHeight);
+			});
 		},
-		async exec() {
-			await this.saveFile();
-			FileService.execute(this.currentFileId)
-				.then((res) => {
-					this.$root.$refs.Terminal.openSocket(res.data.containerid);
-				})
-				.catch((error) => {
-					console.error("EXECUTION : Error -> " + error);
-					// TODO Notification pour avertir d'une erreur à l'utilisateur
-				});
+
+		onNewEditor(cmEditor) {
+			this.editors.push(cmEditor);
+			this.setSize();
 		},
-		async saveFile() {
-			await this.$store.dispatch("file/lightSave", this.editor.getValue());
+
+		async focusTab(tabId) {},
+
+		async closeTab(tabId) {
+			this.tabToCloseId = tabId;
 			await this.$store
-				.dispatch("file/save", this.currentFileId)
-				.then(() => {
-					// TODO Notification pour avertir de la réussite de la sauvegarde à l'utilisateur
-				})
-				.catch((error) => {
-					// TODO Notification pour avertir d'une erreur à l'utilisateur
-					console.error(error);
-				});
-		},
-		doSave(key) {
-			// si CTRL + S --> sauvegarde du fichier
-			if (key.ctrlKey && key.keyCode === 83) {
-				this.saveFile();
-				// on empeche le comportement par défaut
-				key.preventDefault();
-			}
-			// on sort de la fonction --> comportement par défaut du clavier
-			console.log("saving from DOM!");
-		},
-		async focusTab(fileid) {
-			await this.$store.dispatch("file/lightSave", this.editor.getValue());
-			this.$store.dispatch("file/load", fileid);
-		},
-		async closeTab(fileid) {
-			this.fileidToClose = fileid;
-			await this.$store.dispatch("file/lightSave", this.editor.getValue());
-			await this.$store
-				.dispatch("file/unLoad", { fileid: fileid, force: false })
-				.then(() => {
-					if (this.currentFileId != null) {
-						this.$store.dispatch("file/load", this.currentFileId).then(() => {
-							/** //FIXME : Suite à la suppression de l'onglet courant, le dernier onglet est sélectionné (bug)
-							C'est du au fait que la barre d'onglet ne se met pas à jour avec son v-model et ne voit donc pas
-							le changement de fichier courant effectué par la fonctione de suppression du store.
-							TMP FIX : On simule un click vers le nouvel onglet courant afin d'éviter que le dernier onglet soit sélectionné */
-							const tabId = "tab" + this.currentFileId;
-							this.$refs[tabId][0].$el.dispatchEvent(new Event("click"));
-						});
-					}
-				})
+				.dispatch("tab/closeTab", { tabId: tabId, force: false })
 				.catch((error) => {
 					if (error.message == "FILE_NOT_SAVED") {
 						this.dialogFileNotSaved = true;
 					}
 				});
 		},
+
 		async forceCloseTab() {
 			await this.$store
-				.dispatch("file/unLoad", {
-					fileid: this.fileidToClose,
-					force: true,
-				})
+				.dispatch("tab/closeTab", { tabId: this.tabToCloseId, force: true })
 				.catch((error) => {
-					console.log(error);
-					// TODO : message erreur
+					if (error.message == "FILE_NOT_SAVED") {
+						this.dialogFileNotSaved = true;
+					}
 				});
-			this.fileidToClose = null;
+			this.tabToCloseId = null;
 			this.dialogFileNotSaved = false;
 		},
+
 		// called on tab quit button
 		async saveAndCloseTab() {
 			await this.$store
-				.dispatch("file/save", this.fileidToClose)
+				.dispatch("file/save", this.tabToCloseId)
 				.then(() => {
 					this.$store.dispatch("file/unLoad", {
-						fileid: this.fileidToClose,
+						fileid: this.tabToCloseId,
 						force: false,
 					});
 				})
@@ -255,9 +231,10 @@ export default {
 					console.log(error);
 					// TODO : message erreur
 				});
-			this.fileidToClose = null;
+			this.tabToCloseId = null;
 			this.dialogFileNotSaved = false;
 		},
+
 		// remove ability to type in editor if no file is opened
 		onCurrentFileContentChange() {
 			const currentFile = this.openedFiles.find(
@@ -274,44 +251,10 @@ export default {
 				this.cmOptions.styleActiveLine = true;
 			}
 		},
+
 		// check if a file is opened
 		currentFilePresent() {
 			return this.currentFileId != null;
-		},
-	},
-	computed: {
-		...mapState({
-			currentFileId: (state) => state.file.currentFileId,
-			openedFiles: (state) => state.file.openedFiles,
-		}),
-		currentTabIndex: {
-			get() {
-				const index = this.openedFiles.findIndex(
-					(openedFile) => openedFile._id == this.currentFileId
-				);
-				if (index != null) return index;
-				else return 0;
-			},
-			set(newTabIndex) {
-				return newTabIndex;
-			},
-		},
-		currentFileContent: {
-			get() {
-				try {
-					this.onCurrentFileContentChange();
-					return this.openedFiles.find((file) => file._id == this.currentFileId)
-						.content;
-				} catch (error) {
-					return "";
-				}
-			},
-			set(newContent) {
-				return newContent;
-			},
-		},
-		codemirror() {
-			return this.$refs.cmEditor.codemirror;
 		},
 	},
 	created() {
@@ -319,7 +262,6 @@ export default {
 	},
 	mounted() {
 		this.setSize();
-		this.editor = this.$refs.cmEditor.codemirror;
 		document.addEventListener("keydown", this.doSave);
 	},
 	beforeDestroy() {
@@ -334,9 +276,6 @@ export default {
 <style scoped>
 .codemirror {
 	width: 100%;
-}
-.tabs-editor {
-	height: 48px;
 }
 .v-tab {
 	text-transform: none !important; /* tab name to lowercase */

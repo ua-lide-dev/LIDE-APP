@@ -329,7 +329,7 @@ export default {
 		},
 
 		openFile: function (fileid) {
-			this.$store.dispatch("file/load", fileid).catch((error) => {
+			this.$store.dispatch("tab/newTab", fileid).catch((error) => {
 				// TODO Notification pour avertir  d'une erreur à l'utilisateur
 				console.log(error);
 			});

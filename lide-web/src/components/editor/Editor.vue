@@ -178,6 +178,9 @@ export default {
 					console.error("EXECUTION : Error -> " + error);
 					// TODO Notification pour avertir d'une erreur à l'utilisateur
 				});
+			await this.$store.dispatch("notification/setTimeout", 10000);
+			await this.$store.dispatch("notification/setTexte", "execution en cours");
+			await this.$store.dispatch("notification/displayNotif");
 		},
 		async saveFile() {
 			await this.$store.dispatch("file/lightSave", this.editor.getValue());

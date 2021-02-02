@@ -8,6 +8,7 @@ const project = require("./controllers/project.controller");
 const file = require("./controllers/file.controller");
 const execution = require("./controllers/execution.controller");
 const session = require("./controllers/session.controller");
+const exporter = require("./controllers/export.controller");
 
 /* ---------------- Security ------------------ */
 
@@ -36,6 +37,9 @@ router.put("/file/:fileid", ensureAuthenticated, file.update);
 router.post("/execute/:fileid", ensureAuthenticated, execution.execute);
 // Route d'arrêt de l'exécution
 router.post("/killexec", ensureAuthenticated, execution.killExec);
+
+//route d'export 
+router.get("/export", ensureAuthenticated, exporter.getExport);
 
 // Route de validation cas + génération du token de session
 router.get("/session", session.session);

@@ -1,28 +1,29 @@
 <template>
-	<v-snackbar v-model="show" :multi-line="multiLine" top :color="color">
-		{{ msg }}
-
-		<template v-slot:action="{ attrs }">
-			<v-btn icon v-bind="attrs" @click="show = false">
-				<v-icon>mdi-close-circle-outline</v-icon>
-			</v-btn>
-		</template>
-	</v-snackbar>
+  <div class="text-center">
+    <v-snackbar v-model="snackbar" :timeout="timeout">
+      {{ text }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="red" text v-bind="attrs" @click="close">Close</v-btn>
+      </template>
+    </v-snackbar>
+  </div>
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex";
 export default {
-	props: ["msg", "color"],
-	data() {
-		return {
-			show: false,
-		};
-	},
-	created() {
-		this.$root.$refs.Notification = this;
-	},
+  methods: {
+    close: function() {
+        this.$store.dispatch("notification/closeNotif");
+    }
+  },
+  computed: {
+    ...mapState({
+      snackbar: state => state.notification.actif,
+      text: state => state.notification.texte,
+      timeout: state => state.notification.timeout
+      //couleur: (state) => state.notification.couleur,
+    })
+  },
 };
 </script>
-
-<style>
-</style>

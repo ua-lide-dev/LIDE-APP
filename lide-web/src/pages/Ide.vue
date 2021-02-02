@@ -23,6 +23,8 @@
 					</v-col>
 				</v-row>
 			</v-container>
+			<Notification />
+
 			<!-- 
 				<SettingDrawer />
 				<HelpDrawer /> 
@@ -39,6 +41,7 @@ import Terminal from "../components/terminal/Terminal";
 import ActionTerminal from "../components/terminal/ActionTerminal";
 // import SettingDrawer from "../components/drawer/SettingDrawer";
 // import HelpDrawer from "../components/drawer/HelpDrawer";
+import Notification from "../components/utils/Notification";
 
 export default {
 	name: "Ide",
@@ -51,6 +54,7 @@ export default {
 		Terminal,
 		// SettingDrawer,
 		// HelpDrawer,
+		Notification,
 	},
 	data: () => ({
 		explorerDrawer: null,

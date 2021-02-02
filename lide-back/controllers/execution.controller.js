@@ -61,11 +61,11 @@ exports.execute = async (req, res) => {
         break;
       case 'java':
         img = "java_lide";
-        startCommand = `docker run -it -d --cpus=1 -v ${projectPath}:${projectPath} --name ${containerName} ${img} ${projectPath}${filename}.${extension}`;
+        startCommand = `docker run -it -d --cpus=1 -v ${projectPath}:/workdir --name ${containerName} ${img} ${filename}.${extension}`;
         break;
       case 'py':
         img = "py_lide";
-        startCommand = `docker run -it -d --cpus=1 -v ${projectPath}:${projectPath} --name ${containerName} ${img} ${projectPath}${filename}.${extension}`;
+        startCommand = `docker run -it -d --cpus=1 -v ${projectPath}:/workdir--name ${containerName} ${img} ${filename}.${extension}`;
         break;
       default:
         res.status(400).json("Extension non gérée");

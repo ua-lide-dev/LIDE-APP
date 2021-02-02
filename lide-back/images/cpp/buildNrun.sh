@@ -1,11 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 
 read socket
 
 TIMEOUT_VALUE=300
 
-cd /workdir/
-
+cd /workdir/ &&
 g++ -std=c++11 -Wpedantic -c *.cpp &&
 g++ -o program.out *.o &&
 chmod +x program.out &&

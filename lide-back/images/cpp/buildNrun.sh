@@ -2,7 +2,7 @@
 
 read socket
 
-TIMEOUT_VALUE=10
+TIMEOUT_VALUE=300
 
 cd /workdir/
 

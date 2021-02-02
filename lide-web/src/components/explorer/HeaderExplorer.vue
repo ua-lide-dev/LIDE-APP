@@ -43,10 +43,10 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogExport" persistent max-width="270" >
+    <v-dialog v-model="dialogExport" persistent max-width="270">
       <v-card v-on:keydown.esc="dialogExport = false" v-on:keydown.enter="exportFile" class="pa-4">
         <v-card-title class="title">Exporter vos fichiers</v-card-title>
-        <v-card-actions >
+        <v-card-actions>
           <v-btn color="red darken-1" small outlined @click="dialogExport = false">Annuler</v-btn>
           <v-btn color="green darken-1" small outlined @click="exportFile">Exporter</v-btn>
         </v-card-actions>
@@ -74,7 +74,11 @@ export default {
       this.$store
         .dispatch("project/create", this.projectname)
         .catch(error => {
-          // TODO Notification pour avertir d'une erreur à l'utilisateur
+          this.$store.dispatch("notification/notif", {
+            texte: "create project error",
+            couleur: "error",
+            timeout: 2000
+          });
           console.log(error);
           this.projectname = "";
         })
@@ -99,8 +103,8 @@ export default {
         })
         .catch(error => {
           console.error("EXECUTION : Error -> " + error);
-		});
-		this.dialogExport = false;
+        });
+      this.dialogExport = false;
     }
   },
   computed: {

@@ -1,94 +1,95 @@
 <template>
-	<v-row class="parent-editor">
-		<v-col cols="12" class="pa-0">
-			<v-tabs class="tabs" center-active dark v-model="currentTabIndex">
-				<v-tab
-					v-for="file in openedFiles"
-					:key="file._id"
-					:ref="'tab' + file._id"
-					@click="focusTab(file._id)"
-					px-0
-				>
-					{{ file.filename + file.extension }}
-					<v-btn
-						class="btn-close-tab"
-						x-small
-						icon
-						elevation="4"
-						v-on:click.stop
-						@click="closeTab(file._id)"
-					>
-						<v-icon dark>mdi-close</v-icon>
-					</v-btn>
-				</v-tab>
-			</v-tabs>
-		</v-col>
-		<v-col cols="12" class="pa-0">
-			<codemirror
-				class="codemirror"
-				ref="cmEditor"
-				v-model="currentFileContent"
-				:options="cmOptions"
-			/>
-			<div class="group-btn" v-show="currentFilePresent()">
-				<div>
-					<v-tooltip left>
-						<template v-slot:activator="{ on, attrs }">
-							<v-btn
-								class="btn-save"
-								v-bind="attrs"
-								v-on="on"
-								absolute
-								fab
-								dark
-								small
-								color="primary"
-								@click="saveFile"
-							>
-								<v-icon dark>mdi-content-save-outline</v-icon>
-							</v-btn>
-						</template>
-						<span>Sauvegarder</span>
-					</v-tooltip>
-				</div>
-				<div>
-					<v-tooltip left>
-						<template v-slot:activator="{ on, attrs }">
-							<v-btn
-								class="btn-compile"
-								v-bind="attrs"
-								v-on="on"
-								absolute
-								fab
-								dark
-								small
-								color="green"
-								@click="exec"
-							>
-								<v-icon dark>mdi-play</v-icon>
-							</v-btn>
-						</template>
-						<span>Exécuter</span>
-					</v-tooltip>
-				</div>
-			</div>
-		</v-col>
+  <v-row class="parent-editor">
+    <v-col cols="12" class="pa-0">
+      <v-tabs class="tabs" center-active dark v-model="currentTabIndex">
+        <v-tab
+          v-for="file in openedFiles"
+          :key="file._id"
+          :ref="'tab' + file._id"
+          @click="focusTab(file._id)"
+          px-0
+        >
+          {{ file.filename + file.extension }}
+          <v-btn
+            class="btn-close-tab"
+            x-small
+            icon
+            elevation="4"
+            v-on:click.stop
+            @click="closeTab(file._id)"
+          >
+            <v-icon dark>mdi-close</v-icon>
+          </v-btn>
+        </v-tab>
+      </v-tabs>
+    </v-col>
+    <v-col cols="12" class="pa-0">
+      <codemirror
+        class="codemirror"
+        ref="cmEditor"
+        v-model="currentFileContent"
+        :options="cmOptions"
+      />
+      <div class="group-btn" v-show="currentFilePresent()">
+        <div>
+          <v-tooltip left>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                class="btn-save"
+                v-bind="attrs"
+                v-on="on"
+                absolute
+                fab
+                dark
+                small
+                color="primary"
+                @click="saveFile"
+              >
+                <v-icon dark>mdi-content-save-outline</v-icon>
+              </v-btn>
+            </template>
+            <span>Sauvegarder</span>
+          </v-tooltip>
+        </div>
+        <div>
+          <v-tooltip left>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                class="btn-compile"
+                v-bind="attrs"
+                v-on="on"
+                absolute
+                fab
+                dark
+                small
+                color="green"
+                @click="exec"
+              >
+                <v-icon dark>mdi-play</v-icon>
+              </v-btn>
+            </template>
+            <span>Exécuter</span>
+          </v-tooltip>
+        </div>
+      </div>
+    </v-col>
 
-		<v-dialog v-model="dialogFileNotSaved" max-width="500">
-			<v-card>
-				<v-card-title class="title">Fichier non sauvegardé !</v-card-title>
-				<v-card-actions>
-					<v-spacer></v-spacer>
-					<v-btn color="red darken-1" small outlined @click="forceCloseTab"
-						>Fermer sans sauvegarder</v-btn
-					>
-					<v-btn color="green darken-1" small outlined @click="saveAndCloseTab"
-						>Sauvegarder et fermer</v-btn
-					>
-				</v-card-actions>
-			</v-card>
-		</v-dialog>
-	</v-row>
+    <v-dialog v-model="dialogFileNotSaved" max-width="500">
+      <v-card>
+        <v-card-title class="title">Fichier non sauvegardé !</v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red darken-1" small outlined @click="forceCloseTab">Fermer sans sauvegarder</v-btn>
+          <v-btn
+            color="green darken-1"
+            small
+            outlined
+            @click="saveAndCloseTab"
+          >Sauvegarder et fermer</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
 </template>
 
 <script>
@@ -175,23 +176,31 @@ export default {
 					this.$root.$refs.Terminal.openSocket(res.data.containerid);
 				})
 				.catch((error) => {
-					console.error("EXECUTION : Error -> " + error);
-					// TODO Notification pour avertir d'une erreur à l'utilisateur
+					this.$store.dispatch("notification/notif", {
+					texte: "exec error",
+					couleur: "error",
+					timeout: 2000
+				});	
 				});
-			await this.$store.dispatch("notification/setTimeout", 10000);
-			await this.$store.dispatch("notification/setTexte", "execution en cours");
-			await this.$store.dispatch("notification/displayNotif");
+
 		},
 		async saveFile() {
 			await this.$store.dispatch("file/lightSave", this.editor.getValue());
 			await this.$store
 				.dispatch("file/save", this.currentFileId)
 				.then(() => {
-					// TODO Notification pour avertir de la réussite de la sauvegarde à l'utilisateur
+					this.$store.dispatch("notification/notif", {
+					texte: "sauvegarde réussie",
+					couleur: "success",
+					timeout: 2000
+				});	
 				})
 				.catch((error) => {
-					// TODO Notification pour avertir d'une erreur à l'utilisateur
-					console.error(error);
+					this.$store.dispatch("notification/notif", {
+					texte: "save error",
+					couleur: "error",
+					timeout: 2000
+				});	
 				});
 		},
 		doSave(key) {
@@ -336,26 +345,26 @@ export default {
 
 <style scoped>
 .codemirror {
-	width: 100%;
+  width: 100%;
 }
 .tabs-editor {
-	height: 48px;
+  height: 48px;
 }
 .v-tab {
-	text-transform: none !important; /* tab name to lowercase */
+  text-transform: none !important; /* tab name to lowercase */
 }
 .group-btn {
-	top: 65px;
-	right: 60px;
-	position: absolute;
+  top: 65px;
+  right: 60px;
+  position: absolute;
 }
 .btn-compile {
-	margin-top: 50px;
+  margin-top: 50px;
 }
 .text-custom {
-	text-transform: none;
+  text-transform: none;
 }
 .btn-close-tab {
-	margin-left: 20px;
+  margin-left: 20px;
 }
 </style>

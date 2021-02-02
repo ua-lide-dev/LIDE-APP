@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-snackbar v-model="snackbar" :timeout="timeout">
+    <v-snackbar v-model="snackbar" :timeout="timeout" :color="couleur">
       {{ text }}
       <template v-slot:action="{ attrs }">
         <v-btn color="red" text v-bind="attrs" @click="close">Close</v-btn>
@@ -21,8 +21,8 @@ export default {
     ...mapState({
       snackbar: state => state.notification.actif,
       text: state => state.notification.texte,
-      timeout: state => state.notification.timeout
-      //couleur: (state) => state.notification.couleur,
+      timeout: state => state.notification.timeout,
+      couleur: (state) => state.notification.couleur,
     })
   },
 };

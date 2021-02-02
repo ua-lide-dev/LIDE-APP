@@ -99,7 +99,8 @@ export default {
         })
         .catch(error => {
           console.error("EXECUTION : Error -> " + error);
-        });
+		});
+		this.dialogExport = false;
     }
   },
   computed: {

@@ -1,5 +1,5 @@
 <template>
-	<v-snackbar v-model="show" :multi-line="multiLine" top :color="color">
+	<v-snackbar v-model="show" top :color="color">
 		{{ msg }}
 
 		<template v-slot:action="{ attrs }">

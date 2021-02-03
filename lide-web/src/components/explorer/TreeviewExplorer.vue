@@ -195,170 +195,134 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  data() {
-    return {
-      projecthover: null,
-      filehover: null,
-      dropdown: null,
-      dialogCreateFile: false,
-      dialogRenameFile: false,
-      dialogRenameProject: false,
-      filename: "",
-      extension: "",
-      langages: [".cpp", ".h", ".py", ".java"],
-      selectedFileId: "",
-      newfilename: "",
-      selectedProjectId: "",
-      newprojectname: ""
-    };
-  },
-  computed: {
-    ...mapState({
-      projects: state => state.project.projects,
-      openedFiles: state => state.file.openedFiles,
-      currentProjectId: state => state.project.currentProjectId,
-      currentFileId: state => state.file.currentFileId
-    })
-  },
-  methods: {
-    openDropDown: function(index) {
-      if (this.dropdown != index) {
-        this.dropdown = index;
-      } else if (this.dropdown != null) {
-        this.dropdown = null;
-      } else {
-        this.dropdown = index;
-      }
-    },
+	data() {
+		return {
+			projecthover: null,
+			filehover: null,
+			dropdown: null,
+			dialogCreateFile: false,
+			dialogRenameFile: false,
+			dialogRenameProject: false,
+			filename: "",
+			extension: "",
+			langages: [".cpp", ".h", ".py", ".java"],
+			selectedFileId: "",
+			newfilename: "",
+			selectedProjectId: "",
+			newprojectname: "",
+		};
+	},
+	computed: {
+		...mapState({
+			projects: (state) => state.project.projects,
+			openedFiles: (state) => state.file.openedFiles,
+			currentProjectId: (state) => state.project.currentProjectId,
+			currentFileId: (state) => state.file.currentFileId,
+		}),
+	},
+	methods: {
+		openDropDown: function (index) {
+			if (this.dropdown != index) {
+				this.dropdown = index;
+			} else if (this.dropdown != null) {
+				this.dropdown = null;
+			} else {
+				this.dropdown = index;
+			}
+		},
 
-    openDialogCreateFile(projectid) {
-      this.$store.dispatch("project/setCurrentProjectId", projectid);
-      this.dialogCreateFile = true;
-    },
+		openDialogCreateFile(projectid) {
+			this.$store.dispatch("project/setCurrentProjectId", projectid);
+			this.dialogCreateFile = true;
+		},
 
-    openDialogRenameFile(fileid) {
-      this.selectedFileId = fileid;
-      this.dialogRenameFile = true;
-    },
+		openDialogRenameFile(fileid) {
+			this.selectedFileId = fileid;
+			this.dialogRenameFile = true;
+		},
 
-    openDialogRenameProject(projectid) {
-      this.selectedProjectId = projectid;
-      this.dialogRenameProject = true;
-    },
+		openDialogRenameProject(projectid) {
+			this.selectedProjectId = projectid;
+			this.dialogRenameProject = true;
+		},
 
-    // ---------------------------------- Project ----------------------------------
+		// ---------------------------------- Project ----------------------------------
 
-    removeProject: function(projectid) {
-      this.$store.dispatch("project/remove", projectid).catch(error => {
-        this.$store.dispatch("notification/notif", {
-          texte: "remove project error",
-          couleur: "error",
-          timeout: 2000
-        });
-        console.log(error);
-      });
-    },
+		removeProject: function (projectid) {
+			this.$store.dispatch("project/remove", projectid).catch((error) => {
+				// TODO Notification pour avertir d'une erreur à l'utilisateur
+				console.log(error);
+			});
+		},
 
-    renameProject: async function() {
-      await this.$store
-        .dispatch("project/rename", {
-          projectid: this.selectedProjectId,
-          newprojectname: this.newprojectname
-        })
-        .catch(error => {
-          this.$store.dispatch("notification/notif", {
-            texte: "rename project error",
-            couleur: "error",
-            timeout: 2000
-          });
-          console.log(error);
-          this.newprojectname = "";
-        })
-        .then(() => (this.newprojectname = ""));
-      this.dialogRenameProject = false;
-    },
+		renameProject: async function () {
+			await this.$store
+				.dispatch("project/rename", {
+					projectid: this.selectedProjectId,
+					newprojectname: this.newprojectname,
+				})
+				.catch((error) => {
+					// TODO Notification pour avertir  d'une erreur à l'utilisateur
+					console.log(error);
+					this.newprojectname = "";
+				})
+				.then(() => (this.newprojectname = ""));
+			this.dialogRenameProject = false;
+		},
 
-    // ---------------------------------- File ----------------------------------
+		// ---------------------------------- File ----------------------------------
 
-    createFile: function() {
-      const projectid = this.currentProjectId;
-      const filename = this.filename;
-      const extension = this.extension;
+		createFile: function () {
+			const projectid = this.currentProjectId;
+			const filename = this.filename;
+			const extension = this.extension;
 
-      this.$store
-        .dispatch("file/create", { projectid, filename, extension })
-        .catch(error => {
-          this.$store.dispatch("notification/notif", {
-            texte: "create file error",
-            couleur: "error",
-            timeout: 2000
-          });
-          console.log(error);
-          this.filename = "";
-          this.extension = "";
-        })
-        .then(() => {
-          this.filename = "";
-          this.extension = "";
-        });
-      this.dialogCreateFile = false;
-    },
+			this.$store
+				.dispatch("file/create", { projectid, filename, extension })
+				.catch((error) => {
+					// TODO Notification pour avertir  d'une erreur à l'utilisateur
+					console.log(error);
+					this.filename = "";
+					this.extension = "";
+				})
+				.then(() => {
+					this.filename = "";
+					this.extension = "";
+				});
+			this.dialogCreateFile = false;
+		},
 
-    removeFile: function(fileid) {
-      this.$store
-        .dispatch("file/remove", fileid)
-        .catch(error => {
-          this.$store.dispatch("notification/notif", {
-            texte: "remove file error",
-            couleur: "error",
-            timeout: 2000
-          });
-          console.log(error);
-        })
-        .then(() => {
-          /** //FIXME : Suite à la suppression de l'onglet courant, le dernier onglet est sélectionné (bug)
-					C'est du au fait que la barre d'onglet ne se met pas à jour avec son v-model et ne voit donc pas
-					le changement de fichier courant effectué par la fonctione de suppression du store.
-					TMP FIX : On simule un click vers le nouvel onglet courant afin d'éviter que le dernier onglet soit sélectionné */
-          const tabId = "tab" + this.currentFileId;
-          this.$parent.$parent.$children[1].$refs[tabId][0].$el.dispatchEvent(
-            new Event("click")
-          );
-        });
-    },
+		removeFile: function (fileid) {
+			this.$store.dispatch("file/remove", fileid).catch((error) => {
+				// TODO Notification pour avertir  d'une erreur à l'utilisateur
+				console.log(error);
+			});
+		},
 
-    renameFile: async function() {
-      await this.$store
-        .dispatch("file/rename", {
-          fileid: this.selectedFileId,
-          newfilename: this.newfilename
-        })
-        .catch(error => {
-          this.$store.dispatch("notification/notif", {
-            texte: "rename file error",
-            couleur: "error",
-            timeout: 2000
-          });
-          console.log(error);
-          this.newfilename = "";
-        })
-        .then(() => (this.newfilename = ""));
-      // workaround d'un bug des tabs vuetify, cf: https://github.com/vuetifyjs/vuetify/issues/4733
-      window.dispatchEvent(new Event("resize"));
-      this.dialogRenameFile = false;
-    },
+		renameFile: async function () {
+			await this.$store
+				.dispatch("file/rename", {
+					fileid: this.selectedFileId,
+					newfilename: this.newfilename,
+				})
+				.catch((error) => {
+					// TODO Notification pour avertir  d'une erreur à l'utilisateur
+					console.log(error);
+					this.newfilename = "";
+				})
+				.then(() => (this.newfilename = ""));
+			// workaround d'un bug des tabs vuetify, cf: https://github.com/vuetifyjs/vuetify/issues/4733
+			window.dispatchEvent(new Event("resize"));
+			this.dialogRenameFile = false;
+		},
 
-    openFile: function(fileid) {
-      this.$store.dispatch("file/load", fileid).catch(error => {
-        this.$store.dispatch("notification/notif", {
-          texte: "open file error",
-          couleur: "error",
-          timeout: 2000
-        });
-        console.log(error);
-      });
-    }
-  }
+		openFile: function (fileid) {
+			this.$store.dispatch("tab/newTab", fileid).catch((error) => {
+				// TODO Notification pour avertir  d'une erreur à l'utilisateur
+				console.log(error);
+			});
+		},
+	},
 };
 </script>
 

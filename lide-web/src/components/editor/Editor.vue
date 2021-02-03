@@ -158,8 +158,8 @@ export default {
 			code: "",
 			cmOptions: {
 				// TODO : Configurer dans les paramètres utilisateur
-				tabSize: 2,
-				indentUnit: 2,
+				tabSize: 4,
+				indentUnit: 4,
 				indentWithTabs: true,
 				lineWrapping: false,
 				mode: "text/x-c++src",

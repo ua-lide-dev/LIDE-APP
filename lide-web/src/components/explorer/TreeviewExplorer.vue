@@ -293,22 +293,10 @@ export default {
 		},
 
 		removeFile: function (fileid) {
-			this.$store
-				.dispatch("file/remove", fileid)
-				.catch((error) => {
-					// TODO Notification pour avertir  d'une erreur à l'utilisateur
-					console.log(error);
-				})
-				.then(() => {
-					/** //FIXME : Suite à la suppression de l'onglet courant, le dernier onglet est sélectionné (bug)
-					C'est du au fait que la barre d'onglet ne se met pas à jour avec son v-model et ne voit donc pas
-					le changement de fichier courant effectué par la fonctione de suppression du store.
-					TMP FIX : On simule un click vers le nouvel onglet courant afin d'éviter que le dernier onglet soit sélectionné */
-					const tabId = "tab" + this.currentFileId;
-					this.$parent.$parent.$children[1].$refs[tabId][0].$el.dispatchEvent(
-						new Event("click")
-					);
-				});
+			this.$store.dispatch("file/remove", fileid).catch((error) => {
+				// TODO Notification pour avertir  d'une erreur à l'utilisateur
+				console.log(error);
+			});
 		},
 
 		renameFile: async function () {

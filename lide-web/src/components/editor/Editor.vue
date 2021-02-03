@@ -1,10 +1,10 @@
 <template>
 	<v-row class="parent-editor">
 		<v-col cols="12" class="pa-0">
-			<v-tabs class="tabs" center-active dark v-model="currentTabIndex">
+			<v-tabs class="tabs" dark v-model="currentTabIndex">
 				<v-tab
-					v-for="tab in tabs"
-					:key="tab.id"
+					v-for="(tab, index) in tabs"
+					:key="index"
 					:ref="'tab' + tab.id"
 					@click="focusTab(tab.id)"
 					px-0
@@ -22,59 +22,72 @@
 					</v-btn>
 				</v-tab>
 			</v-tabs>
-			<v-tabs-items v-model="currentTabIndex">
-				<v-tab-item v-for="tab in tabs" :key="tab.id">
+			<v-card
+				v-if="tabs.length < 1"
+				:height="codemirrorHeight"
+				tile
+				color="body"
+			></v-card>
+			<v-tabs-items else v-model="currentTabIndex">
+				<v-tab-item
+					v-for="(tab, index) in tabs"
+					:key="index"
+					transition="false"
+				>
 					<v-col cols="12" class="pa-0">
 						<codemirror
 							class="codemirror"
-							:ref="'cmEditor' + tab.id"
+							:ref="'cmEditor-' + tab.id"
 							v-model="tab.file.content"
 							:options="cmOptions"
-							@ready="onNewEditor"
+							@ready="onNewEditor('cmEditor-' + tab.id, tab.id)"
 						/>
-						<div class="group-btn" v-show="currentFilePresent()">
-							<div>
-								<v-tooltip left>
-									<template v-slot:activator="{ on, attrs }">
-										<v-btn
-											class="btn-save"
-											v-bind="attrs"
-											v-on="on"
-											absolute
-											fab
-											dark
-											small
-											color="primary"
-										>
-											<v-icon dark>mdi-content-save-outline</v-icon>
-										</v-btn>
-									</template>
-									<span>Sauvegarder</span>
-								</v-tooltip>
-							</div>
-							<div>
-								<v-tooltip left>
-									<template v-slot:activator="{ on, attrs }">
-										<v-btn
-											class="btn-compile"
-											v-bind="attrs"
-											v-on="on"
-											absolute
-											fab
-											dark
-											small
-											color="green"
-										>
-											<v-icon dark>mdi-play</v-icon>
-										</v-btn>
-									</template>
-									<span>Exécuter</span>
-								</v-tooltip>
-							</div>
-						</div>
 					</v-col>
 				</v-tab-item>
 			</v-tabs-items>
+
+			<div class="group-btn" v-show="checkIfTabOpened()">
+				<div>
+					<v-tooltip left>
+						<template v-slot:activator="{ on, attrs }">
+							<v-btn
+								class="btn-save"
+								v-bind="attrs"
+								v-on="on"
+								absolute
+								fab
+								dark
+								small
+								color="primary"
+								@click="saveTab()"
+							>
+								<v-icon dark>mdi-content-save-outline</v-icon>
+							</v-btn>
+						</template>
+						<span>Sauvegarder</span>
+					</v-tooltip>
+				</div>
+				<div>
+					<v-tooltip left>
+						<template v-slot:activator="{ on, attrs }">
+							<v-btn
+								class="btn-compile"
+								v-bind="attrs"
+								v-on="on"
+								absolute
+								fab
+								dark
+								small
+								color="green"
+								@click="exec()"
+							>
+								<v-icon dark>mdi-play</v-icon>
+							</v-btn>
+						</template>
+						<span>Exécuter</span>
+					</v-tooltip>
+				</div>
+			</div>
 		</v-col>
 
 		<v-dialog v-model="dialogFileNotSaved" max-width="500">
@@ -82,10 +95,18 @@
 				<v-card-title class="title">Fichier non sauvegardé !</v-card-title>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn color="red darken-1" small outlined @click="forceCloseTab"
+					<v-btn
+						color="red darken-1"
+						small
+						outlined
+						@click="saveBeforeClose(false)"
 						>Fermer sans sauvegarder</v-btn
 					>
-					<v-btn color="green darken-1" small outlined @click="saveAndCloseTab"
+					<v-btn
+						color="green darken-1"
+						small
+						outlined
+						@click="saveBeforeClose(true)"
 						>Sauvegarder et fermer</v-btn
 					>
 				</v-card-actions>
@@ -100,7 +121,6 @@ import { codemirror } from "vue-codemirror";
 // import languages
 import "codemirror/mode/javascript/javascript.js";
 import "codemirror/mode/clike/clike.js";
-
 // active line
 import "codemirror/addon/selection/active-line.js";
 // auto close backets
@@ -110,7 +130,6 @@ import "codemirror/addon/hint/show-hint.js";
 import "codemirror/addon/hint/anyword-hint.js";
 // highlight mathcin brackets
 import "codemirror/addon/edit/matchbrackets.js";
-
 // foldGutter
 import "codemirror/addon/fold/foldgutter.css";
 import "codemirror/addon/fold/brace-fold.js";
@@ -120,17 +139,14 @@ import "codemirror/addon/fold/foldgutter.js";
 import "codemirror/addon/fold/indent-fold.js";
 import "codemirror/addon/fold/markdown-fold.js";
 import "codemirror/addon/fold/xml-fold.js";
-
 // autocomplete
 import "codemirror/addon/hint/show-hint.js";
-
 // import theme style
 import "codemirror/theme/base16-dark.css";
-
 // import base style
 import "codemirror/lib/codemirror.css";
 
-// services
+import FileService from "@/services/file-service";
 import { mapState } from "vuex";
 
 export default {
@@ -139,10 +155,9 @@ export default {
 	},
 	data() {
 		return {
-			editors: [],
 			code: "",
 			cmOptions: {
-				// TODO : Configurer dans les paramaètres utilisateur
+				// TODO : Configurer dans les paramètres utilisateur
 				tabSize: 2,
 				indentUnit: 2,
 				indentWithTabs: true,
@@ -151,11 +166,11 @@ export default {
 				theme: "base16-dark",
 				line: true,
 				viewportMargin: Infinity,
-				readOnly: "nocursor",
-				lineNumbers: false,
+				readOnly: false,
+				lineNumbers: true,
 				autoCloseBrackets: true,
 				matchBrackets: true,
-				styleActiveLine: false,
+				styleActiveLine: true,
 				foldGutter: true,
 				gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
 				showHint: true,
@@ -172,7 +187,14 @@ export default {
 		}),
 		currentTabIndex: {
 			get() {
-				return 0;
+				let index = 0;
+				for (let i = 0; i < this.tabs.length; i++) {
+					if (this.tabs[i].id == this.currentTab.id) {
+						console.debug("current index : " + index);
+						return index;
+					} else index++;
+				}
+				return 1;
 			},
 			set(val) {
 				return val;
@@ -180,23 +202,26 @@ export default {
 		},
 	},
 	methods: {
-		setSize() {
-			this.codemirrorHeight = (window.innerHeight - 56 - 48 - 20) * (70 / 100);
-			this.editors.forEach((editor) => {
-				editor.setSize("100%", this.codemirrorHeight);
-			});
+		// Méthode appelée au clic sur un onglet
+		async focusTab(tabId) {
+			await this.$store.dispatch("tab/focusTab", tabId);
+			this.setEditorSize("cmEditor-" + tabId);
 		},
 
-		onNewEditor(cmEditor) {
-			this.editors.push(cmEditor);
-			this.setSize();
-		},
-
-		async focusTab(tabId) {},
-
-		async closeTab(tabId) {
-			this.tabToCloseId = tabId;
+		// Sauvegarde l'onglet ouvert
+		async saveTab() {
 			await this.$store
+				.dispatch("tab/saveTab", this.currentTab)
+				.catch((error) => {
+					console.log(error);
+					// TODO : message erreur
+				});
+		},
+
+		// Ferme un onglet
+		closeTab(tabId) {
+			this.tabToCloseId = tabId;
+			this.$store
 				.dispatch("tab/closeTab", { tabId: tabId, force: false })
 				.catch((error) => {
 					if (error.message == "FILE_NOT_SAVED") {
@@ -205,7 +230,9 @@ export default {
 				});
 		},
 
-		async forceCloseTab() {
+		// Méthode appelée par le formulaire de sauvegarde en cas de fermeture d'un onglet lorsque son fichier n'est pas sauvegardé
+		async saveBeforeClose(save) {
+			if (save) await this.saveTab();
 			await this.$store
 				.dispatch("tab/closeTab", { tabId: this.tabToCloseId, force: true })
 				.catch((error) => {
@@ -217,58 +244,78 @@ export default {
 			this.dialogFileNotSaved = false;
 		},
 
-		// called on tab quit button
-		async saveAndCloseTab() {
-			await this.$store
-				.dispatch("file/save", this.tabToCloseId)
-				.then(() => {
-					this.$store.dispatch("file/unLoad", {
-						fileid: this.tabToCloseId,
-						force: false,
-					});
+		async exec() {
+			await this.saveTab();
+			FileService.execute(this.currentTab.file._id)
+				.then((res) => {
+					this.$root.$refs.Terminal.openSocket(res.data.containerid);
 				})
 				.catch((error) => {
-					console.log(error);
-					// TODO : message erreur
+					this.$store.dispatch("notification/notif", {
+						texte: error,
+						couleur: "error",
+						timeout: 2000,
+					});
 				});
-			this.tabToCloseId = null;
-			this.dialogFileNotSaved = false;
 		},
 
-		// remove ability to type in editor if no file is opened
-		onCurrentFileContentChange() {
-			const currentFile = this.openedFiles.find(
-				(file) => file._id == this.currentFileId
-			);
+		// Méthode appelée lors de l'instantiation d'un nouvel editor
+		onNewEditor(cmEditor, tabId) {
+			this.setEditorSize(cmEditor);
+			this.$store
+				.dispatch("tab/setEditor", { tabId: tabId, cmEditor: cmEditor })
+				.catch((error) => {
+					// TODO : Notif
+					console.error(error);
+				});
+		},
 
-			if (currentFile == null) {
-				this.cmOptions.readOnly = "nocursor";
-				this.cmOptions.lineNumbers = false;
-				this.cmOptions.styleActiveLine = false;
-			} else {
-				this.cmOptions.readOnly = false;
-				this.cmOptions.lineNumbers = true;
-				this.cmOptions.styleActiveLine = true;
+		// Défini la taille d"une instance codemirror à partir de sa ref
+		setEditorSize(cmEditor) {
+			this.codemirrorHeight = (window.innerHeight - 56 - 48 - 20) * (70 / 100);
+			try {
+				this.$refs[cmEditor][0].codemirror.setSize(
+					"100%",
+					this.codemirrorHeight
+				);
+			} catch (error) {
+				// Garde-fou du cycle de vie vuejs (destruction des codemirror au reload)
 			}
 		},
 
+		manageKeydowns(key) {
+			// si CTRL + S --> sauvegarde du fichier
+			if (key.ctrlKey && key.keyCode === 83) {
+				this.saveTab();
+				// on empeche le comportement par défaut
+				key.preventDefault();
+			}
+			// on sort de la fonction --> comportement par défaut du clavier
+		},
+
 		// check if a file is opened
-		currentFilePresent() {
-			return this.currentFileId != null;
+		checkIfTabOpened() {
+			return this.tabs.length > 0;
+		},
+
+		// Méthode appelée par le listenner de redimension de la page
+		onResize() {
+			this.tabs.forEach((tab) => {
+				this.setEditorSize(tab.cmEditor);
+			});
 		},
 	},
 	created() {
-		window.addEventListener("resize", this.setSize);
+		window.addEventListener("resize", this.onResize);
 	},
 	mounted() {
-		this.setSize();
-		document.addEventListener("keydown", this.doSave);
+		document.addEventListener("keydown", this.manageKeydowns);
 	},
 	beforeDestroy() {
-		document.removeEventListener("keydown", this.doSave);
+		document.removeEventListener("keydown", this.manageKeydowns);
 	},
 	destroyed() {
-		window.removeEventListener("resize", this.setSize);
+		window.removeEventListener("resize", this.onResize);
 	},
 };
 </script>

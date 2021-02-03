@@ -21,7 +21,7 @@ const actions = {
         console.log("STORE RENAME FILE : " + fileid + " INTO : " + newfilename);
         await FileService.rename(fileid, newfilename)
             .then(() => {
-                dispatch("tab/updateTabFileName", { fileid, newfilename }, { root: true });
+                dispatch("tab/updateTabFileName", { tabId: fileid, newfilename: newfilename }, { root: true });
                 dispatch("project/fetchProjects", null, { root: true });
             })
     },

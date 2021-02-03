@@ -31,7 +31,7 @@ export default {
 					// TODO : message erreur
 				});
 
-			//this.terminal.clear();
+			this.terminal.clear();
 
 			console.log("Le terminal a reçu le container ID : " + containerId);
 
@@ -45,6 +45,7 @@ export default {
 			this.socket = new WebSocket(process.env.VUE_APP_LIDE_WSS_URL);
 
 			this.socket.onclose = () => {
+				this.terminal.writeln("---- Fin de l'éxécution ---- ");
 				console.log("socket onclose");
 				this.$store
 					.dispatch("execution/setExecutionInProgress", false)
@@ -65,7 +66,6 @@ export default {
 		},
 		setSize() {
 			this.terminalHeight = (window.innerHeight - 56 - 48 - 20) * (30 / 100);
-			this.nbRow = Math.floor((this.terminalHeight * 13) / 252);
 			this.fitAddon.fit();
 		},
 	},

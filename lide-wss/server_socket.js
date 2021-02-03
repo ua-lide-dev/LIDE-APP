@@ -15,19 +15,19 @@ ws.on('connection', function connection(ws) {
     if (firstMessage) {
       containerId = input;
       console.log("containerid " + containerId);
-      
-      dockerSocket = new WebSocket('ws://localhost:2375/containers/' + containerId + '/attach/ws?stream=1&stdout=1&stdin=1&logs1');
+
+      dockerSocket = new WebSocket('ws://localhost:2375/containers/' + containerId + '/attach/ws?stream=1&stdout=1&stdin=1&logs=1');
 
       dockerSocket.on('open', function open() {
         console.log("> successfully connected to docker api");
         dockerSocket.send("\n");
       });
-    
+
       dockerSocket.on('message', function incoming(output) {
         ws.send(output);
         console.log("from docker : " + output);
       });
-     
+
       dockerSocket.on('close', function close() {
         console.log('> disconnected from docker');
         ws.close();

@@ -2,7 +2,9 @@
 
 read socket
 
-TIMEOUT_VALUE=300
+cd /workdir/ 
 
-cd /workdir/ &&
-timeout -s SIGKILL $TIMEOUT_VALUE python $1
+echo "sleep $TIMEOUT_VALUE && pkill -SIGKILL -u root " > ./timeout && chmod +x ./timeout &&
+./timeout & 
+
+python $1

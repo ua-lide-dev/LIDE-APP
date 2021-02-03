@@ -306,7 +306,7 @@ export default {
       }
     },
 
-		// ---------------------------------- File ----------------------------------
+    // ---------------------------------- File ----------------------------------
 
     createFile: function () {
       const projectid = this.currentProjectId;
@@ -387,7 +387,7 @@ export default {
     },
 
     openFile: function (fileid) {
-      this.$store.dispatch("file/load", fileid).catch((error) => {
+      this.$store.dispatch("tab/newTab", fileid).catch((error) => {
         this.$store.dispatch("notification/notif", {
           texte: "open file error",
           couleur: "error",

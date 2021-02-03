@@ -22,34 +22,58 @@
     </v-subheader>
 
     <v-dialog v-model="dialogCreateProject" persistent max-width="410">
-      <v-card class="px-5" v-on:keydown.esc="closeDialogCreateProject" v-on:keydown.enter="createProject">
+      <v-card
+        class="px-5"
+        v-on:keydown.esc="closeDialogCreateProject"
+        v-on:keydown.enter="createProject"
+      >
         <v-card-title class="title">Créer un nouveau projet</v-card-title>
-          <v-form ref="projetForm"  @submit.prevent="createProject">
-            <v-text-field
-                    class="mt-2"
-                    label="Nom du projet"
-                    v-model="projectname"
-                    outlined
-                    autofocus
-                    :rules="projetRules"
-                    required>
-            </v-text-field>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="red darken-1" small outlined @click="closeDialogCreateProject">Annuler</v-btn>
-              <v-btn color="green darken-1" small outlined type="submit">Créer</v-btn>
-            </v-card-actions>
-
-          </v-form>
+        <v-form ref="projetForm" @submit.prevent="createProject">
+          <v-text-field
+            class="mt-2"
+            label="Nom du projet"
+            v-model="projectname"
+            outlined
+            autofocus
+            :rules="projetRules"
+            required
+          >
+          </v-text-field>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="red darken-1"
+              small
+              outlined
+              @click="closeDialogCreateProject"
+              >Annuler</v-btn
+            >
+            <v-btn color="green darken-1" small outlined type="submit"
+              >Créer</v-btn
+            >
+          </v-card-actions>
+        </v-form>
       </v-card>
     </v-dialog>
 
     <v-dialog v-model="dialogExport" persistent max-width="270">
-      <v-card v-on:keydown.esc="dialogExport = false" v-on:keydown.enter="exportFile" class="pa-4">
+      <v-card
+        v-on:keydown.esc="dialogExport = false"
+        v-on:keydown.enter="exportFile"
+        class="pa-4"
+      >
         <v-card-title class="title">Exporter vos fichiers</v-card-title>
         <v-card-actions>
-          <v-btn color="red darken-1" small outlined @click="dialogExport = false">Annuler</v-btn>
-          <v-btn color="green darken-1" small outlined @click="exportFile">Exporter</v-btn>
+          <v-btn
+            color="red darken-1"
+            small
+            outlined
+            @click="dialogExport = false"
+            >Annuler</v-btn
+          >
+          <v-btn color="green darken-1" small outlined @click="exportFile"
+            >Exporter</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -65,32 +89,31 @@ import ExportService from "../../services/export-service";
 export default {
   data() {
     return {
-      projectname: '',
+      projectname: "",
       dialogCreateProject: false,
       dialogExport: false,
-      projetRules: []
+      projetRules: [],
     };
   },
 
   methods: {
-    createProject: function() {
+    createProject: function () {
       this.projetRules = [
-        p => p != null || 'Vous devez écrire au moins un caractère !',
-        p => /^[^\s][a-zA-Z0-9_-]*$/.test(p) || 'Nom du projet invalide.'
-      ]
-      if(this.$refs.projetForm.validate() && this.projectname != ''){
+        (p) => p != null || "Vous devez écrire au moins un caractère !",
+        (p) => /^[^\s][a-zA-Z0-9_-]*$/.test(p) || "Nom du projet invalide.",
+      ];
+      if (this.$refs.projetForm.validate() && this.projectname != "") {
         this.$store
-                .dispatch("project/create", this.projectname)
-                .catch(error => {
-                  this.$store.dispatch("notification/notif", {
-                    texte: "create project error",
-                    couleur: "error",
-                    timeout: 2000
-                  });
-                  console.log(error);
-
-                })
-                .then(() => {});
+          .dispatch("project/create", this.projectname)
+          .catch((error) => {
+            this.$store.dispatch("notification/notif", {
+              texte: "create project error",
+              couleur: "error",
+              timeout: 2000,
+            });
+            console.log(error);
+          })
+          .then(() => {});
         this.$refs.projetForm.reset();
         this.dialogCreateProject = false;
       }
@@ -108,7 +131,7 @@ export default {
     },
     async exportFile() {
       await ExportService.exporter()
-        .then(res => {
+        .then((res) => {
           const url = window.URL.createObjectURL(new Blob([res.data]));
           const link = document.createElement("a");
           link.href = url;
@@ -116,17 +139,17 @@ export default {
           document.body.appendChild(link);
           link.click();
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("EXECUTION : Error -> " + error);
         });
       this.dialogExport = false;
-    }
+    },
   },
   computed: {
     ...mapState({
-      username: state => state.user.username
-    })
-  }
+      username: (state) => state.user.username,
+    }),
+  },
 };
 </script>
 

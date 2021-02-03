@@ -177,7 +177,7 @@ export default {
 				})
 				.catch((error) => {
 					this.$store.dispatch("notification/notif", {
-					texte: "exec error",
+					texte: "Erreur dans l'éxecution",
 					couleur: "error",
 					timeout: 2000
 				});	
@@ -190,14 +190,14 @@ export default {
 				.dispatch("file/save", this.currentFileId)
 				.then(() => {
 					this.$store.dispatch("notification/notif", {
-					texte: "sauvegarde réussie",
+					texte: "Sauvegarde réussie",
 					couleur: "success",
 					timeout: 2000
 				});	
 				})
 				.catch((error) => {
 					this.$store.dispatch("notification/notif", {
-					texte: "save error",
+					texte: "Sauvegarde échouée",
 					couleur: "error",
 					timeout: 2000
 				});	

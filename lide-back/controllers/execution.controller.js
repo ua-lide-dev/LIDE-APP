@@ -48,24 +48,21 @@ exports.execute = async (req, res) => {
     }
 
     // Sélection de l'image docker //TODO réupérer ça dynamiquement en base
-    var img;
-    var startCommand;
+    var TIMEOUT_VALUE = process.env.TIMEOUT_VALUE;
+    var startCommand = `docker run --env TIMEOUT_VALUE=${TIMEOUT_VALUE} -it -d --cpus=1 -v ${projectPath}:/workdir --name ${containerName}`;
+
     switch (extension) {
       case 'cpp':
-        img = "cpp_lide";
-        startCommand = `docker run -it -d --cpus=1 -v ${projectPath}:/workdir --name ${containerName} ${img} ${projectPath}`;
+        startCommand += ` cpp_lide ${projectPath}`;
         break;
       case 'h':
-        img = "cpp_lide";
-        startCommand = `docker run -it -d --cpus=1 -v ${projectPath}:/workdir --name ${containerName} ${img} ${projectPath}`;
+        startCommand = ` cpp_lide ${projectPath}`;
         break;
       case 'java':
-        img = "java_lide";
-        startCommand = `docker run -it -d --cpus=1 -v ${projectPath}:/workdir --name ${containerName} ${img} ${filename}.${extension}`;
+        startCommand = ` java_lide ${filename}.${extension}`;
         break;
       case 'py':
-        img = "py_lide";
-        startCommand = `docker run -it -d --cpus=1 -v ${projectPath}:/workdir --name ${containerName} ${img} ${filename}.${extension}`;
+        startCommand = ` py_lide ${filename}.${extension}`;
         break;
       default:
         res.status(400).json("Extension non gérée");

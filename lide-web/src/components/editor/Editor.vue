@@ -124,6 +124,8 @@ import "codemirror/addon/hint/show-hint.js";
 
 // import theme style
 import "codemirror/theme/base16-dark.css";
+import "codemirror/theme/darcula.css";
+
 
 // import base style
 import "codemirror/lib/codemirror.css";
@@ -147,7 +149,7 @@ export default {
 				indentWithTabs: true,
 				lineWrapping: false,
 				mode: "text/x-c++src",
-				theme: "base16-dark",
+				theme: "darcula",
 				line: true,
 				viewportMargin: Infinity,
 				readOnly: "nocursor",

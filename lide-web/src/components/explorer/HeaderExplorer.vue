@@ -13,7 +13,7 @@
       </v-tooltip>
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn v-bind="attrs" v-on="on" @click="openDialogCreateFolder" icon>
+          <v-btn v-bind="attrs" v-on="on" @click="openDialogCreateProject" icon>
             <v-icon>mdi-folder-plus</v-icon>
           </v-btn>
         </template>
@@ -21,25 +21,26 @@
       </v-tooltip>
     </v-subheader>
 
-    <v-dialog v-model="dialogCreateFolder" persistent max-width="410">
-      <v-card v-on:keydown.esc="dialogCreateFolder = false" v-on:keydown.enter="createProject">
+    <v-dialog v-model="dialogCreateProject" persistent max-width="410">
+      <v-card class="px-5" v-on:keydown.esc="closeDialogCreateProject" v-on:keydown.enter="createProject">
         <v-card-title class="title">Créer un nouveau projet</v-card-title>
-        <v-card-text>
-          <v-text-field
-            class="mt-2 mb-n10"
-            label="Nom du projet"
-            outlined
-            dense
-            autofocus="true"
-            v-model="projectname"
-          ></v-text-field>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="red darken-1" small outlined @click="dialogCreateFolder = false">Annuler</v-btn>
+          <v-form ref="projetForm"  @submit.prevent="createProject">
+            <v-text-field
+                    class="mt-2"
+                    label="Nom du projet"
+                    v-model="projectname"
+                    outlined
+                    autofocus
+                    :rules="projetRules"
+                    required>
+            </v-text-field>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="red darken-1" small outlined @click="closeDialogCreateProject">Annuler</v-btn>
+              <v-btn color="green darken-1" small outlined type="submit">Créer</v-btn>
+            </v-card-actions>
 
-          <v-btn color="green darken-1" small outlined @click="createProject">Créer</v-btn>
-        </v-card-actions>
+          </v-form>
       </v-card>
     </v-dialog>
 
@@ -58,36 +59,50 @@
 <script>
 import { mapState } from "vuex";
 
-// service
+// Service
 import ExportService from "../../services/export-service";
 
 export default {
   data() {
     return {
-      projectname: "",
-      dialogCreateFolder: false,
-      dialogExport: false
+      projectname: '',
+      dialogCreateProject: false,
+      dialogExport: false,
+      projetRules: []
     };
   },
+
   methods: {
     createProject: function() {
-      this.$store
-        .dispatch("project/create", this.projectname)
-        .catch(error => {
-          this.$store.dispatch("notification/notif", {
-            texte: "create project error",
-            couleur: "error",
-            timeout: 2000
-          });
-          console.log(error);
-          this.projectname = "";
-        })
-        .then(() => (this.projectname = ""));
-      this.dialogCreateFolder = false;
+      this.projetRules = [
+        p => p != null || 'Vous devez écrire au moins un caractère !',
+        p => /^[^\s][a-zA-Z0-9_-]*$/.test(p) || 'Nom du projet invalide.'
+      ]
+      if(this.$refs.projetForm.validate() && this.projectname != ''){
+        this.$store
+                .dispatch("project/create", this.projectname)
+                .catch(error => {
+                  this.$store.dispatch("notification/notif", {
+                    texte: "create project error",
+                    couleur: "error",
+                    timeout: 2000
+                  });
+                  console.log(error);
+
+                })
+                .then(() => {});
+        this.$refs.projetForm.reset();
+        this.dialogCreateProject = false;
+      }
     },
-    openDialogCreateFolder() {
-      this.dialogCreateFolder = true;
+    openDialogCreateProject() {
+      this.dialogCreateProject = true;
     },
+    closeDialogCreateProject() {
+      this.$refs.projetForm.reset();
+      this.dialogCreateProject = false;
+    },
+
     openDialogExport() {
       this.dialogExport = true;
     },

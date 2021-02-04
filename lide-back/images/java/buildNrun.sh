@@ -9,7 +9,7 @@ classname="$(echo $1 | cut -d'.' -f 1)" &&
 javac $1
 
 
-echo "sleep 10 && pkill $TIMEOUT_VALUE -u root " > ./timeout && chmod +x ./timeout &&
+echo "sleep 10 && pkill -u root " > ./timeout && chmod +x ./timeout &&
 ./timeout & 
 
 java $classname

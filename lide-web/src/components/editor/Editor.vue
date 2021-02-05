@@ -22,13 +22,8 @@
 					</v-btn>
 				</v-tab>
 			</v-tabs>
-			<v-card
-				v-if="tabs.length < 1"
-				:height="codemirrorHeight"
-				tile
-				color="body"
-			></v-card>
-			<v-tabs-items else v-model="currentTabIndex">
+			<v-card :height="codemirrorHeight" tile color="body"></v-card>
+			<v-tabs-items absolute>
 				<v-tab-item
 					v-for="(tab, index) in tabs"
 					:key="index"
@@ -187,14 +182,11 @@ export default {
 		}),
 		currentTabIndex: {
 			get() {
-				let index = 0;
-				for (let i = 0; i < this.tabs.length; i++) {
-					if (this.tabs[i].id == this.currentTab.id) {
-						console.debug("current index : " + index);
-						return index;
-					} else index++;
-				}
-				return 1;
+				const index = this.tabs.findIndex(
+					(tab) => tab.id == this.currentTab.id
+				);
+				if (index != null) return index;
+				else return 0;
 			},
 			set(val) {
 				return val;
@@ -307,6 +299,8 @@ export default {
 	},
 	created() {
 		window.addEventListener("resize", this.onResize);
+		// Initialisation taille terminal
+		this.codemirrorHeight = (window.innerHeight - 56 - 48 - 20) * (70 / 100);
 	},
 	mounted() {
 		document.addEventListener("keydown", this.manageKeydowns);

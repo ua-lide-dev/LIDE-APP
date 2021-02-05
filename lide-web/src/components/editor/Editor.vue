@@ -187,7 +187,6 @@ export default {
 				const index = this.tabs.findIndex(
 					(tab) => tab.id == this.currentTab.id
 				);
-				console.log("INDEXXX -> " + index);
 				if (index != null) return index;
 				else return 0;
 			},

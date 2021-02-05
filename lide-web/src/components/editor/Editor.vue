@@ -22,8 +22,8 @@
 					</v-btn>
 				</v-tab>
 			</v-tabs>
-			<v-card :height="codemirrorHeight" tile color="body"></v-card>
-			<v-tabs-items absolute>
+
+			<v-tabs-items v-model="currentTabIndex" style="position: absolute">
 				<v-tab-item
 					v-for="(tab, index) in tabs"
 					:key="index"
@@ -40,6 +40,8 @@
 					</v-col>
 				</v-tab-item>
 			</v-tabs-items>
+
+			<v-card :height="codemirrorHeight" tile color="body"></v-card>
 
 			<div class="group-btn" v-show="checkIfTabOpened()">
 				<div>
@@ -185,6 +187,7 @@ export default {
 				const index = this.tabs.findIndex(
 					(tab) => tab.id == this.currentTab.id
 				);
+				console.log("INDEXXX -> " + index);
 				if (index != null) return index;
 				else return 0;
 			},
@@ -299,7 +302,6 @@ export default {
 	},
 	created() {
 		window.addEventListener("resize", this.onResize);
-		// Initialisation taille terminal
 		this.codemirrorHeight = (window.innerHeight - 56 - 48 - 20) * (70 / 100);
 	},
 	mounted() {

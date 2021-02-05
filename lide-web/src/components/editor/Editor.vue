@@ -116,8 +116,8 @@
 import { codemirror } from "vue-codemirror";
 
 // import languages
-import "codemirror/mode/javascript/javascript.js";
 import "codemirror/mode/clike/clike.js";
+import "codemirror/mode/python/python.js";
 // active line
 import "codemirror/addon/selection/active-line.js";
 // auto close backets
@@ -269,16 +269,36 @@ export default {
 					// TODO : Notif
 					console.error(error);
 				});
+			try {
+				let codemirror = this.$refs[cmEditor][0].codemirror;
+				let tab = this.tabs.find((tab) => tab.id === tabId);
+				switch (tab.file.extension) {
+					case ".cpp":
+						codemirror.setOption("mode", "text/x-c++src");
+						break;
+					case ".h":
+						codemirror.setOption("mode", "text/x-c++src");
+						break;
+					case ".py":
+						codemirror.setOption("mode", "text/x-python");
+						break;
+					case ".java":
+						codemirror.setOption("mode", "text/x-java");
+						break;
+					default:
+						break;
+				}
+			} catch (error) {
+				// Garde-fou du cycle de vie vuejs (destruction des codemirror au reload)
+			}
 		},
 
 		// Défini la taille d"une instance codemirror à partir de sa ref
 		setEditorSize(cmEditor) {
 			this.codemirrorHeight = (window.innerHeight - 56 - 48 - 20) * (70 / 100);
 			try {
-				this.$refs[cmEditor][0].codemirror.setSize(
-					"100%",
-					this.codemirrorHeight
-				);
+				let codemirror = this.$refs[cmEditor][0].codemirror;
+				codemirror.setSize("100%", this.codemirrorHeight);
 			} catch (error) {
 				// Garde-fou du cycle de vie vuejs (destruction des codemirror au reload)
 			}

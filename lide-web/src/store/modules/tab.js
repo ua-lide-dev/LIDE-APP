@@ -118,8 +118,7 @@ const mutations = {
                 for (let i = 0; i < state.tabs.length; i++) {
                     if (state.tabs[i].id == tabToRemoveId) {
                         if (i > 0) state.currentTab = state.tabs[i - 1];
-                        else if (i + 2 >= state.tabs.length) state.currentTab = state.tabs[i];
-                        else state.currentTab = state.tabs[0];
+                        else state.currentTab = state.tabs[i + 1];
                     }
                 }
             } else state.currentTab = null;

@@ -187,8 +187,13 @@ export default {
 				const index = this.tabs.findIndex(
 					(tab) => tab.id == this.currentTab.id
 				);
-				if (index != null) return index;
-				else return 0;
+				if (index != null) {
+					console.log("CURRENT INDEX = " + index);
+					return index;
+				} else {
+					console.log("CURRENT INDEX = " + 0);
+					return 0;
+				}
 			},
 			set(val) {
 				return val;
@@ -255,6 +260,8 @@ export default {
 
 		// Méthode appelée lors de l'instantiation d'un nouvel editor
 		onNewEditor(cmEditor, tabId) {
+			console.log("ON NEW EDITOR");
+
 			this.setEditorSize(cmEditor);
 			this.$store
 				.dispatch("tab/setEditor", { tabId: tabId, cmEditor: cmEditor })

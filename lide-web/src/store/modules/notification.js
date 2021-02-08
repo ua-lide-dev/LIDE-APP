@@ -23,14 +23,14 @@ const getters = {
 }
 
 const actions = {
-    async notif({ commit }, { texte, couleur, timeout }) {
+    notif({ commit }, { texte, couleur, timeout }) {
         commit('SET_TEXTE', texte);
         commit('SET_COULEUR', couleur);
         commit('SET_TIMEOUT', timeout);
         commit('SET_ACTIF', true);
     },
 
-    async displayNotif({ commit }) {
+    displayNotif({ commit }) {
         commit('SET_ACTIF', true);
     },
     closeNotif({ commit }) {

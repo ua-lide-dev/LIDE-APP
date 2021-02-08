@@ -81,204 +81,210 @@
           </v-menu>
         </v-list-item>
 
-        <v-list-item class="pl-7">
-          <v-list-item-content>
-            <v-btn
-              max-width="180"
-              outlined
-              x-small
-              class="py-3"
-              @click="openDialogCreateFile(project._id)"
-            >
-              <v-icon left>mdi-file-plus-outline</v-icon>
-              Ajouter un fichier
-            </v-btn>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-group>
-    </v-list>
-    <v-dialog v-model="dialogCreateFile" persistent max-width="410">
-      <v-card
-        class="px-5"
-        v-on:keydown.enter="createFile"
-        v-on:keydown.esc="closeDialogCreateFile"
-      >
-        <v-card-title class="title">Créer un nouveau fichier</v-card-title>
-        <v-form ref="fichierCreateForm" @submit.prevent="createFile">
-          <v-text-field
-            class="mt-2"
-            label="Nom du fichier"
-            v-model="filename"
-            outlined
-            autofocus
-            dense
-            :rules="fichierRules"
-            required
-          ></v-text-field>
-          <v-select
-            :items="langages"
-            v-model="extension"
-            label="Extension du fichier"
-            dense
-            outlined
-            :rules="selectExtensionRules"
-          ></v-select>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="red darken-1"
-              small
-              outlined
-              @click="closeDialogCreateFile"
-              >Annuler</v-btn
-            >
-            <v-btn color="green darken-1" small outlined type="submit"
-              >Créer</v-btn
-            >
-          </v-card-actions>
-        </v-form>
-      </v-card>
-    </v-dialog>
-    <v-dialog v-model="dialogRenameFile" persistent max-width="410">
-      <v-card
-        class="px-5"
-        v-on:keydown.enter="renameFile"
-        v-on:keydown.esc="closeDialogRenameFile"
-      >
-        <v-card-title class="title px-0">Renommer le fichier</v-card-title>
-        <v-form ref="fichierRenameForm" @submit.prevent="renameFile">
-          <v-text-field
-            class="mt-2"
-            label="Nouveau nom"
-            v-model="newfilename"
-            outlined
-            autofocus
-            dense
-            :rules="fichierRules"
-            required
-          ></v-text-field>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="red darken-1"
-              small
-              outlined
-              @click="closeDialogRenameFile"
-            >
-              Annuler
-            </v-btn>
-            <v-btn color="green darken-1" small outlined type="submit">
-              Renommer
-            </v-btn>
-          </v-card-actions>
-        </v-form>
-      </v-card>
-    </v-dialog>
-    <v-dialog v-model="dialogRenameProject" persistent max-width="410">
-      <v-card
-        class="px-5"
-        v-on:keydown.esc="closeDialogRenameProject"
-        v-on:keydown.enter="renameProject"
-      >
-        <v-card-title class="title px-0">Renommer le projet</v-card-title>
-        <v-form ref="projectRenameForm" @submit.prevent="renameProject">
-          <v-text-field
-            class="mt-2 mb-n3"
-            label="Nouveau nom"
-            v-model="newprojectname"
-            outlined
-            dense
-            autofocus
-            :rules="projetRules"
-            required
-          >
-          </v-text-field>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="red darken-1"
-              small
-              outlined
-              @click="closeDialogRenameProject"
-            >
-              Annuler
-            </v-btn>
-            <v-btn color="green darken-1" small outlined type="submit">
-              Renommer
-            </v-btn>
-          </v-card-actions>
-        </v-form>
-      </v-card>
-    </v-dialog>
-  </div>
-  <div v-else class="text-center py-10 secondary--text">
-    Vous n'avez pas de projet.
-  </div>
+				<v-list-item class="pl-7">
+					<v-list-item-content>
+						<v-btn
+							max-width="180"
+							outlined
+							x-small
+							class="py-3"
+							@click="openDialogCreateFile(project._id)"
+						>
+							<v-icon left>mdi-file-plus-outline</v-icon>
+							Ajouter un fichier
+						</v-btn>
+					</v-list-item-content>
+				</v-list-item>
+			</v-list-group>
+		</v-list>
+		<v-dialog v-model="dialogCreateFile" persistent max-width="410">
+			<v-card
+				class="px-5"
+				v-on:keydown.enter="createFile"
+				v-on:keydown.esc="closeDialogCreateFile"
+			>
+				<v-card-title class="title">Créer un nouveau fichier</v-card-title>
+				<v-form ref="fichierCreateForm" @submit.prevent="createFile">
+					<v-text-field
+						class="mt-2"
+						label="Nom du fichier"
+						v-model="filename"
+						outlined
+						autofocus
+						dense
+						:rules="fichierRules"
+						required
+					></v-text-field>
+					<v-select
+						:items="langages"
+						v-model="extension"
+						label="Extension du fichier"
+						dense
+						outlined
+						:rules="selectExtensionRules"
+					></v-select>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn
+							color="red darken-1"
+							small
+							outlined
+							@click="closeDialogCreateFile"
+							>Annuler</v-btn
+						>
+						<v-btn color="green darken-1" small outlined type="submit"
+							>Créer</v-btn
+						>
+					</v-card-actions>
+				</v-form>
+			</v-card>
+		</v-dialog>
+		<v-dialog v-model="dialogRenameFile" persistent max-width="410">
+			<v-card
+				class="px-5"
+				v-on:keydown.enter="renameFile"
+				v-on:keydown.esc="closeDialogRenameFile"
+			>
+				<v-card-title class="title px-0">Renommer le fichier</v-card-title>
+				<v-form ref="fichierRenameForm" @submit.prevent="renameFile">
+					<v-text-field
+						class="mt-2"
+						label="Nouveau nom"
+						v-model="newfilename"
+						outlined
+						autofocus
+						dense
+						:rules="fichierRules"
+						required
+					></v-text-field>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn
+							color="red darken-1"
+							small
+							outlined
+							@click="closeDialogRenameFile"
+						>
+							Annuler
+						</v-btn>
+						<v-btn color="green darken-1" small outlined type="submit">
+							Renommer
+						</v-btn>
+					</v-card-actions>
+				</v-form>
+			</v-card>
+		</v-dialog>
+		<v-dialog v-model="dialogRenameProject" persistent max-width="410">
+			<v-card
+				class="px-5"
+				v-on:keydown.esc="closeDialogRenameProject"
+				v-on:keydown.enter="renameProject"
+			>
+				<v-card-title class="title px-0">Renommer le projet</v-card-title>
+				<v-form ref="projectRenameForm" @submit.prevent="renameProject">
+					<v-text-field
+						class="mt-2 mb-n3"
+						label="Nouveau nom"
+						v-model="newprojectname"
+						outlined
+						dense
+						autofocus
+						:rules="projetRules"
+						required
+					>
+					</v-text-field>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn
+							color="red darken-1"
+							small
+							outlined
+							@click="closeDialogRenameProject"
+						>
+							Annuler
+						</v-btn>
+						<v-btn color="green darken-1" small outlined type="submit">
+							Renommer
+						</v-btn>
+					</v-card-actions>
+				</v-form>
+			</v-card>
+		</v-dialog>
+	</div>
+	<div v-else class="text-center py-10 secondary--text">
+		Vous n'avez pas de projet.
+	</div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 export default {
-  data() {
-    return {
-      projecthover: null,
-      filehover: null,
-      dropdown: null,
-      dialogCreateFile: false,
-      dialogRenameFile: false,
-      dialogRenameProject: false,
-      filename: "",
-      extension: "",
-      langages: [".cpp", ".h", ".py", ".java"],
-      selectedFileId: "",
-      newfilename: "",
-      selectedProjectId: "",
-      newprojectname: "",
-      fichierRules: [],
-      projetRules: [],
-      selectExtensionRules: [],
-    };
-  },
-  computed: {
-    ...mapState({
-      projects: (state) => state.project.projects,
-      openedFiles: (state) => state.file.openedFiles,
-      currentProjectId: (state) => state.project.currentProjectId,
-      currentFileId: (state) => state.file.currentFileId,
-    }),
-  },
-  methods: {
-    openDialogCreateFile(projectid) {
-      this.$store.dispatch("project/setCurrentProjectId", projectid);
-      this.dialogCreateFile = true;
-    },
+	data() {
+		return {
+			projecthover: null,
+			filehover: null,
+			dropdown: null,
+			dialogCreateFile: false,
+			dialogRenameFile: false,
+			dialogRenameProject: false,
+			filename: "",
+			extension: "",
+			langages: [".cpp", ".h", ".py", ".java"],
+			selectedFileId: "",
+			newfilename: "",
+			selectedProjectId: "",
+			newprojectname: "",
+			fichierRules: [
+				(p) => p != null || "Vous devez écrire au moins un caractère !",
+				(p) => /^[^\s][a-zA-Z0-9_-]*$/.test(p) || "Nom du fichier invalide.",
+			],
+			projetRules: [
+				(p) => p != null || "Vous devez écrire au moins un caractère !",
+				(p) => /^[^\s][a-zA-Z0-9_-]*$/.test(p) || "Nom du projet invalide.",
+			],
+			selectExtensionRules: [(s) => !!s || "Une extension est requise."],
+		};
+	},
+	computed: {
+		...mapState({
+			projects: (state) => state.project.projects,
+			openedFiles: (state) => state.file.openedFiles,
+			currentProjectId: (state) => state.project.currentProjectId,
+			currentFileId: (state) => state.file.currentFileId,
+		}),
+	},
+	methods: {
+		openDialogCreateFile(projectid) {
+			this.$store.dispatch("project/setCurrentProjectId", projectid);
+			this.dialogCreateFile = true;
+		},
 
-    closeDialogCreateFile() {
-      this.$refs.fichierCreateForm.reset();
-      this.dialogCreateFile = false;
-    },
+		closeDialogCreateFile() {
+			this.$refs.fichierCreateForm.reset();
+			this.dialogCreateFile = false;
+		},
 
-    openDialogRenameFile(fileid) {
-      this.selectedFileId = fileid;
-      this.dialogRenameFile = true;
-    },
+		openDialogRenameFile(fileid) {
+			this.selectedFileId = fileid;
+			this.dialogRenameFile = true;
+		},
 
-    closeDialogRenameFile() {
-      this.$refs.fichierRenameForm.reset();
-      this.dialogRenameFile = false;
-    },
+		closeDialogRenameFile() {
+			this.$refs.fichierRenameForm.reset();
+			this.dialogRenameFile = false;
+		},
 
-    openDialogRenameProject(projectid) {
-      this.selectedProjectId = projectid;
-      this.dialogRenameProject = true;
-    },
+		openDialogRenameProject(projectid) {
+			this.selectedProjectId = projectid;
+			this.dialogRenameProject = true;
+		},
 
-    closeDialogRenameProject() {
-      this.$refs.projectRenameForm.reset();
-      this.dialogRenameProject = false;
-    },
+		closeDialogRenameProject() {
+			this.$refs.projectRenameForm.reset();
+			this.dialogRenameProject = false;
+		},
 
-    // ---------------------------------- Project ----------------------------------
+		// ---------------------------------- Project ----------------------------------
 
     removeProject: function (projectid) {
       this.$store
@@ -300,10 +306,7 @@ export default {
     },
 
     renameProject: async function () {
-      this.projetRules = [
-        (p) => p != null || "Vous devez écrire au moins un caractère !",
-        (p) => /^[^\s][a-zA-Z0-9_-]*$/.test(p) || "Nom du projet invalide.",
-      ];
+
       if (
         this.$refs.projectRenameForm.validate() &&
         this.newprojectname != ""
@@ -332,18 +335,12 @@ export default {
       }
     },
 
-    // ---------------------------------- File ----------------------------------
+		// ---------------------------------- File ----------------------------------
 
-    createFile: function () {
-      const projectid = this.currentProjectId;
-      const filename = this.filename;
-      const extension = this.extension;
-
-      this.fichierRules = [
-        (p) => p != null || "Vous devez écrire au moins un caractère !",
-        (p) => /^[^\s][a-zA-Z0-9_-]*$/.test(p) || "Nom du fichier invalide.",
-      ];
-      this.selectExtensionRules = [(s) => !!s || "Une extension est requise."];
+		createFile: function () {
+			const projectid = this.currentProjectId;
+			const filename = this.filename;
+			const extension = this.extension;
 
       if (this.$refs.fichierCreateForm.validate() && this.filename != "") {
         this.$store
@@ -387,10 +384,6 @@ export default {
     },
 
     renameFile: async function () {
-      this.fichierRules = [
-        (p) => p != null || "Vous devez écrire au moins un caractère !",
-        (p) => /^[^\s][a-zA-Z0-9_-]*$/.test(p) || "Nom du fichier invalide.",
-      ];
       if (this.$refs.fichierRenameForm.validate() && this.newfilename != "") {
         await this.$store
           .dispatch("file/rename", {

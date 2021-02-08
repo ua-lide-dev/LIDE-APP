@@ -27,7 +27,7 @@ Lancez à nouveau le script avec l'option `-i` pour construire les images qui se
 L'option `-f` permet de forcer la réinstallation du projet. Les images des serveurs sont rechargées, les volumes sont supprimés.  
 > :warning: La base de données sera supprimée également. Faire un dump si nécéssaire avant ou récupérer les données dans le volume.  
   
-L'option `-fi` permet de forcer la réinstallation du projet tout en préservant la base de données.  
+L'option `-fl` permet de forcer la réinstallation du projet tout en préservant la base de données.  
 
 
 ## Portainer.io
@@ -65,4 +65,32 @@ Pour que l'application prenne en compte un nouveau langage, il suffit de quelque
  ![architecture macro de l'application](documents/architecture_generale.png "Architecture macro de l'application")  
  
  # Technologies
+ 
+ Le projet s'articule autour de plusieurs technologies. Voici les principales :  
+ 
+  - ***Docker*** pour le déploiement et l'installation de l'application (https://docs.docker.com/) et la Docker API (https://docs.docker.com/engine/api/v1.41/)
+  - ***Nodejs*** pour la création des différents serveurs (https://nodejs.org/en/)
+  
+  **Serveur web :** 
+   - ***VueJS*** pour l'interface graphique de l'application (https://vuejs.org/) et son gestionnaire de store ***VueX*** (https://vuex.vuejs.org/)
+   - ***Vuetify*** pour l'intégration de composants conçus pour VueJS (https://vuetifyjs.com/)
+   - La bibliothèque ***CodeMirror*** pour l'éditeur de texte (https://codemirror.net/)
+   - La bibliothèque ***Xtermjs*** pour le terminal IHM (https://xtermjs.org/)
+   
+   **Serveur API :** 
+   - ***Expressjs*** pour la création des routes (https://expressjs.com/) 
+   - ***JWT*** pour la sécurité de l'API, la gestion de token de session (https://jwt.io/introduction)
+   - La bibliothèque ***child process*** js pour les commandes systèmes (https://nodejs.org/api/child_process.html)
+   
+   **Serveur WebSocket :**
+   - ***WebSocket*** : (https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)
+   
+   **Base de données :** 
+   - ***MongoDB*** pour la abse de données (https://www.mongodb.com/3)
+   
+   **Authentification :**
+   - ***CAS*** Pour l'authentification au sein de l'université (https://apereo.github.io/cas/6.2.x/protocol/CAS-Protocol.html)
+   
+   
+   
 

@@ -86,7 +86,7 @@ Pour que l'application prenne en compte un nouveau langage, il suffit de quelque
    - ***WebSocket*** : (https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)
    
    **Base de données :** 
-   - ***MongoDB*** pour la abse de données (https://www.mongodb.com/3)
+   - ***MongoDB*** pour la base de données (https://www.mongodb.com/3)
    
    **Authentification :**
    - ***CAS*** Pour l'authentification au sein de l'université (https://apereo.github.io/cas/6.2.x/protocol/CAS-Protocol.html)

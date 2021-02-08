@@ -27,10 +27,8 @@
 			</v-container>
 			<Notification />
 
-			<!-- 
-				<SettingDrawer />
-				<HelpDrawer /> 
-			-->
+			<SettingDrawer />
+			<HelpDrawer />
 		</v-main>
 	</v-app>
 </template>
@@ -41,8 +39,8 @@ import Explorer from "../components/explorer/Explorer";
 import Editor from "../components/editor/Editor";
 import Terminal from "../components/terminal/Terminal";
 import ActionTerminal from "../components/terminal/ActionTerminal";
-// import SettingDrawer from "../components/drawer/SettingDrawer";
-// import HelpDrawer from "../components/drawer/HelpDrawer";
+import SettingDrawer from "../components/drawer/SettingDrawer";
+import HelpDrawer from "../components/drawer/HelpDrawer";
 import Notification from "../components/utils/Notification";
 
 export default {
@@ -54,8 +52,8 @@ export default {
 		Explorer,
 		Editor,
 		Terminal,
-		// SettingDrawer,
-		// HelpDrawer,
+		SettingDrawer,
+		HelpDrawer,
 		Notification,
 	},
 	data: () => ({

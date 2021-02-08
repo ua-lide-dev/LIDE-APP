@@ -61,5 +61,8 @@ Pour que l'application prenne en compte un nouveau langage, il suffit de quelque
 > Il sera peut-être nécéssaire de modifier l'IHM dans le serveur web pour prendre en compte la nouvelle extention, nottament dans la création de fichier.  
   
 
-  
+ # Architecture du projet
+ ![architecture macro de l'application](documents/architecture_generale.png "Architecture macro de l'application")  
+ 
+ # Technologies
 

@@ -88,7 +88,7 @@
         <v-card-text class="white--text pt-0 d-flex align-center">
           LIDE est un environnement de développement en ligne qui permet aux
           étudiants de l'université d'Angers de développer en ligne de chez eux.
-          <br />L'application a été conçu par des étudiants en Master
+          <br />L'application a été conçue par des étudiants en Master
           Informatique.
         </v-card-text>
 

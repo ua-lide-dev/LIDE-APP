@@ -107,13 +107,18 @@ export default {
           .dispatch("project/create", this.projectname)
           .catch((error) => {
             this.$store.dispatch("notification/notif", {
-              texte: "create project error",
+              texte: "Une erreur est survenue lors de la création du projet.",
               couleur: "error",
-              timeout: 2000,
+              timeout: 4000,
             });
-            console.log(error);
           })
-          .then(() => {});
+          .then(() => {
+            this.$store.dispatch("notification/notif", {
+              texte: "Votre projet a bien été créé.",
+              couleur: "success",
+              timeout: 4000,
+            });
+          });
         this.$refs.projetForm.reset();
         this.dialogCreateProject = false;
       }

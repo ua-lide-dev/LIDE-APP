@@ -15,22 +15,28 @@
                 @click="openDialogRenameProject(project._id)"
                 link
               >
-                <v-list-item-title>Renommer</v-list-item-title>
+                <v-list-item-title
+                  ><v-icon class="pa-2" size="18"
+                    >mdi-square-edit-outline</v-icon
+                  >Renommer</v-list-item-title
+                >
               </v-list-item>
               <v-list-item
                 class="my-n2"
                 @click="removeProject(project._id)"
                 link
               >
-                <v-list-item-title>Supprimer</v-list-item-title>
+                <v-list-item-title
+                  ><v-icon class="pa-2" size="18">mdi-delete</v-icon
+                  >Supprimer</v-list-item-title
+                >
               </v-list-item>
             </v-list>
           </v-menu>
-
-          <v-list-item-title
-            ><v-icon class="pr-2">mdi-folder</v-icon
-            >{{ project.projectname }}</v-list-item-title
-          >
+          <v-list-item-icon class="mr-2">
+            <v-icon>mdi-folder</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title> {{ project.projectname }}</v-list-item-title>
         </template>
         <v-list-item
           v-for="(file, j) in project.files"
@@ -39,7 +45,7 @@
           link
           @click="openFile(file._id)"
         >
-          <v-list-item-icon>
+          <v-list-item-icon class="mr-2">
             <v-icon>mdi-file-document-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
@@ -59,10 +65,17 @@
                 @click="openDialogRenameFile(file._id)"
                 link
               >
-                <v-list-item-title>Renommer</v-list-item-title>
+                <v-list-item-title
+                  ><v-icon class="pa-2" size="18"
+                    >mdi-square-edit-outline</v-icon
+                  >Renommer</v-list-item-title
+                >
               </v-list-item>
               <v-list-item class="my-n2" @click="removeFile(file._id)" link>
-                <v-list-item-title>Supprimer</v-list-item-title>
+                <v-list-item-title
+                  ><v-icon class="pa-2" size="18">mdi-delete</v-icon
+                  >Supprimer</v-list-item-title
+                >
               </v-list-item>
             </v-list>
           </v-menu>
@@ -268,14 +281,22 @@ export default {
     // ---------------------------------- Project ----------------------------------
 
     removeProject: function (projectid) {
-      this.$store.dispatch("project/remove", projectid).catch((error) => {
-        this.$store.dispatch("notification/notif", {
-          texte: "remove project error",
-          couleur: "error",
-          timeout: 2000,
+      this.$store
+        .dispatch("project/remove", projectid)
+        .catch((error) => {
+          this.$store.dispatch("notification/notif", {
+            texte: "Un problème est survenue lors de la suppression du projet.",
+            couleur: "error",
+            timeout: 4000,
+          });
+        })
+        .then(() => {
+          this.$store.dispatch("notification/notif", {
+            texte: "Votre projet a bien été supprimé.",
+            couleur: "success",
+            timeout: 4000,
+          });
         });
-        console.log(error);
-      });
     },
 
     renameProject: async function () {
@@ -294,13 +315,18 @@ export default {
           })
           .catch((error) => {
             this.$store.dispatch("notification/notif", {
-              texte: "rename project error",
+              texte: "Une erreur est survenue lors du renommage du projet.",
               couleur: "error",
-              timeout: 2000,
+              timeout: 4000,
             });
-            console.log(error);
           })
-          .then(() => {});
+          .then(() => {
+            this.$store.dispatch("notification/notif", {
+              texte: "Votre projet a bien été renommé.",
+              couleur: "error",
+              timeout: 4000,
+            });
+          });
         this.$refs.projectRenameForm.reset();
         this.dialogRenameProject = false;
       }
@@ -324,13 +350,18 @@ export default {
           .dispatch("file/create", { projectid, filename, extension })
           .catch((error) => {
             this.$store.dispatch("notification/notif", {
-              texte: "create file error",
+              texte: "Une erreur est survenue lors de la création du fichier.",
               couleur: "error",
-              timeout: 2000,
+              timeout: 4000,
             });
-            console.log(error);
           })
-          .then(() => {});
+          .then(() => {
+            this.$store.dispatch("notification/notif", {
+              texte: "Votre fichier a bien été créé.",
+              couleur: "success",
+              timeout: 4000,
+            });
+          });
         this.$refs.fichierCreateForm.reset();
         this.dialogCreateFile = false;
       }
@@ -341,21 +372,17 @@ export default {
         .dispatch("file/remove", fileid)
         .catch((error) => {
           this.$store.dispatch("notification/notif", {
-            texte: "remove file error",
+            texte: "Une erreur est survenue lors de la suppression du fichier.",
             couleur: "error",
-            timeout: 2000,
+            timeout: 4000,
           });
-          console.log(error);
         })
         .then(() => {
-          /** //FIXME : Suite à la suppression de l'onglet courant, le dernier onglet est sélectionné (bug)
-					C'est du au fait que la barre d'onglet ne se met pas à jour avec son v-model et ne voit donc pas
-					le changement de fichier courant effectué par la fonctione de suppression du store.
-					TMP FIX : On simule un click vers le nouvel onglet courant afin d'éviter que le dernier onglet soit sélectionné */
-          const tabId = "tab" + this.currentFileId;
-          this.$parent.$parent.$children[1].$refs[tabId][0].$el.dispatchEvent(
-            new Event("click")
-          );
+          this.$store.dispatch("notification/notif", {
+            texte: "Votre fichier a bien été supprimé.",
+            couleur: "success",
+            timeout: 4000,
+          });
         });
     },
 
@@ -372,13 +399,18 @@ export default {
           })
           .catch((error) => {
             this.$store.dispatch("notification/notif", {
-              texte: "rename file error",
+              texte: "Une erreur est survenue lors du renommage du fichier.",
               couleur: "error",
-              timeout: 2000,
+              timeout: 4000,
             });
-            console.log(error);
           })
-          .then(() => {});
+          .then(() => {
+            this.$store.dispatch("notification/notif", {
+              texte: "Votre fichier a bien été renommé.",
+              couleur: "success",
+              timeout: 4000,
+            });
+          });
         // workaround d'un bug des tabs vuetify, cf: https://github.com/vuetifyjs/vuetify/issues/4733
         window.dispatchEvent(new Event("resize"));
         this.$refs.fichierRenameForm.reset();
@@ -389,11 +421,10 @@ export default {
     openFile: function (fileid) {
       this.$store.dispatch("tab/newTab", fileid).catch((error) => {
         this.$store.dispatch("notification/notif", {
-          texte: "open file error",
+          texte: "Une erreur est survenue lors de l'ouverture du fichier.",
           couleur: "error",
-          timeout: 2000,
+          timeout: 4000,
         });
-        console.log(error);
       });
     },
   },

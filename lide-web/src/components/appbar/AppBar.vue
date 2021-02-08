@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar color="#f5f5f5" height="56" flat>
+  <v-toolbar color="primary" height="56" flat>
     <v-toolbar-title
       v-show="!$vuetify.breakpoint.xs"
       class="font-weight-bold headline"
@@ -27,8 +27,8 @@
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn class="ml-10 mr-2" icon x-large v-bind="attrs" v-on="on">
-          <v-avatar color="primary" size="38">
-            <span class="white--text subtitle-1 font-weight-bold">{{
+          <v-avatar color="white" size="38">
+            <span class="body--text subtitle-1 font-weight-bold">{{
               initials
             }}</span>
           </v-avatar>

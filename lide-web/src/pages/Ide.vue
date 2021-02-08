@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar height="56" elevation="1" clipped-left flat app>
+    <v-app-bar color="primary" height="56" elevation="1" clipped-left flat app>
       <v-app-bar-nav-icon
         @click.stop="explorerDrawer = !explorerDrawer"
       ></v-app-bar-nav-icon>
@@ -26,7 +26,6 @@
         </v-row>
       </v-container>
       <Notification />
-
       <SettingDrawer />
       <HelpDrawer />
     </v-main>

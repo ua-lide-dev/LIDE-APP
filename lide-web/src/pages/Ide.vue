@@ -1,38 +1,38 @@
 <template>
-  <v-app>
-    <v-app-bar height="56" elevation="1" clipped-left flat app>
-      <v-app-bar-nav-icon
-        @click.stop="explorerDrawer = !explorerDrawer"
-      ></v-app-bar-nav-icon>
-      <AppBar />
-    </v-app-bar>
-    <v-navigation-drawer v-model="explorerDrawer" clipped app fixed floating>
-      <Explorer />
-    </v-navigation-drawer>
-    <v-main class="body">
-      <v-container fluid>
-        <v-row>
-          <v-col cols="12">
-            <Editor />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" class="pa-0">
-            <ActionTerminal />
-          </v-col>
-          <v-col cols="12" class="pa-0">
-            <Terminal />
-          </v-col>
-        </v-row>
-      </v-container>
-      <Notification />
+	<v-app>
+		<v-app-bar height="56" elevation="1" clipped-left flat app>
+			<v-app-bar-nav-icon
+				@click.stop="explorerDrawer = !explorerDrawer"
+			></v-app-bar-nav-icon>
+			<AppBar />
+		</v-app-bar>
+		<v-navigation-drawer v-model="explorerDrawer" clipped app fixed floating>
+			<Explorer />
+		</v-navigation-drawer>
+		<v-main class="body">
+			<v-container fluid>
+				<v-row>
+					<v-col cols="12">
+						<Editor />
+					</v-col>
+				</v-row>
+				<v-row>
+					<v-col cols="12" class="pa-0">
+						<ActionTerminal />
+					</v-col>
+					<v-col cols="12" class="pa-0">
+						<Terminal />
+					</v-col>
+				</v-row>
+			</v-container>
+			<Notification />
 
-      <!-- 
+			<!-- 
 				<SettingDrawer />
 				<HelpDrawer /> 
 			-->
-    </v-main>
-  </v-app>
+		</v-main>
+	</v-app>
 </template>
 
 <script>
@@ -46,30 +46,30 @@ import ActionTerminal from "../components/terminal/ActionTerminal";
 import Notification from "../components/utils/Notification";
 
 export default {
-  name: "Ide",
+	name: "Ide",
 
-  components: {
-    ActionTerminal,
-    AppBar,
-    Explorer,
-    Editor,
-    Terminal,
-    // SettingDrawer,
-    // HelpDrawer,
-    Notification,
-  },
-  data: () => ({
-    explorerDrawer: null,
-  }),
-  created() {
-    this.$store.dispatch("user/setUsername", localStorage.getItem("username"));
-    this.$store.dispatch("project/fetchProjects");
-  },
+	components: {
+		ActionTerminal,
+		AppBar,
+		Explorer,
+		Editor,
+		Terminal,
+		// SettingDrawer,
+		// HelpDrawer,
+		Notification,
+	},
+	data: () => ({
+		explorerDrawer: null,
+	}),
+	created() {
+		this.$store.dispatch("user/setUsername", localStorage.getItem("username"));
+		this.$store.dispatch("project/fetchProjects");
+	},
 };
 </script>
 
 <style scoped>
 .drawer-setting {
-  z-index: 10;
+	z-index: 10;
 }
 </style>

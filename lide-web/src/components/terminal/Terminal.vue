@@ -89,5 +89,8 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+.xterm .xterm-viewport {
+	overflow-y: auto;
+}
 </style>

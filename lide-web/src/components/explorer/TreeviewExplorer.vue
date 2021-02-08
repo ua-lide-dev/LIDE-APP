@@ -1,85 +1,85 @@
 <template>
-  <div v-if="projects !== 'undefined' && projects.length > 0">
-    <v-list v-for="(project, i) in projects" :key="i" dense nav>
-      <v-list-group>
-        <template v-slot:activator>
-          <v-menu bottom offset-y>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn class="ml-n2" icon v-bind="attrs" v-on="on">
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item
-                class="my-n2"
-                @click="openDialogRenameProject(project._id)"
-                link
-              >
-                <v-list-item-title
-                  ><v-icon class="pa-2" size="18"
-                    >mdi-square-edit-outline</v-icon
-                  >Renommer</v-list-item-title
-                >
-              </v-list-item>
-              <v-list-item
-                class="my-n2"
-                @click="removeProject(project._id)"
-                link
-              >
-                <v-list-item-title
-                  ><v-icon class="pa-2" size="18">mdi-delete</v-icon
-                  >Supprimer</v-list-item-title
-                >
-              </v-list-item>
-            </v-list>
-          </v-menu>
-          <v-list-item-icon class="mr-2">
-            <v-icon>mdi-folder</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title> {{ project.projectname }}</v-list-item-title>
-        </template>
-        <v-list-item
-          v-for="(file, j) in project.files"
-          :key="j"
-          class="pl-7"
-          link
-          @click="openFile(file._id)"
-        >
-          <v-list-item-icon class="mr-2">
-            <v-icon>mdi-file-document-outline</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{
-              file.filename + file.extension
-            }}</v-list-item-title>
-          </v-list-item-content>
-          <v-menu bottom offset-y>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn icon v-bind="attrs" v-on="on">
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item
-                class="my-n2"
-                @click="openDialogRenameFile(file._id)"
-                link
-              >
-                <v-list-item-title
-                  ><v-icon class="pa-2" size="18"
-                    >mdi-square-edit-outline</v-icon
-                  >Renommer</v-list-item-title
-                >
-              </v-list-item>
-              <v-list-item class="my-n2" @click="removeFile(file._id)" link>
-                <v-list-item-title
-                  ><v-icon class="pa-2" size="18">mdi-delete</v-icon
-                  >Supprimer</v-list-item-title
-                >
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </v-list-item>
+	<div v-if="projects !== 'undefined' && projects.length > 0">
+		<v-list v-for="(project, i) in projects" :key="i" dense nav>
+			<v-list-group>
+				<template v-slot:activator>
+					<v-menu bottom offset-y>
+						<template v-slot:activator="{ on, attrs }">
+							<v-btn class="ml-n2" icon v-bind="attrs" v-on="on">
+								<v-icon>mdi-dots-vertical</v-icon>
+							</v-btn>
+						</template>
+						<v-list>
+							<v-list-item
+								class="my-n2"
+								@click="openDialogRenameProject(project._id)"
+								link
+							>
+								<v-list-item-title
+									><v-icon class="pa-2" size="18"
+										>mdi-square-edit-outline</v-icon
+									>Renommer</v-list-item-title
+								>
+							</v-list-item>
+							<v-list-item
+								class="my-n2"
+								@click="removeProject(project._id)"
+								link
+							>
+								<v-list-item-title
+									><v-icon class="pa-2" size="18">mdi-delete</v-icon
+									>Supprimer</v-list-item-title
+								>
+							</v-list-item>
+						</v-list>
+					</v-menu>
+					<v-list-item-icon class="mr-2">
+						<v-icon>mdi-folder</v-icon>
+					</v-list-item-icon>
+					<v-list-item-title> {{ project.projectname }}</v-list-item-title>
+				</template>
+				<v-list-item
+					v-for="(file, j) in project.files"
+					:key="j"
+					class="pl-7"
+					link
+					@click="openFile(file._id)"
+				>
+					<v-list-item-icon class="mr-2">
+						<v-icon>mdi-file-document-outline</v-icon>
+					</v-list-item-icon>
+					<v-list-item-content>
+						<v-list-item-title>{{
+							file.filename + file.extension
+						}}</v-list-item-title>
+					</v-list-item-content>
+					<v-menu bottom offset-y>
+						<template v-slot:activator="{ on, attrs }">
+							<v-btn icon v-bind="attrs" v-on="on">
+								<v-icon>mdi-dots-vertical</v-icon>
+							</v-btn>
+						</template>
+						<v-list>
+							<v-list-item
+								class="my-n2"
+								@click="openDialogRenameFile(file._id)"
+								link
+							>
+								<v-list-item-title
+									><v-icon class="pa-2" size="18"
+										>mdi-square-edit-outline</v-icon
+									>Renommer</v-list-item-title
+								>
+							</v-list-item>
+							<v-list-item class="my-n2" @click="removeFile(file._id)" link>
+								<v-list-item-title
+									><v-icon class="pa-2" size="18">mdi-delete</v-icon
+									>Supprimer</v-list-item-title
+								>
+							</v-list-item>
+						</v-list>
+					</v-menu>
+				</v-list-item>
 
 				<v-list-item class="pl-7">
 					<v-list-item-content>
@@ -286,54 +286,49 @@ export default {
 
 		// ---------------------------------- Project ----------------------------------
 
-    removeProject: function (projectid) {
-      this.$store
-        .dispatch("project/remove", projectid)
-        .catch((error) => {
-          this.$store.dispatch("notification/notif", {
-            texte: "Un problème est survenue lors de la suppression du projet.",
-            couleur: "error",
-            timeout: 4000,
-          });
-        })
-        .then(() => {
-          this.$store.dispatch("notification/notif", {
-            texte: "Votre projet a bien été supprimé.",
-            couleur: "success",
-            timeout: 4000,
-          });
-        });
-    },
+		removeProject: function (projectid) {
+			this.$store
+				.dispatch("project/remove", projectid)
+				.catch((error) => {
+					this.$store.dispatch("notification/notif", {
+						texte: "Un problème est survenue lors de la suppression du projet.",
+						couleur: "error",
+					});
+				})
+				.then(() => {
+					this.$store.dispatch("notification/notif", {
+						texte: "Votre projet a bien été supprimé.",
+						couleur: "success",
+					});
+				});
+		},
 
-    renameProject: async function () {
-
-      if (
-        this.$refs.projectRenameForm.validate() &&
-        this.newprojectname != ""
-      ) {
-        await this.$store
-          .dispatch("project/rename", {
-            projectid: this.selectedProjectId,
-            newprojectname: this.newprojectname,
-          })
-          .catch((error) => {
-            this.$store.dispatch("notification/notif", {
-              texte: "Une erreur est survenue lors du renommage du projet.",
-              couleur: "error",
-              timeout: 4000,
-            });
-          })
-          .then(() => {
-            this.$store.dispatch("notification/notif", {
-              texte: "Votre projet a bien été renommé.",
-              couleur: "error",
-              timeout: 4000,
-            });
-          });
-        this.$refs.projectRenameForm.reset();
-        this.dialogRenameProject = false;
-      }
-    },
+		renameProject: async function () {
+			if (
+				this.$refs.projectRenameForm.validate() &&
+				this.newprojectname != ""
+			) {
+				await this.$store
+					.dispatch("project/rename", {
+						projectid: this.selectedProjectId,
+						newprojectname: this.newprojectname,
+					})
+					.catch((error) => {
+						this.$store.dispatch("notification/notif", {
+							texte: "Une erreur est survenue lors du renommage du projet.",
+							couleur: "error",
+						});
+					})
+					.then(() => {
+						this.$store.dispatch("notification/notif", {
+							texte: "Votre projet a bien été renommé.",
+							couleur: "error",
+						});
+					});
+				this.$refs.projectRenameForm.reset();
+				this.dialogRenameProject = false;
+			}
+		},
 
 		// ---------------------------------- File ----------------------------------
 
@@ -342,85 +337,78 @@ export default {
 			const filename = this.filename;
 			const extension = this.extension;
 
-      if (this.$refs.fichierCreateForm.validate() && this.filename != "") {
-        this.$store
-          .dispatch("file/create", { projectid, filename, extension })
-          .catch((error) => {
-            this.$store.dispatch("notification/notif", {
-              texte: "Une erreur est survenue lors de la création du fichier.",
-              couleur: "error",
-              timeout: 4000,
-            });
-          })
-          .then(() => {
-            this.$store.dispatch("notification/notif", {
-              texte: "Votre fichier a bien été créé.",
-              couleur: "success",
-              timeout: 4000,
-            });
-          });
-        this.$refs.fichierCreateForm.reset();
-        this.dialogCreateFile = false;
-      }
-    },
+			if (this.$refs.fichierCreateForm.validate() && this.filename != "") {
+				this.$store
+					.dispatch("file/create", { projectid, filename, extension })
+					.catch((error) => {
+						this.$store.dispatch("notification/notif", {
+							texte: "Une erreur est survenue lors de la création du fichier.",
+							couleur: "error",
+						});
+					})
+					.then(() => {
+						this.$store.dispatch("notification/notif", {
+							texte: "Votre fichier a bien été créé.",
+							couleur: "success",
+						});
+					});
+				this.$refs.fichierCreateForm.reset();
+				this.dialogCreateFile = false;
+			}
+		},
 
-    removeFile: function (fileid) {
-      this.$store
-        .dispatch("file/remove", fileid)
-        .catch((error) => {
-          this.$store.dispatch("notification/notif", {
-            texte: "Une erreur est survenue lors de la suppression du fichier.",
-            couleur: "error",
-            timeout: 4000,
-          });
-        })
-        .then(() => {
-          this.$store.dispatch("notification/notif", {
-            texte: "Votre fichier a bien été supprimé.",
-            couleur: "success",
-            timeout: 4000,
-          });
-        });
-    },
+		removeFile: function (fileid) {
+			this.$store
+				.dispatch("file/remove", fileid)
+				.catch((error) => {
+					this.$store.dispatch("notification/notif", {
+						texte: "Une erreur est survenue lors de la suppression du fichier.",
+						couleur: "error",
+					});
+				})
+				.then(() => {
+					this.$store.dispatch("notification/notif", {
+						texte: "Votre fichier a bien été supprimé.",
+						couleur: "success",
+					});
+				});
+		},
 
-    renameFile: async function () {
-      if (this.$refs.fichierRenameForm.validate() && this.newfilename != "") {
-        await this.$store
-          .dispatch("file/rename", {
-            fileid: this.selectedFileId,
-            newfilename: this.newfilename,
-          })
-          .catch((error) => {
-            this.$store.dispatch("notification/notif", {
-              texte: "Une erreur est survenue lors du renommage du fichier.",
-              couleur: "error",
-              timeout: 4000,
-            });
-          })
-          .then(() => {
-            this.$store.dispatch("notification/notif", {
-              texte: "Votre fichier a bien été renommé.",
-              couleur: "success",
-              timeout: 4000,
-            });
-          });
-        // workaround d'un bug des tabs vuetify, cf: https://github.com/vuetifyjs/vuetify/issues/4733
-        window.dispatchEvent(new Event("resize"));
-        this.$refs.fichierRenameForm.reset();
-        this.dialogRenameFile = false;
-      }
-    },
+		renameFile: async function () {
+			if (this.$refs.fichierRenameForm.validate() && this.newfilename != "") {
+				await this.$store
+					.dispatch("file/rename", {
+						fileid: this.selectedFileId,
+						newfilename: this.newfilename,
+					})
+					.catch((error) => {
+						this.$store.dispatch("notification/notif", {
+							texte: "Une erreur est survenue lors du renommage du fichier.",
+							couleur: "error",
+						});
+					})
+					.then(() => {
+						this.$store.dispatch("notification/notif", {
+							texte: "Votre fichier a bien été renommé.",
+							couleur: "success",
+						});
+					});
+				// workaround d'un bug des tabs vuetify, cf: https://github.com/vuetifyjs/vuetify/issues/4733
+				window.dispatchEvent(new Event("resize"));
+				this.$refs.fichierRenameForm.reset();
+				this.dialogRenameFile = false;
+			}
+		},
 
-    openFile: function (fileid) {
-      this.$store.dispatch("tab/newTab", fileid).catch((error) => {
-        this.$store.dispatch("notification/notif", {
-          texte: "Une erreur est survenue lors de l'ouverture du fichier.",
-          couleur: "error",
-          timeout: 4000,
-        });
-      });
-    },
-  },
+		openFile: function (fileid) {
+			this.$store.dispatch("tab/newTab", fileid).catch((error) => {
+				this.$store.dispatch("notification/notif", {
+					texte: "Une erreur est survenue lors de l'ouverture du fichier.",
+					couleur: "error",
+				});
+			});
+		},
+	},
 };
 </script>
 

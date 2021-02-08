@@ -9,7 +9,7 @@ Ce projet est un projet étudiants de l'université d'Angers. Il consiste en la 
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Ouvrir l'API Docker
-Il est nécéssaire d'avoir activer l'API Docker sur la machine, pour cela suivre ces consignes :
+Il est nécéssaire d'avoir activé l'API Docker sur la machine, pour cela suivre ces consignes :
 https://blog.usejournal.com/how-to-enable-docker-remote-api-on-docker-host-7b73bd3278c6 
 
 

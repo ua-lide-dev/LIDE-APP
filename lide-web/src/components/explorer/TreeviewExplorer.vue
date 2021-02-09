@@ -332,13 +332,13 @@ export default {
 
 		// ---------------------------------- File ----------------------------------
 
-		createFile: function () {
+		createFile: async function () {
 			const projectid = this.currentProjectId;
 			const filename = this.filename;
 			const extension = this.extension;
 
 			if (this.$refs.fichierCreateForm.validate() && this.filename != "") {
-				this.$store
+				const fileId = await this.$store
 					.dispatch("file/create", { projectid, filename, extension })
 					.catch((error) => {
 						this.$store.dispatch("notification/notif", {
@@ -346,7 +346,8 @@ export default {
 							couleur: "error",
 						});
 					})
-					.then(() => {
+					.then((fileId) => {
+						this.openFile(fileId);
 						this.$store.dispatch("notification/notif", {
 							texte: "Votre fichier a bien été créé.",
 							couleur: "success",

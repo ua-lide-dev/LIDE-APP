@@ -1,5 +1,7 @@
 import FileService from "@/services/file-service";
 
+/* Important : L'id de la tab est l'id de son fichier */
+
 const state = {
     // La liste des onglets ouverts
     tabs: [],
@@ -21,20 +23,25 @@ const actions = {
     /**
     * Ouvre un onglet selon son id en définissant l'onglet courant
     */
-    async newTab({ commit }, fileId) {
+    async newTab({ state, commit }, fileId) {
         console.log(`STORE -- OPEN TAB -- TAB=${fileId}`);
-        await FileService.get(fileId)
-            .catch((err) => { console.error(err); })
-            .then((res) => {
-                const file = res.data;
-                const tab = {
-                    id: file._id,
-                    oldContent: file.content,
-                    file: file,
-                };
-                commit("ADD_TAB", tab);
-                commit("SET_CURRENT_TAB", tab)
-            })
+        // si rechargement de la page, on ne souhaite pas récupérer le fichier depuis la bdd (évite de perdre le travail en cours)
+        console.log("dezez + " + state.tabs.find((tab) => tab.id == fileId));
+        if (state.tabs.find((tab) => tab.id == fileId) == null) {
+            // sinon on récupère le fichier en bdd
+            await FileService.get(fileId)
+                .catch((err) => { console.error(err); })
+                .then((res) => {
+                    const file = res.data;
+                    const tab = {
+                        id: file._id,
+                        oldContent: file.content,
+                        file: file,
+                    };
+                    commit("ADD_TAB", tab);
+                    commit("SET_CURRENT_TAB", tab)
+                })
+        }
     },
 
     /** 
@@ -99,6 +106,10 @@ const actions = {
         if (tab != null) commit("SET_TAB_EDITOR", { tab, cmEditor })
     },
 
+    setNewContent({ commit }, { tab, newContent }) {
+        commit("SET_NEW_CODE", { tab: tab, newContent: newContent });
+    },
+
 }
 
 const mutations = {
@@ -129,6 +140,9 @@ const mutations = {
     },
     SET_TAB_EDITOR(state, { tab, cmEditor }) {
         tab.cmEditor = cmEditor;
+    },
+    SET_NEW_CODE(state, { tab, newContent }) {
+        tab.file.content = newContent;
     }
 }
 

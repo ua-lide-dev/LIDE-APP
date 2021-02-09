@@ -221,11 +221,8 @@ export default {
 			code: "",
 			cmOptions: {
 				// TODO : Configurer dans les paramètres utilisateur
-				tabSize: 4,
-				indentUnit: 4,
 				indentWithTabs: true,
 				lineWrapping: false,
-				theme: "base16-dark",
 				line: true,
 				viewportMargin: Infinity,
 				lineNumbers: true,
@@ -245,23 +242,31 @@ export default {
 		...mapState({
 			tabs: (state) => state.tab.tabs,
 			currentTab: (state) => state.tab.currentTab,
+			editorTheme: (state) => state.settings.theme,
+			indentation: (state) => state.settings.indentation,
 		}),
 		currentTabIndex: {
 			get() {
 				const index = this.tabs.findIndex(
 					(tab) => tab.id == this.currentTab.id
 				);
-				if (index != null) {
-					//console.log("CURRENT INDEX = " + index);
-					return index;
-				} else {
-					//console.log("CURRENT INDEX = " + 0);
-					return 0;
-				}
+				if (index != null) return index;
+				else return 0;
 			},
 			set(val) {
 				return val;
 			},
+		},
+	},
+	watch: {
+		editorTheme: function (val, oldVal) {
+			let codemirror = this.$refs[this.currentTab.cmEditor][0].codemirror;
+			codemirror.setOption("theme", val);
+		},
+		indentation: function (val, oldVal) {
+			let codemirror = this.$refs[this.currentTab.cmEditor][0].codemirror;
+			codemirror.setOption("indentUnit", val);
+			codemirror.setOption("tabSize", val);
 		},
 	},
 	methods: {
@@ -270,9 +275,7 @@ export default {
 			await this.$store.dispatch("tab/focusTab", tabId);
 			let cmEditor = "cmEditor-" + tabId;
 			this.setEditorSize(cmEditor);
-
-			// Workaround problème de coloration syntaxique qui se reset -> on force le color theme au focus
-			this.setEditorMode(cmEditor, tabId);
+			this.setEditorSettings(cmEditor, tabId);
 		},
 
 		// Sauvegarde l'onglet ouvert
@@ -341,11 +344,11 @@ export default {
 					});
 					//console.error(error);
 				})
-				.then(() => this.setEditorMode(cmEditor, tabId));
+				.then(() => this.setEditorSettings(cmEditor, tabId));
 		},
 
 		// Défini le type de langage de l'éditeur à partir de sa ref et de l'id de sa tab
-		setEditorMode(cmEditor, tabId) {
+		setEditorSettings(cmEditor, tabId) {
 			try {
 				let codemirror = this.$refs[cmEditor][0].codemirror;
 				let tab = this.tabs.find((tab) => tab.id === tabId);
@@ -369,6 +372,9 @@ export default {
 					default:
 						break;
 				}
+				codemirror.setOption("theme", this.editorTheme);
+				codemirror.setOption("indentUnit", this.indentation);
+				codemirror.setOption("tabSize", this.indentation);
 			} catch (error) {
 				// Garde-fou du cycle de vie vuejs (destruction des codemirror au reload)
 			}

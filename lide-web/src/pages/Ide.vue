@@ -26,7 +26,6 @@
 				</v-row>
 			</v-container>
 			<Notification />
-
 			<SettingDrawer />
 			<HelpDrawer />
 		</v-main>

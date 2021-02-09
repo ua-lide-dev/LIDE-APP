@@ -10,6 +10,7 @@ import execution from "./modules/execution"
 import notification from "./modules/notification"
 import file from "./modules/file"
 import tab from "./modules/tab"
+import settings from "./modules/settings"
 
 Vue.use(Vuex);
 
@@ -22,6 +23,7 @@ const store = new Vuex.Store({
         notification,
         file,
         tab,
+        settings,
     },
     plugins: [createPersistedState()],
 })

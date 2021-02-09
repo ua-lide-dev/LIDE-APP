@@ -11,7 +11,6 @@ const getters = {
 
 const actions = {
     async setExecutionInProgress({ state }, executionInProgress) {
-        console.log("STORE ACTION EXECINPROGRESS = " + executionInProgress);
         state.executionInProgress = executionInProgress;
     }
 }

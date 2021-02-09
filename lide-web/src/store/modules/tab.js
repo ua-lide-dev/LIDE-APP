@@ -24,7 +24,6 @@ const actions = {
     * Ouvre un onglet selon son id en définissant l'onglet courant
     */
     async newTab({ state, commit, dispatch }, fileId) {
-        console.log(`STORE -- OPEN TAB -- TAB=${fileId}`);
         const tab = state.tabs.find((tab) => tab.id == fileId);
         // si rechargement de la page, on ne souhaite pas récupérer le fichier depuis la bdd (évite de perdre le travail en cours)
         if (tab == null) {
@@ -64,7 +63,6 @@ const actions = {
      * Focus un onglet selon son id puis on redéfinit l'onglet courant
      */
     async focusTab({ commit }, tab) {
-        console.log(`STORE -- FOCUS TAB -- TAB=${tab.id}`);
         commit("SET_CURRENT_TAB", tab);
     },
 
@@ -72,7 +70,6 @@ const actions = {
      * Ferme un onglet selon son id
      */
     async closeTab({ state, commit }, tab) {
-        console.log(`STORE -- CLOSE TAB -- TAB=${tab.id}`);
         commit("SET_CURRENT_TAB_BEFORE_CLOSE", tab);
         commit("CLOSE_TAB", tab);
         commit("SET_CURRENT_TAB", state.currentTab);
@@ -91,7 +88,6 @@ const actions = {
      * Pour une tab, renseigne son editeur associé (ref) 
      */
     async setEditor({ commit }, { tab, cmEditor }) {
-        console.log(`STORE -- SET EDITOR -- TAB=${tab} CMEDITOR=${cmEditor}`);
         commit("SET_TAB_EDITOR", { tab, cmEditor });
     },
 

@@ -286,7 +286,6 @@ export default {
 		// Sauvegarde l'onglet ouvert
 		async saveTab(tab) {
 			await this.$store.dispatch("tab/saveTab", tab).catch((error) => {
-				console.log(error);
 				this.$store.dispatch("notification/notif", {
 					texte: "Une erreur est survenue lors de la sauvegarde du fichier.",
 					couleur: "error",
@@ -332,7 +331,7 @@ export default {
 			this.setEditorSize(cmEditorRef);
 			this.$store
 				.dispatch("tab/setEditor", { tab: tab, cmEditor: cmEditorRef })
-				.catch(() => {
+				.catch((error) => {
 					this.$store.dispatch("notification/notif", {
 						texte: "Une erreur est survenue lors de l'ouverture du fichier",
 						couleur: "error",
@@ -355,19 +354,15 @@ export default {
 				let codemirror = this.$refs[tab.cmEditor][0].codemirror;
 				switch (tab.file.extension) {
 					case ".cpp":
-						console.log("text/x-c++src");
 						codemirror.setOption("mode", "text/x-c++src");
 						break;
 					case ".h":
-						console.log("text/x-c++src");
 						codemirror.setOption("mode", "text/x-c++src");
 						break;
 					case ".py":
-						console.log("text/x-python");
 						codemirror.setOption("mode", "text/x-python");
 						break;
 					case ".java":
-						console.log("text/x-java");
 						codemirror.setOption("mode", "text/x-java");
 						break;
 					default:
@@ -418,7 +413,7 @@ export default {
 		window.addEventListener("resize", this.onResize);
 		// on pré-défini la taille de codemirror à la création (recalculée plus tard via this.onResize)
 		this.codemirrorHeight = (window.innerHeight - 56 - 48 - 20) * (70 / 100);
-		// récupération du focus après un reload
+		// récupéra de focus après un reload.
 		if (this.currentTab != null) this.focusTab(this.currentTab);
 	},
 	mounted() {
@@ -442,7 +437,7 @@ export default {
 	text-transform: none !important; /* tab name to lowercase */
 }
 .group-btn {
-	top: 65px;
+	top: 20px;
 	right: 60px;
 	position: absolute;
 }

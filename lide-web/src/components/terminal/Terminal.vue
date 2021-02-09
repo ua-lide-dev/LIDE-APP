@@ -27,13 +27,10 @@ export default {
 			this.$store
 				.dispatch("execution/setExecutionInProgress", true)
 				.catch((error) => {
-					console.log(error);
-					// TODO : message erreur
+					console.error(error);
 				});
 
 			this.terminal.clear();
-
-			console.log("Le terminal a reçu le container ID : " + containerId);
 
 			// Recharger le terminal et le socket si ce n'est pas la première fois
 			if (this.socket !== null) {
@@ -47,12 +44,10 @@ export default {
 			this.socket.onclose = () => {
 				this.terminal.writeln("");
 				this.terminal.writeln("---- Fin de l'éxécution ---- ");
-				console.log("socket onclose");
 				this.$store
 					.dispatch("execution/setExecutionInProgress", false)
 					.catch((error) => {
-						console.log(error);
-						// TODO : message erreur
+						console.error(error);
 					});
 			};
 

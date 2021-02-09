@@ -27,7 +27,6 @@ const actions = {
     },
 
     async create({ dispatch }, projectname) {
-        console.log("STORE CREATE PROJECT : " + projectname);
         await ProjectService.create(projectname)
             .then(() => {
                 dispatch('fetchProjects');
@@ -35,7 +34,6 @@ const actions = {
     },
 
     async remove({ dispatch }, projectid) {
-        console.log("STORE REMOVE PROJECT : " + projectid);
         await ProjectService.remove(projectid)
             .then(() => {
                 dispatch('fetchProjects');
@@ -43,7 +41,6 @@ const actions = {
     },
 
     async rename({ dispatch }, { projectid, newprojectname }) {
-        console.log("STORE RENAME PROJECT : " + projectid + " INTO : " + newprojectname);
         await ProjectService.rename(projectid, newprojectname)
             .then(() => {
                 dispatch('fetchProjects');

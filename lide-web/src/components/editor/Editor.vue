@@ -150,76 +150,139 @@ import "codemirror/addon/fold/markdown-fold.js";
 import "codemirror/addon/fold/xml-fold.js";
 // autocomplete
 import "codemirror/addon/hint/show-hint.js";
-// import theme style
-import "codemirror/theme/base16-dark.css";
 // import base style
 import "codemirror/lib/codemirror.css";
+// import theme style
+import "codemirror/theme/3024-day.css";
+import "codemirror/theme/3024-night.css";
+import "codemirror/theme/abcdef.css";
+import "codemirror/theme/ambiance.css";
+import "codemirror/theme/ayu-dark.css";
+import "codemirror/theme/ayu-mirage.css";
+import "codemirror/theme/base16-dark.css";
+import "codemirror/theme/bespin.css";
+import "codemirror/theme/base16-light.css";
+import "codemirror/theme/blackboard.css";
+import "codemirror/theme/cobalt.css";
+import "codemirror/theme/colorforth.css";
+import "codemirror/theme/dracula.css";
+import "codemirror/theme/duotone-dark.css";
+import "codemirror/theme/duotone-light.css";
+import "codemirror/theme/eclipse.css";
+import "codemirror/theme/elegant.css";
+import "codemirror/theme/erlang-dark.css";
+import "codemirror/theme/gruvbox-dark.css";
+import "codemirror/theme/hopscotch.css";
+import "codemirror/theme/icecoder.css";
+import "codemirror/theme/isotope.css";
+import "codemirror/theme/lesser-dark.css";
+import "codemirror/theme/liquibyte.css";
+import "codemirror/theme/lucario.css";
+import "codemirror/theme/material.css";
+import "codemirror/theme/material-darker.css";
+import "codemirror/theme/material-palenight.css";
+import "codemirror/theme/material-ocean.css";
+import "codemirror/theme/mbo.css";
+import "codemirror/theme/mdn-like.css";
+import "codemirror/theme/midnight.css";
+import "codemirror/theme/monokai.css";
+import "codemirror/theme/moxer.css";
+import "codemirror/theme/neat.css";
+import "codemirror/theme/neo.css";
+import "codemirror/theme/night.css";
+import "codemirror/theme/nord.css";
+import "codemirror/theme/oceanic-next.css";
+import "codemirror/theme/panda-syntax.css";
+import "codemirror/theme/paraiso-dark.css";
+import "codemirror/theme/paraiso-light.css";
+import "codemirror/theme/pastel-on-dark.css";
+import "codemirror/theme/railscasts.css";
+import "codemirror/theme/rubyblue.css";
+import "codemirror/theme/seti.css";
+import "codemirror/theme/shadowfox.css";
+import "codemirror/theme/solarized.css";
+import "codemirror/theme/the-matrix.css";
+import "codemirror/theme/tomorrow-night-bright.css";
+import "codemirror/theme/tomorrow-night-eighties.css";
+import "codemirror/theme/ttcn.css";
+import "codemirror/theme/twilight.css";
+import "codemirror/theme/vibrant-ink.css";
+import "codemirror/theme/xq-dark.css";
+import "codemirror/theme/xq-light.css";
+import "codemirror/theme/yeti.css";
+import "codemirror/theme/idea.css";
+import "codemirror/theme/darcula.css";
+import "codemirror/theme/yonce.css";
+import "codemirror/theme/zenburn.css";
 
 import FileService from "@/services/file-service";
 import { mapState } from "vuex";
 
 export default {
-  components: {
-    codemirror,
-  },
-  data() {
-    return {
-      code: "",
-      cmOptions: {
-        // TODO : Configurer dans les paramètres utilisateur
-        tabSize: 4,
-        indentUnit: 4,
-        indentWithTabs: true,
-        lineWrapping: false,
-        theme: "base16-dark",
-        line: true,
-        viewportMargin: Infinity,
-        lineNumbers: true,
-        autoCloseBrackets: true,
-        matchBrackets: true,
-        styleActiveLine: true,
-        foldGutter: true,
-        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-        showHint: true,
-      },
-      codemirrorHeight: 0,
-      dialogFileNotSaved: false,
-      tabToCloseId: null,
-    };
-  },
-  computed: {
-    ...mapState({
-      tabs: (state) => state.tab.tabs,
-      currentTab: (state) => state.tab.currentTab,
-    }),
-    currentTabIndex: {
-      get() {
-        const index = this.tabs.findIndex(
-          (tab) => tab.id == this.currentTab.id
-        );
-        if (index != null) {
-          //console.log("CURRENT INDEX = " + index);
-          return index;
-        } else {
-          //console.log("CURRENT INDEX = " + 0);
-          return 0;
-        }
-      },
-      set(val) {
-        return val;
-      },
-    },
-  },
-  methods: {
-    // Méthode appelée au clic sur un onglet
-    async focusTab(tabId) {
-      await this.$store.dispatch("tab/focusTab", tabId);
-      let cmEditor = "cmEditor-" + tabId;
-      this.setEditorSize(cmEditor);
-
-      // Workaround problème de coloration syntaxique qui se reset -> on force le color theme au focus
-      this.setEditorMode(cmEditor, tabId);
-    },
+	components: {
+		codemirror,
+	},
+	data() {
+		return {
+			code: "",
+			cmOptions: {
+				// TODO : Configurer dans les paramètres utilisateur
+				indentWithTabs: true,
+				lineWrapping: false,
+				line: true,
+				viewportMargin: Infinity,
+				lineNumbers: true,
+				autoCloseBrackets: true,
+				matchBrackets: true,
+				styleActiveLine: true,
+				foldGutter: true,
+				gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+				showHint: true,
+			},
+			codemirrorHeight: 0,
+			dialogFileNotSaved: false,
+			tabToCloseId: null,
+		};
+	},
+	computed: {
+		...mapState({
+			tabs: (state) => state.tab.tabs,
+			currentTab: (state) => state.tab.currentTab,
+			editorTheme: (state) => state.settings.theme,
+			indentation: (state) => state.settings.indentation,
+		}),
+		currentTabIndex: {
+			get() {
+				const index = this.tabs.findIndex(
+					(tab) => tab.id == this.currentTab.id
+				);
+				if (index != null) return index;
+				else return 0;
+			},
+			set(val) {
+				return val;
+			},
+		},
+	},
+	watch: {
+		editorTheme: function (val, oldVal) {
+			let codemirror = this.$refs[this.currentTab.cmEditor][0].codemirror;
+			codemirror.setOption("theme", val);
+		},
+		indentation: function (val, oldVal) {
+			let codemirror = this.$refs[this.currentTab.cmEditor][0].codemirror;
+			codemirror.setOption("indentUnit", val);
+			codemirror.setOption("tabSize", val);
+		},
+	},
+	methods: {
+		// Méthode appelée au clic sur un onglet
+		async focusTab(tabId) {
+			await this.$store.dispatch("tab/focusTab", tabId);
+			let cmEditor = "cmEditor-" + tabId;
+			this.setEditorSize(cmEditor);
+			this.setEditorSettings(cmEditor, tabId);
+		},
 
     // Sauvegarde l'onglet ouvert
     async saveTab() {
@@ -275,50 +338,53 @@ export default {
         });
     },
 
-    // Méthode appelée lors de l'instantiation d'un nouvel editor
-    onNewEditor(cmEditor, tabId) {
-      this.setEditorSize(cmEditor);
-      this.$store
-        .dispatch("tab/setEditor", { tabId: tabId, cmEditor: cmEditor })
-        .catch((error) => {
-          this.$store.dispatch("notification/notif", {
-            texte: "Une erreur est survenue lors de l'ouverture du fichier",
-            couleur: "error",
-          });
-          //console.error(error);
-        })
-        .then(() => this.setEditorMode(cmEditor, tabId));
-    },
+		// Méthode appelée lors de l'instantiation d'un nouvel editor
+		onNewEditor(cmEditor, tabId) {
+			this.setEditorSize(cmEditor);
+			this.$store
+				.dispatch("tab/setEditor", { tabId: tabId, cmEditor: cmEditor })
+				.catch((error) => {
+					this.$store.dispatch("notification/notif", {
+						texte: "Une erreur est survenue lors de l'ouverture du fichier",
+						couleur: "error",
+					});
+					//console.error(error);
+				})
+				.then(() => this.setEditorSettings(cmEditor, tabId));
+		},
 
-    // Défini le type de langage de l'éditeur à partir de sa ref et de l'id de sa tab
-    setEditorMode(cmEditor, tabId) {
-      try {
-        let codemirror = this.$refs[cmEditor][0].codemirror;
-        let tab = this.tabs.find((tab) => tab.id === tabId);
-        switch (tab.file.extension) {
-          case ".cpp":
-            console.log("text/x-c++src");
-            codemirror.setOption("mode", "text/x-c++src");
-            break;
-          case ".h":
-            console.log("text/x-c++src");
-            codemirror.setOption("mode", "text/x-c++src");
-            break;
-          case ".py":
-            console.log("text/x-python");
-            codemirror.setOption("mode", "text/x-python");
-            break;
-          case ".java":
-            console.log("text/x-java");
-            codemirror.setOption("mode", "text/x-java");
-            break;
-          default:
-            break;
-        }
-      } catch (error) {
-        // Garde-fou du cycle de vie vuejs (destruction des codemirror au reload)
-      }
-    },
+		// Défini le type de langage de l'éditeur à partir de sa ref et de l'id de sa tab
+		setEditorSettings(cmEditor, tabId) {
+			try {
+				let codemirror = this.$refs[cmEditor][0].codemirror;
+				let tab = this.tabs.find((tab) => tab.id === tabId);
+				switch (tab.file.extension) {
+					case ".cpp":
+						console.log("text/x-c++src");
+						codemirror.setOption("mode", "text/x-c++src");
+						break;
+					case ".h":
+						console.log("text/x-c++src");
+						codemirror.setOption("mode", "text/x-c++src");
+						break;
+					case ".py":
+						console.log("text/x-python");
+						codemirror.setOption("mode", "text/x-python");
+						break;
+					case ".java":
+						console.log("text/x-java");
+						codemirror.setOption("mode", "text/x-java");
+						break;
+					default:
+						break;
+				}
+				codemirror.setOption("theme", this.editorTheme);
+				codemirror.setOption("indentUnit", this.indentation);
+				codemirror.setOption("tabSize", this.indentation);
+			} catch (error) {
+				// Garde-fou du cycle de vie vuejs (destruction des codemirror au reload)
+			}
+		},
 
     // Défini la taille d"une instance codemirror à partir de sa ref
     setEditorSize(cmEditor) {

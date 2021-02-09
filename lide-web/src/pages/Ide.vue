@@ -58,30 +58,30 @@ import HelpDrawer from "../components/drawer/HelpDrawer";
 import Notification from "../components/utils/Notification";
 
 export default {
-  name: "Ide",
+	name: "Ide",
 
-  components: {
-    ActionTerminal,
-    AppBar,
-    Explorer,
-    Editor,
-    Terminal,
-    SettingDrawer,
-    HelpDrawer,
-    Notification,
-  },
-  data: () => ({
-    explorerDrawer: null,
-  }),
-  created() {
-    this.$store.dispatch("user/setUsername", localStorage.getItem("username"));
-    this.$store.dispatch("project/fetchProjects");
-  },
+	components: {
+		ActionTerminal,
+		AppBar,
+		Explorer,
+		Editor,
+		Terminal,
+		SettingDrawer,
+		HelpDrawer,
+		Notification,
+	},
+	data: () => ({
+		explorerDrawer: null,
+	}),
+	created() {
+		this.$store.dispatch("user/setUsername", localStorage.getItem("username"));
+		this.$store.dispatch("project/fetchProjects");
+	},
 };
 </script>
 
 <style scoped>
 .drawer-setting {
-  z-index: 10;
+	z-index: 10;
 }
 </style>

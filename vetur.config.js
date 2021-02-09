@@ -7,8 +7,8 @@ module.exports = {
     projects: [
         {
             root: './lide-web/',
-            package: './package.json',
-            jsconfig: './jsconfig.json',
+            package: './lide-web/package.json',
+            jsconfig: './lide-web/jsconfig.json',
         }
     ]
 }

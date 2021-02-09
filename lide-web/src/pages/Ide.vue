@@ -1,12 +1,27 @@
 <template>
   <v-app>
-    <v-app-bar color="primary" height="56" elevation="1" clipped-left flat app>
+    <v-app-bar
+      color="black"
+      height="56"
+      elevation="1"
+      dark
+      clipped-left
+      flat
+      app
+    >
       <v-app-bar-nav-icon
         @click.stop="explorerDrawer = !explorerDrawer"
       ></v-app-bar-nav-icon>
       <AppBar />
     </v-app-bar>
-    <v-navigation-drawer v-model="explorerDrawer" clipped app fixed floating>
+    <v-navigation-drawer
+      v-model="explorerDrawer"
+      dark
+      clipped
+      app
+      fixed
+      floating
+    >
       <Explorer />
     </v-navigation-drawer>
     <v-main class="body">

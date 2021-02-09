@@ -1,16 +1,17 @@
 <template>
-  <v-toolbar color="#f5f5f5" height="56" flat>
-    <v-toolbar-title
+  <v-toolbar color="black" height="56" flat>
+    <!-- <v-toolbar-title
       v-show="!$vuetify.breakpoint.xs"
-      class="font-weight-bold headline"
+      class="font-weight-bold headline primary--text"
     >
-      <v-icon class="mr-5 mt-n1" large>mdi-school</v-icon>U I D E
-    </v-toolbar-title>
+      <v-icon class="mr-5 mt-n1" color="white" large>mdi-school</v-icon>U I D E
+    </v-toolbar-title> -->
+    <img width="130" src="@/assets/img/ua.png" />
     <v-spacer></v-spacer>
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on" @click="openDrawerHelp" icon>
-          <v-icon>mdi-help-circle-outline</v-icon>
+          <v-icon color="white">mdi-help-circle-outline</v-icon>
         </v-btn>
       </template>
       <span>Aide</span>
@@ -18,7 +19,7 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on" icon @click="openDrawerSetting">
-          <v-icon>mdi-cog</v-icon>
+          <v-icon color="white">mdi-cog</v-icon>
         </v-btn>
       </template>
       <span>Paramètres</span>
@@ -27,8 +28,8 @@
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn class="ml-10 mr-2" icon x-large v-bind="attrs" v-on="on">
-          <v-avatar color="primary" size="38">
-            <span class="white--text subtitle-1 font-weight-bold">{{
+          <v-avatar color="white" size="38">
+            <span class="primary--text subtitle-1 font-weight-bold">{{
               initials
             }}</span>
           </v-avatar>

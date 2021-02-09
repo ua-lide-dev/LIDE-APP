@@ -11,7 +11,7 @@
 					v-for="(tab, index) in tabs"
 					:key="index"
 					:ref="'tab' + tab.id"
-					@click="focusTab(tab.id)"
+					@click="focusTab(tab)"
 					px-0
 				>
 					<v-badge
@@ -27,7 +27,7 @@
 						icon
 						elevation="4"
 						v-on:click.stop
-						@click="closeTab(tab.id)"
+						@click="closeTab(tab)"
 					>
 						<v-icon dark>mdi-close</v-icon>
 					</v-btn>
@@ -46,8 +46,8 @@
 							:ref="'cmEditor-' + tab.id"
 							v-model="tab.file.content"
 							:options="cmOptions"
-							@ready="onNewEditor('cmEditor-' + tab.id, tab.id)"
-							@input="onCodeChange($event, tab.id)"
+							@ready="onNewEditor('cmEditor-' + tab.id, tab)"
+							@input="onCodeChange($event, tab)"
 						/>
 					</v-col>
 					<div class="group-btn" v-show="checkIfTabOpened()">
@@ -83,7 +83,7 @@
 										dark
 										small
 										color="green"
-										@click="exec()"
+										@click="exec(tab)"
 									>
 										<v-icon dark>mdi-play</v-icon>
 									</v-btn>
@@ -241,7 +241,7 @@ export default {
 			},
 			codemirrorHeight: 0,
 			dialogFileNotSaved: false,
-			tabToCloseId: null,
+			tabToClose: null,
 		};
 	},
 	computed: {
@@ -277,20 +277,14 @@ export default {
 	},
 	methods: {
 		// Méthode appelée au clic sur un onglet
-		async focusTab(tabId) {
-			await this.$store.dispatch("tab/focusTab", tabId);
-			let cmEditor = "cmEditor-" + tabId;
-			this.setEditorSize(cmEditor);
-			this.setEditorSettings(cmEditor, tabId);
+		async focusTab(tab) {
+			await this.$store.dispatch("tab/focusTab", tab);
+			this.setEditorSize(tab.cmEditor);
+			this.setEditorSettings(tab);
 		},
 
 		// Sauvegarde l'onglet ouvert
 		async saveTab(tab) {
-			console.log(JSON.stringify(tab, null, 1));
-
-			// focus pour éviter la perte de focus après un reload.
-			//await this.focusTab(this.currentTab.id);
-
 			await this.$store.dispatch("tab/saveTab", tab).catch((error) => {
 				console.log(error);
 				this.$store.dispatch("notification/notif", {
@@ -301,31 +295,27 @@ export default {
 		},
 
 		// Ferme un onglet
-		async closeTab(tabId) {
-			await this.focusTab(tabId);
-			let tab = this.tabs.find((tab) => tab.id == tabId);
+		async closeTab(tab) {
+			await this.focusTab(tab);
+			// si le code a été modifié depuis le chargement bdd, on affiche le formulaire de sauvegarde
 			if (tab.oldContent != tab.file.content) {
-				this.tabToCloseId = tab;
+				this.tabToClose = tab;
 				this.dialogFileNotSaved = true;
-			} else this.$store.dispatch("tab/closeTab", tabId);
+			} else this.$store.dispatch("tab/closeTab", tab);
 		},
 
 		// Méthode appelée par le formulaire de sauvegarde en cas de fermeture d'un onglet lorsque son fichier n'est pas sauvegardé
 		async saveBeforeClose(save) {
-			console.log("TABTOCLOSE" + this.tabToCloseId);
-			if (save) await this.saveTab(this.tabToCloseId);
-			await this.$store.dispatch("tab/closeTab", this.tabToCloseId.id);
-			this.tabToCloseId = null;
+			if (save) await this.saveTab(this.tabToClose);
+			await this.$store.dispatch("tab/closeTab", this.tabToClose);
+			this.tabToClose = null;
 			this.dialogFileNotSaved = false;
 		},
 
 		// Appelée par le bouton d'exécution
-		async exec() {
-			// focus pour éviter la perte de focus après un reload.
-			await this.focusTab(this.currentTab.id);
-
-			await this.saveTab();
-			FileService.execute(this.currentTab.file._id)
+		async exec(tab) {
+			await this.saveTab(tab);
+			FileService.execute(tab.file._id)
 				.then((res) => {
 					this.$root.$refs.Terminal.openSocket(res.data.containerid);
 				})
@@ -338,21 +328,21 @@ export default {
 		},
 
 		// Méthode appelée lors de l'instantiation d'un nouvel editor
-		onNewEditor(cmEditor, tabId) {
-			this.setEditorSize(cmEditor);
+		onNewEditor(cmEditorRef, tab) {
+			this.setEditorSize(cmEditorRef);
 			this.$store
-				.dispatch("tab/setEditor", { tabId: tabId, cmEditor: cmEditor })
-				.catch((error) => {
+				.dispatch("tab/setEditor", { tab: tab, cmEditor: cmEditorRef })
+				.catch(() => {
 					this.$store.dispatch("notification/notif", {
 						texte: "Une erreur est survenue lors de l'ouverture du fichier",
 						couleur: "error",
 					});
 				})
-				.then(() => this.setEditorSettings(cmEditor, tabId));
+				.then(() => this.setEditorSettings(tab));
 		},
 
-		onCodeChange(newCode, tabId) {
-			let tab = this.tabs.find((tab) => tab.id == tabId);
+		// en cas d'input dans l'éditeur, on modifier le contenu du fichier associé (pas de sauvegarde bdd)
+		onCodeChange(newCode, tab) {
 			this.$store.dispatch("tab/setNewContent", {
 				tab: tab,
 				newContent: newCode,
@@ -360,10 +350,9 @@ export default {
 		},
 
 		// Défini le type de langage de l'éditeur à partir de sa ref et de l'id de sa tab
-		setEditorSettings(cmEditor, tabId) {
+		setEditorSettings(tab) {
 			try {
-				let codemirror = this.$refs[cmEditor][0].codemirror;
-				let tab = this.tabs.find((tab) => tab.id === tabId);
+				let codemirror = this.$refs[tab.cmEditor][0].codemirror;
 				switch (tab.file.extension) {
 					case ".cpp":
 						console.log("text/x-c++src");
@@ -393,10 +382,10 @@ export default {
 		},
 
 		// Défini la taille d"une instance codemirror à partir de sa ref
-		setEditorSize(cmEditor) {
+		setEditorSize(cmEditorRef) {
 			this.codemirrorHeight = (window.innerHeight - 56 - 48 - 20) * (70 / 100);
 			try {
-				let codemirror = this.$refs[cmEditor][0].codemirror;
+				let codemirror = this.$refs[cmEditorRef][0].codemirror;
 				codemirror.setSize("100%", this.codemirrorHeight);
 			} catch (error) {
 				// Garde-fou du cycle de vie vuejs (destruction des codemirror au reload)
@@ -406,7 +395,7 @@ export default {
 		manageKeydowns(key) {
 			// si CTRL + S --> sauvegarde du fichier
 			if (key.ctrlKey && key.keyCode === 83) {
-				this.saveTab();
+				this.saveTab(this.currentTab);
 				// on empeche le comportement par défaut
 				key.preventDefault();
 			}
@@ -429,6 +418,8 @@ export default {
 		window.addEventListener("resize", this.onResize);
 		// on pré-défini la taille de codemirror à la création (recalculée plus tard via this.onResize)
 		this.codemirrorHeight = (window.innerHeight - 56 - 48 - 20) * (70 / 100);
+		// récupération du focus après un reload
+		if (this.currentTab != null) this.focusTab(this.currentTab);
 	},
 	mounted() {
 		document.addEventListener("keydown", this.manageKeydowns);

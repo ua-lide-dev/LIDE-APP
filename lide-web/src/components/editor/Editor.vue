@@ -413,7 +413,7 @@ export default {
 		window.addEventListener("resize", this.onResize);
 		// on pré-défini la taille de codemirror à la création (recalculée plus tard via this.onResize)
 		this.codemirrorHeight = (window.innerHeight - 56 - 48 - 20) * (70 / 100);
-		// récupéra de focus après un reload.
+		// récupération du focus après un reload.
 		if (this.currentTab != null) this.focusTab(this.currentTab);
 	},
 	mounted() {

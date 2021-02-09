@@ -16,7 +16,7 @@ https://blog.usejournal.com/how-to-enable-docker-remote-api-on-docker-host-7b73b
 ## Configurer l'application
 Vous pouvez modifier le fichier `.env` afin de changer les variables de configuration. Des valeurs par défaut sont déjà présentes.
 
->  **Important**: Les serveurs WebSocket, API(back) et Web doivent pouvoir être accessible depuis internet.
+>  **Important**: Les serveurs WebSocket, API(back) et Web doivent pouvoir être accessible depuis internet.  
 >  **Important**: Choisir et modifier la clée privée JWT.
 
   

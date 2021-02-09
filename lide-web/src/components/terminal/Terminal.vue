@@ -45,6 +45,7 @@ export default {
 			this.socket = new WebSocket(process.env.VUE_APP_LIDE_WSS_URL);
 
 			this.socket.onclose = () => {
+				this.terminal.writeln("");
 				this.terminal.writeln("---- Fin de l'éxécution ---- ");
 				console.log("socket onclose");
 				this.$store

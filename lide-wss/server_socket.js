@@ -10,6 +10,7 @@ ws.on('connection', function connection(ws) {
   let dockerSocket;
   let containerId;
   let firstMessage = true;
+  let totalOutputLength = 0;
 
   ws.on('message', function incoming(input) {
     if (firstMessage) {
@@ -23,9 +24,23 @@ ws.on('connection', function connection(ws) {
         dockerSocket.send("\n");
       });
 
+      var limitReached = false;
       dockerSocket.on('message', function incoming(output) {
-        ws.send(output);
-        console.log("from docker : " + output);
+        if (!abc){
+          totalOutputLength += output.length;
+          if (totalOutputLength < 10000000) {
+            ws.send(output);
+            console.log("from docker : " + output);
+          } else {
+            console.log("> too much outputs detected");
+            limitReached = true;
+  
+            ws.send(" -- Détection de boucle infinie. -- ");
+            dockerSocket.close();
+            ws.close();
+            delete dockerSocket;
+          }
+        }
       });
 
       dockerSocket.on('close', function close() {

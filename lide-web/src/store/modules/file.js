@@ -11,10 +11,13 @@ const actions = {
 
     async create({ dispatch }, { projectid, filename, extension }) {
         console.log("STORE CREATE FILE : " + filename + extension + " IN PROJECT: " + projectid);
-        await FileService.create(projectid, filename, extension)
-            .then(() => {
+        const fileId = await FileService.create(projectid, filename, extension)
+            .then((res) => {
+                const file = res.data;
                 dispatch("project/fetchProjects", null, { root: true });
+                return file._id;
             })
+        return fileId;
     },
 
     async rename({ dispatch }, { fileid, newfilename }) {

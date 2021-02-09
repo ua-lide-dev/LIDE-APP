@@ -1,127 +1,127 @@
 <template>
-  <v-row class="parent-editor">
-    <v-col cols="12" class="pa-0">
-      <v-tabs
-        class="tabs"
-        background-color="bodysecondary"
-        slider-color="primary"
-        dark
-        v-model="currentTabIndex"
-      >
-        <v-tab
-          v-for="(tab, index) in tabs"
-          :key="index"
-          :ref="'tab' + tab.id"
-          @click="focusTab(tab.id)"
-          px-0
-        >
-          {{ tab.file.filename + tab.file.extension }}
-          <v-btn
-            class="btn-close-tab"
-            x-small
-            icon
-            elevation="4"
-            v-on:click.stop
-            @click="closeTab(tab.id)"
-          >
-            <v-icon dark>mdi-close</v-icon>
-          </v-btn>
-        </v-tab>
-      </v-tabs>
+	<v-row class="parent-editor">
+		<v-col cols="12" class="pa-0">
+			<v-tabs
+				class="tabs"
+				background-color="bodysecondary"
+				slider-color="primary"
+				dark
+				v-model="currentTabIndex"
+			>
+				<v-tab
+					v-for="(tab, index) in tabs"
+					:key="index"
+					:ref="'tab' + tab.id"
+					@click="focusTab(tab.id)"
+					px-0
+				>
+					{{ tab.file.filename + tab.file.extension }}
+					<v-btn
+						class="btn-close-tab"
+						x-small
+						icon
+						elevation="4"
+						v-on:click.stop
+						@click="closeTab(tab.id)"
+					>
+						<v-icon dark>mdi-close</v-icon>
+					</v-btn>
+				</v-tab>
+			</v-tabs>
 
-      <v-tabs-items v-model="currentTabIndex">
-        <v-tab-item
-          v-for="(tab, index) in tabs"
-          :key="index"
-          transition="false"
-        >
-          <v-col cols="12" class="pa-0">
-            <codemirror
-              class="codemirror"
-              :ref="'cmEditor-' + tab.id"
-              v-model="tab.file.content"
-              :options="cmOptions"
-              @ready="onNewEditor('cmEditor-' + tab.id, tab.id)"
-            />
-          </v-col>
-        </v-tab-item>
-      </v-tabs-items>
+			<v-tabs-items v-model="currentTabIndex">
+				<v-tab-item
+					v-for="(tab, index) in tabs"
+					:key="index"
+					transition="false"
+				>
+					<v-col cols="12" class="pa-0">
+						<codemirror
+							class="codemirror"
+							:ref="'cmEditor-' + tab.id"
+							v-model="tab.file.content"
+							:options="cmOptions"
+							@ready="onNewEditor('cmEditor-' + tab.id, tab.id)"
+						/>
+					</v-col>
+				</v-tab-item>
+			</v-tabs-items>
 
-      <v-card
-        v-if="tabs.length === 0"
-        :height="codemirrorHeight"
-        tile
-        color="body"
-      >
-      </v-card>
+			<v-card
+				v-if="tabs.length === 0"
+				:height="codemirrorHeight"
+				tile
+				color="body"
+			>
+			</v-card>
 
-      <div class="group-btn" v-show="checkIfTabOpened()">
-        <div>
-          <v-tooltip left>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                class="btn-save"
-                v-bind="attrs"
-                v-on="on"
-                absolute
-                fab
-                dark
-                small
-                color="primary"
-                @click="saveTab()"
-              >
-                <v-icon dark>mdi-content-save-outline</v-icon>
-              </v-btn>
-            </template>
-            <span>Sauvegarder</span>
-          </v-tooltip>
-        </div>
-        <div>
-          <v-tooltip left>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                class="btn-compile"
-                v-bind="attrs"
-                v-on="on"
-                absolute
-                fab
-                dark
-                small
-                color="green"
-                @click="exec()"
-              >
-                <v-icon dark>mdi-play</v-icon>
-              </v-btn>
-            </template>
-            <span>Exécuter</span>
-          </v-tooltip>
-        </div>
-      </div>
-    </v-col>
+			<div class="group-btn" v-show="checkIfTabOpened()">
+				<div>
+					<v-tooltip left>
+						<template v-slot:activator="{ on, attrs }">
+							<v-btn
+								class="btn-save"
+								v-bind="attrs"
+								v-on="on"
+								absolute
+								fab
+								dark
+								small
+								color="primary"
+								@click="saveTab()"
+							>
+								<v-icon dark>mdi-content-save-outline</v-icon>
+							</v-btn>
+						</template>
+						<span>Sauvegarder</span>
+					</v-tooltip>
+				</div>
+				<div>
+					<v-tooltip left>
+						<template v-slot:activator="{ on, attrs }">
+							<v-btn
+								class="btn-compile"
+								v-bind="attrs"
+								v-on="on"
+								absolute
+								fab
+								dark
+								small
+								color="green"
+								@click="exec()"
+							>
+								<v-icon dark>mdi-play</v-icon>
+							</v-btn>
+						</template>
+						<span>Exécuter</span>
+					</v-tooltip>
+				</div>
+			</div>
+		</v-col>
 
-    <v-dialog v-model="dialogFileNotSaved" max-width="500">
-      <v-card>
-        <v-card-title class="title">Fichier non sauvegardé !</v-card-title>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="red darken-1"
-            small
-            outlined
-            @click="saveBeforeClose(false)"
-            >Fermer sans sauvegarder</v-btn
-          >
-          <v-btn
-            color="green darken-1"
-            small
-            outlined
-            @click="saveBeforeClose(true)"
-            >Sauvegarder et fermer</v-btn
-          >
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
+		<v-dialog v-model="dialogFileNotSaved" max-width="500">
+			<v-card>
+				<v-card-title class="title">Fichier non sauvegardé !</v-card-title>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn
+						color="red darken-1"
+						small
+						outlined
+						@click="saveBeforeClose(false)"
+						>Fermer sans sauvegarder</v-btn
+					>
+					<v-btn
+						color="green darken-1"
+						small
+						outlined
+						@click="saveBeforeClose(true)"
+						>Sauvegarder et fermer</v-btn
+					>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+	</v-row>
 </template>
 
 <script>
@@ -284,59 +284,65 @@ export default {
 			this.setEditorSettings(cmEditor, tabId);
 		},
 
-    // Sauvegarde l'onglet ouvert
-    async saveTab() {
-      await this.$store
-        .dispatch("tab/saveTab", this.currentTab)
-        .catch((error) => {
-          this.$store.dispatch("notification/notif", {
-            texte: "Une erreur est survenue lors de la sauvegarde du fichier.",
-            couleur: "error",
-          });
-        });
-    },
+		// Sauvegarde l'onglet ouvert
+		async saveTab() {
+			// focus pour éviter la perte de focus après un reload.
+			await this.focusTab(this.currentTab.id);
 
-    // Ferme un onglet
-    closeTab(tabId) {
-      this.tabToCloseId = tabId;
-      this.$store
-        .dispatch("tab/closeTab", { tabId: tabId, force: false })
-        .catch((error) => {
-          if (error.message == "FILE_NOT_SAVED") {
-            this.dialogFileNotSaved = true;
-          }
-        })
-        .then(() => this.focusTab(this.currentTab.id));
-    },
+			await this.$store
+				.dispatch("tab/saveTab", this.currentTab)
+				.catch((error) => {
+					this.$store.dispatch("notification/notif", {
+						texte: "Une erreur est survenue lors de la sauvegarde du fichier.",
+						couleur: "error",
+					});
+				});
+		},
 
-    // Méthode appelée par le formulaire de sauvegarde en cas de fermeture d'un onglet lorsque son fichier n'est pas sauvegardé
-    async saveBeforeClose(save) {
-      if (save) await this.saveTab();
-      await this.$store
-        .dispatch("tab/closeTab", { tabId: this.tabToCloseId, force: true })
-        .catch((error) => {
-          if (error.message == "FILE_NOT_SAVED") {
-            this.dialogFileNotSaved = true;
-          }
-        });
-      this.tabToCloseId = null;
-      this.dialogFileNotSaved = false;
-    },
+		// Ferme un onglet
+		closeTab(tabId) {
+			this.tabToCloseId = tabId;
+			this.$store
+				.dispatch("tab/closeTab", { tabId: tabId, force: false })
+				.catch((error) => {
+					if (error.message == "FILE_NOT_SAVED") {
+						this.dialogFileNotSaved = true;
+					}
+				})
+				.then(() => this.focusTab(this.currentTab.id));
+		},
 
-    // Appelée par le bouton d'exécution
-    async exec() {
-      await this.saveTab();
-      FileService.execute(this.currentTab.file._id)
-        .then((res) => {
-          this.$root.$refs.Terminal.openSocket(res.data.containerid);
-        })
-        .catch((error) => {
-          this.$store.dispatch("notification/notif", {
-            texte: "Une erreur est survenue lors de la compilation.",
-            couleur: "error",
-          });
-        });
-    },
+		// Méthode appelée par le formulaire de sauvegarde en cas de fermeture d'un onglet lorsque son fichier n'est pas sauvegardé
+		async saveBeforeClose(save) {
+			if (save) await this.saveTab();
+			await this.$store
+				.dispatch("tab/closeTab", { tabId: this.tabToCloseId, force: true })
+				.catch((error) => {
+					if (error.message == "FILE_NOT_SAVED") {
+						this.dialogFileNotSaved = true;
+					}
+				});
+			this.tabToCloseId = null;
+			this.dialogFileNotSaved = false;
+		},
+
+		// Appelée par le bouton d'exécution
+		async exec() {
+			// focus pour éviter la perte de focus après un reload.
+			await this.focusTab(this.currentTab.id);
+
+			await this.saveTab();
+			FileService.execute(this.currentTab.file._id)
+				.then((res) => {
+					this.$root.$refs.Terminal.openSocket(res.data.containerid);
+				})
+				.catch((error) => {
+					this.$store.dispatch("notification/notif", {
+						texte: "Une erreur est survenue lors de la compilation.",
+						couleur: "error",
+					});
+				});
+		},
 
 		// Méthode appelée lors de l'instantiation d'un nouvel editor
 		onNewEditor(cmEditor, tabId) {
@@ -386,76 +392,76 @@ export default {
 			}
 		},
 
-    // Défini la taille d"une instance codemirror à partir de sa ref
-    setEditorSize(cmEditor) {
-      this.codemirrorHeight = (window.innerHeight - 56 - 48 - 20) * (70 / 100);
-      try {
-        let codemirror = this.$refs[cmEditor][0].codemirror;
-        codemirror.setSize("100%", this.codemirrorHeight);
-      } catch (error) {
-        // Garde-fou du cycle de vie vuejs (destruction des codemirror au reload)
-      }
-    },
+		// Défini la taille d"une instance codemirror à partir de sa ref
+		setEditorSize(cmEditor) {
+			this.codemirrorHeight = (window.innerHeight - 56 - 48 - 20) * (70 / 100);
+			try {
+				let codemirror = this.$refs[cmEditor][0].codemirror;
+				codemirror.setSize("100%", this.codemirrorHeight);
+			} catch (error) {
+				// Garde-fou du cycle de vie vuejs (destruction des codemirror au reload)
+			}
+		},
 
-    manageKeydowns(key) {
-      // si CTRL + S --> sauvegarde du fichier
-      if (key.ctrlKey && key.keyCode === 83) {
-        this.saveTab();
-        // on empeche le comportement par défaut
-        key.preventDefault();
-      }
-      // on sort de la fonction --> comportement par défaut du clavier
-    },
+		manageKeydowns(key) {
+			// si CTRL + S --> sauvegarde du fichier
+			if (key.ctrlKey && key.keyCode === 83) {
+				this.saveTab();
+				// on empeche le comportement par défaut
+				key.preventDefault();
+			}
+			// on sort de la fonction --> comportement par défaut du clavier
+		},
 
-    // check if a file is opened
-    checkIfTabOpened() {
-      return this.tabs.length > 0;
-    },
+		// check if a file is opened
+		checkIfTabOpened() {
+			return this.tabs.length > 0;
+		},
 
-    // Méthode appelée par le listenner de redimension de la page
-    onResize() {
-      this.tabs.forEach((tab) => {
-        this.setEditorSize(tab.cmEditor);
-      });
-    },
-  },
-  created() {
-    window.addEventListener("resize", this.onResize);
-    // on pré-défini la taille de codemirror à la création (recalculée plus tard via this.onResize)
-    this.codemirrorHeight = (window.innerHeight - 56 - 48 - 20) * (70 / 100);
-  },
-  mounted() {
-    document.addEventListener("keydown", this.manageKeydowns);
-  },
-  beforeDestroy() {
-    document.removeEventListener("keydown", this.manageKeydowns);
-  },
-  destroyed() {
-    // listenner de redimension
-    window.removeEventListener("resize", this.onResize);
-  },
+		// Méthode appelée par le listenner de redimension de la page
+		onResize() {
+			this.tabs.forEach((tab) => {
+				this.setEditorSize(tab.cmEditor);
+			});
+		},
+	},
+	created() {
+		window.addEventListener("resize", this.onResize);
+		// on pré-défini la taille de codemirror à la création (recalculée plus tard via this.onResize)
+		this.codemirrorHeight = (window.innerHeight - 56 - 48 - 20) * (70 / 100);
+	},
+	mounted() {
+		document.addEventListener("keydown", this.manageKeydowns);
+	},
+	beforeDestroy() {
+		document.removeEventListener("keydown", this.manageKeydowns);
+	},
+	destroyed() {
+		// listenner de redimension
+		window.removeEventListener("resize", this.onResize);
+	},
 };
 </script>
 
 <style scoped>
 .codemirror {
-  width: 100%;
+	width: 100%;
 }
 .v-tab {
-  text-transform: none !important; /* tab name to lowercase */
+	text-transform: none !important; /* tab name to lowercase */
 }
 .group-btn {
-  top: 65px;
-  right: 60px;
-  position: absolute;
+	top: 65px;
+	right: 60px;
+	position: absolute;
 }
 .btn-compile {
-  margin-top: 50px;
+	margin-top: 50px;
 }
 .text-custom {
-  text-transform: none;
+	text-transform: none;
 }
 .btn-close-tab {
-  margin-left: 20px;
+	margin-left: 20px;
 }
 </style>

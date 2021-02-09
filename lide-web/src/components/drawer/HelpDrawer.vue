@@ -2,18 +2,19 @@
   <!-- Drawer Help -->
   <v-navigation-drawer
     class="drawer-setting"
+    color="bodysecondary"
     v-model="helpDrawer"
     right
     absolute
   >
-    <v-card outlined tile>
+    <v-card height="48" color="bodysecondary" outlined tile>
       <v-row>
         <v-col cols="8">
-          <h2 class="ml-5 text--secondary">Aide</h2>
+          <h2 class="ml-5 mt-2 text--secondary">Aide</h2>
         </v-col>
         <v-col cols="1">
           <v-btn
-            class="mt-1 ml-3 text--secondary"
+            class="mt-2 ml-3 text--secondary"
             @click="closeDrawerHelp"
             small
             text

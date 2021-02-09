@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar
-      color="black"
+      color="appbar"
       height="56"
       elevation="1"
       dark
@@ -16,11 +16,10 @@
     </v-app-bar>
     <v-navigation-drawer
       v-model="explorerDrawer"
-      dark
+      color="bodysecondary"
       clipped
       app
       fixed
-      floating
     >
       <Explorer />
     </v-navigation-drawer>
@@ -58,30 +57,34 @@ import HelpDrawer from "../components/drawer/HelpDrawer";
 import Notification from "../components/utils/Notification";
 
 export default {
-	name: "Ide",
+  name: "Ide",
 
-	components: {
-		ActionTerminal,
-		AppBar,
-		Explorer,
-		Editor,
-		Terminal,
-		SettingDrawer,
-		HelpDrawer,
-		Notification,
-	},
-	data: () => ({
-		explorerDrawer: null,
-	}),
-	created() {
-		this.$store.dispatch("user/setUsername", localStorage.getItem("username"));
-		this.$store.dispatch("project/fetchProjects");
-	},
+  components: {
+    ActionTerminal,
+    AppBar,
+    Explorer,
+    Editor,
+    Terminal,
+    SettingDrawer,
+    HelpDrawer,
+    Notification,
+  },
+  data: () => ({
+    explorerDrawer: null,
+  }),
+  created() {
+    this.$store.dispatch("user/setUsername", localStorage.getItem("username"));
+    this.$store.dispatch("project/fetchProjects");
+    if (this.$store.state.settings.darkMode)
+      this.$store.dispatch("settings/setTheme", "base16-dark");
+    else this.$store.dispatch("settings/setTheme", "default");
+    this.$vuetify.theme.dark = this.$store.state.settings.darkMode;
+  },
 };
 </script>
 
 <style scoped>
 .drawer-setting {
-	z-index: 10;
+  z-index: 10;
 }
 </style>

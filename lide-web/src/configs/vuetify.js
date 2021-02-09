@@ -9,11 +9,16 @@ export default new Vuetify({
       light: {
         primary: "#2455b6",
         secondary: "#616161",
-        accent: "#8c9eff",
         error: "#b71c1c",
         body: "#151515",
-        bodysecondary: '#363636'
+        bodysecondary: '#F5F5F5',
+        appbar: "#2455b6"
       },
+      dark: {
+        body: "#151515",
+        bodysecondary: '#363636',
+        appbar: "#2455b6"
+      }
     },
   },
 });

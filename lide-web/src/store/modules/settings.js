@@ -3,6 +3,7 @@ const state = () => ({
     darkMode: false,
     indentation: 4,
     theme: "base16-dark",
+    terminalTheme: "#ffffff",
     themes: [
         "default",
         "3024-day",
@@ -79,6 +80,9 @@ const getters = {
     },
     theme(state) {
         return state.theme;
+    },
+    terminalTheme(state) {
+        return state.terminalTheme;
     }
 }
 
@@ -92,6 +96,9 @@ const actions = {
     setIndentation({ commit }, indentation) {
         commit('SET_INDENTATION', indentation);
     },
+    setTerminalTheme({commit}, theme) {
+        commit('SET_TERMINAL_THEME', theme);
+    }
 }
 
 const mutations = {
@@ -104,6 +111,9 @@ const mutations = {
     SET_INDENTATION(state, indentation) {
         state.indentation = indentation;
     },
+    SET_TERMINAL_THEME(state, theme) {
+        state.terminalTheme = theme;
+    }
 }
 
 export default {

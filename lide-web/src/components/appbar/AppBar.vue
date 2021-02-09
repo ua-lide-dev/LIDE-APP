@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar color="black" height="56" flat>
+  <v-toolbar color="appbar" height="56" flat>
     <!-- <v-toolbar-title
       v-show="!$vuetify.breakpoint.xs"
       class="font-weight-bold headline primary--text"

@@ -1,7 +1,7 @@
 <template>
 	<div class="text-center">
 		<v-snackbar
-			v-model="snackbar"
+			v-model="snackbarStatus"
 			top
 			timeout="3000"
 			:color="couleur"
@@ -26,6 +26,14 @@ export default {
 			text: (state) => state.notification.texte,
 			couleur: (state) => state.notification.couleur,
 		}),
+		snackbarStatus: {
+			get() {
+				return this.snackbar;
+			},
+			set(value) {
+				return value;
+			},
+		},
 	},
 	methods: {
 		close: function () {

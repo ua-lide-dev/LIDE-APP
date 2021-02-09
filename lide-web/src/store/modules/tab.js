@@ -26,7 +26,6 @@ const actions = {
     async newTab({ state, commit }, fileId) {
         console.log(`STORE -- OPEN TAB -- TAB=${fileId}`);
         // si rechargement de la page, on ne souhaite pas récupérer le fichier depuis la bdd (évite de perdre le travail en cours)
-        console.log("dezez + " + state.tabs.find((tab) => tab.id == fileId));
         if (state.tabs.find((tab) => tab.id == fileId) == null) {
             // sinon on récupère le fichier en bdd
             await FileService.get(fileId)
@@ -73,18 +72,14 @@ const actions = {
 
     /**
      * Ferme un onglet selon son id
-     * Force la fermeture sans sauvergarde si "force == true"
-     * Si l'onglet n'a pas été sauvegardé et que "force == false", on lève une exception "FILE_NOT_SAVED"
      */
-    async closeTab({ dispatch, commit }, { tabId, force }) {
+    async closeTab({ state, dispatch, commit }, tabId) {
         console.log(`STORE -- CLOSE TAB -- TAB=${tabId}`);
         const tab = await dispatch("getTab", tabId);
         if (tab != null) {
-            if (tab.file.content != tab.oldContent && force != true) throw new Error("FILE_NOT_SAVED");
-            else {
-                commit("SET_CURRENT_TAB_BEFORE_CLOSE", tabId);
-                commit("CLOSE_TAB", tabId);
-            }
+            commit("SET_CURRENT_TAB_BEFORE_CLOSE", tabId);
+            commit("CLOSE_TAB", tabId);
+            commit("SET_CURRENT_TAB", state.currentTab)
         }
     },
 

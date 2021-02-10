@@ -79,9 +79,8 @@ const actions = {
      * Modifier le nom du fichier de l'onglet
      * Appelée après le renommage d'un fichier
      */
-    async updateTabFileName({ dispatch }, { tabId, newfilename }) {
-        const tab = await dispatch("getTab", tabId);
-        if (tab != null) tab.file.filename = newfilename;
+    async updateTabFileName({ dispatch }, { tab, newfilename }) {
+        tab.file.filename = newfilename;
     },
 
     /**

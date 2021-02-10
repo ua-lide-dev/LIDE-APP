@@ -21,15 +21,17 @@ const actions = {
 
     async rename({ dispatch }, { fileid, newfilename }) {
         await FileService.rename(fileid, newfilename)
-            .then(() => {
-                dispatch("tab/updateTabFileName", { tabId: fileid, newfilename: newfilename }, { root: true });
+            .then(async () => {
+                let tab = await dispatch("tab/getTab", fileid, { root: true });
+                dispatch("tab/updateTabFileName", { tab: tab, newfilename: newfilename }, { root: true });
                 dispatch("project/fetchProjects", null, { root: true });
-            })
+            });
     },
 
     async remove({ dispatch }, fileid) {
         FileService.remove(fileid).then(async () => {
-            dispatch("tab/closeTab", { tabId: fileid, force: true }, { root: true });
+            let tab = await dispatch("tab/getTab", fileid, { root: true });
+            dispatch("tab/closeTab", tab, { root: true });
             dispatch("project/fetchProjects", null, { root: true });
         })
     },

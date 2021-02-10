@@ -322,7 +322,7 @@ export default {
 					.then(() => {
 						this.$store.dispatch("notification/notif", {
 							texte: "Votre projet a bien été renommé.",
-							couleur: "error",
+							couleur: "success",
 						});
 					});
 				this.$refs.projectRenameForm.reset();
